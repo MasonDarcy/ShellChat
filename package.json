@@ -1,0 +1,11 @@
+{
+  "name": "shellchat",
+  "version": "1.0.0",
+  "description": "Shell-like webservice with chat",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mason D'Arcy",
+  "license": "ISC"
+}
