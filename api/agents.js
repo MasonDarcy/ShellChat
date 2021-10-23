@@ -49,7 +49,7 @@ router.post(
       //Save password
       await newAgent.save();
       //Pass the agent id into res locals, to associate it with the session in the subsequent middleware sessionSaver
-      res.locals.userID = newAgent.id;
+      res.locals.agentID = newAgent.id;
       // res.status(201).json({ msg: "Agent created.", agent: newAgent });
       next();
     } catch (err) {
