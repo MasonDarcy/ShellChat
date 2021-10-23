@@ -2,6 +2,9 @@ const express = require("express");
 const config = require("config");
 const db = require("./config/db");
 
+//Server sent events
+//const ssEvents = require("express-sse");
+
 //Session
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
