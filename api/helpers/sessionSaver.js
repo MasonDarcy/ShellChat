@@ -1,16 +1,16 @@
 const express = require("express");
 
-const saveSession = (req, res, next) => {
-  req.session.userID = res.locals.userID;
+const saveSession = (req, res) => {
+  req.session.userID = res.locals.agentID;
   try {
     req.session.save(() => {
       console.log(`Saved a session: ${req.session.toString()}`);
-      res.status(201).json({
+
+      return res.status(201).json({
         sessionID: req.session.id,
-        userID: res.locals.userID,
+        agentID: res.locals.agentID,
       });
     });
-    // next();
   } catch (err) {
     res
       .status(400)

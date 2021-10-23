@@ -69,9 +69,10 @@ router.get(
     check("agentName", "Name is required.").not().isEmpty(),
     check("password", "Password is required.").not().isEmpty(),
   ],
-  async (req, res) => {
+  async (req, res, next) => {
     console.log(req.body);
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errs: errors.array() });
     }
@@ -89,11 +90,11 @@ router.get(
       const isMatch = await bcrypt.compare(password, fetchedAgent.password);
 
       if (isMatch) {
-        res.locals.agentID = agent.id;
+        res.locals.agentID = fetchedAgent.id;
         next();
+      } else {
+        return res.status(401).json({ msg: "Incorrect credentials." });
       }
-
-      errorTool.error400(err, res);
     } catch (err) {
       console.log("Got here");
       errorTool.error400(err, res);
