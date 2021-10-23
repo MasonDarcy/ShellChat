@@ -102,6 +102,22 @@ router.get(
   sessionSaver
 );
 
+// @route   get api/agents/logout
+// @desc    Logs out an agent
+// @access  private
+
+router.get("/logout", async (req, res) => {
+  try {
+    //Destroys the users session
+    req.session.destroy();
+
+    res.status(200).json({ msg: "Session ended, successfully logged out." });
+  } catch (err) {
+    console.log("Got here");
+    errorTool.error400(err, res);
+  }
+});
+
 // @route   get api/agents/:agent_id
 // @desc    gets an agent by their ID
 // @access  public
