@@ -103,11 +103,11 @@ router.get(
   sessionSaver
 );
 
-// @route   get api/agents/logout
+// @route   DELETE api/agents/logout
 // @desc    Logs out an agent
 // @access  private
 
-router.get("/logout", async (req, res) => {
+router.delete("/logout", async (req, res) => {
   try {
     //Destroys the users session
     req.session.destroy();
