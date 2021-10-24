@@ -2,45 +2,46 @@ const express = require("express");
 const router = express.Router();
 const errorTool = require("./helpers/errors");
 const EventEmitter = require("events");
-
+const { setSSEHeaders } = require("./helpers/sse/sse-utility");
 class MyEmitter extends EventEmitter {}
-
 const chat = new MyEmitter();
 
-const useServerSentEventsMiddleware = (req, res, next) => {
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Connection", "keep-alive: ");
-  res.setHeader("Access-Control-Allow-Origin", "*");
-
-  res.flushHeaders();
-  const sendEventStreamData = (data) => {
-    const sseFormattedResponse = `data: ${JSON.stringify(data)}\n\n`;
-    res.write(sseFormattedResponse);
-  };
-  res.sendEventStreamData = sendEventStreamData;
-  next();
+const bindChatChannel = (req, res) => {
+  const listeners = chat.listeners(
+    `chatEvent-${req.params.channel_id}-${req.params.agentID}`
+  );
+  if (listeners.length > 0) {
+    chat.removeListener(
+      `chatEvent-${req.params.channel_id}-${req.params.agentID}`,
+      listeners[0]
+    );
+  }
+  chat.on(
+    `chatEvent-${req.params.channel_id}-${req.params.agentID}`,
+    (data) => {
+      const sseFormattedResponse = `data: ${JSON.stringify(data)}\n\n`;
+      res.write(sseFormattedResponse);
+    }
+  );
 };
 
-const interceptChat = (req, res) => {
-  chat.removeAllListeners();
+// @route   post api/chat/:channel_id/:agent_id
+// @desc    chat subscription
+// @access  public
+router.get("/chat/:channel_id/:agent_id", setSSEHeaders, bindChatChannel);
 
-  chat.on("chatEvent", (data) => {
-    res.sendEventStreamData(data);
-  });
-
-  res.on("close", () => {
-    //res.end();
-  });
-};
-
-router.get("/chat", useServerSentEventsMiddleware, interceptChat);
-
-router.post("/sendMessage", (req, res) => {
+// @route   post api/sendMessage/:channel_id/:agent_id
+// @desc    Post a chat message to a channel
+// @access  public
+router.post("/sendMessage/:channel_id/:agent_id", (req, res) => {
   try {
     let message = req.body.message;
 
-    chat.emit("chatEvent", message);
+    chat.emit(
+      `chatEvent-${req.params.channel_id}-${req.params.agentID}`,
+      message
+    );
+
     res.status(200).json({ msg: "Response fired." });
   } catch (err) {
     errorTool.error400(err, res);
