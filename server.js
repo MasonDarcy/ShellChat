@@ -40,3 +40,4 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/agents", require("./api/agents"));
+app.use("/api/testsse", require("./api/testsse"));
