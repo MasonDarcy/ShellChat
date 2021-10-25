@@ -1,28 +1,23 @@
-import { useEffect, useState } from "react";
-const axios = require("axios");
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Channel from "./components/Channel";
 
-const backendURI = "http://localhost:5000/api/testsse/chat/1/1";
-
-const useEventSource = (url) => {
-  const [data, updateData] = useState(null);
-
-  useEffect(() => {
-    const source = new EventSource(url);
-    source.onmessage = function logEvents(event) {
-      updateData(JSON.parse(event.data));
-    };
-  }, []);
-  return data;
-};
-
-function App() {
-  const data = useEventSource(backendURI);
-  console.log(data);
-  if (!data) {
-    console.log("No data");
-    return <>Hello</>;
-  }
-  return <>{data}</>;
-}
+const App = () => (
+  <Router>
+    <Fragment>
+      <Route exact path="/" component={() => <>Base</>} />
+      <Route
+        exact
+        path="/1"
+        render={(props) => <Channel {...props} channelID={1} agentID={1} />}
+      />
+      <Route
+        exact
+        path="/2"
+        render={(props) => <Channel {...props} channelID={2} agentID={2} />}
+      />
+    </Fragment>
+  </Router>
+);
 
 export default App;

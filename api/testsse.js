@@ -3,8 +3,9 @@ const router = express.Router();
 const errorTool = require("./helpers/errors");
 const EventEmitter = require("events");
 const { setSSEHeaders } = require("./helpers/sse/sse-utility");
-class MyEmitter extends EventEmitter {}
-const chat = new MyEmitter();
+
+class BareEmitter extends EventEmitter {}
+const chat = new BareEmitter();
 
 const bindChatChannel = (req, res) => {
   const listeners = chat.listeners(
