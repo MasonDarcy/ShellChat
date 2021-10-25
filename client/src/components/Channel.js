@@ -1,30 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import useSubscribeToChat from "./helpers/subscribe";
 
-function Channel({ channelID, agentID }) {
-  const backendURI = `http://localhost:5000/api/testsse/chat/${channelID}/${agentID}`;
+function Channel({ channelID }) {
+  const backendURI = `http://localhost:5000/api/testsse/chat/${channelID}`;
 
-  const useEventSource = (url) => {
-    const [data, updateData] = useState(null);
-
-    useEffect(() => {
-      const source = new EventSource(url);
-      source.onmessage = function logEvents(event) {
-        updateData(JSON.parse(event.data));
-      };
-    }, []);
-    return data;
-  };
-
-  const data = useEventSource(backendURI);
+  const data = useSubscribeToChat(backendURI);
   console.log(data);
 
   if (!data) {
-    return (
-      <>
-        Hello: {channelID}
-        {agentID}
-      </>
-    );
+    return <>Hello: {channelID}</>;
   }
   return <>{data}</>;
 }
