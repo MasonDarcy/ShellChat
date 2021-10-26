@@ -4,9 +4,17 @@ const errorTool = require("./helpers/errors");
 const EventEmitter = require("events");
 const { setSSEHeaders } = require("./helpers/sse/sse-utility");
 
+//Leaving this out for now
+//const auth = require("./helpers/auth");
+
+//What happens if I refactor this into the piece of middleware itself?
+//It would be provisioned and destroyed with the middleware lexical environment
+//Instead of one eventemitter, I would have an eventemitter for every connection
 class BareEmitter extends EventEmitter {}
 const chat = new BareEmitter();
 
+// Unfortunately, we must send the channelID in the query string
+// This makes this route vulnerable to an XSS attack so I might want to add some regex scrubbers here
 const bindChatChannel = (req, res) => {
   console.log(chat.listenerCount());
 
@@ -23,19 +31,19 @@ const bindChatChannel = (req, res) => {
   });
 };
 
-// @route   post api/chat/:channel_id/:agent_id
+// @route   post api/chat/:channel_id
 // @desc    chat subscription
-// @access  public
-router.get("/chat/:channel_id/", setSSEHeaders, bindChatChannel);
+// @access  private (TODO) (leaving auth out for now)
+router.get("/:channel_id/", setSSEHeaders, bindChatChannel);
 
 // @route   post api/sendMessage/:channel_id/:agent_id
 // @desc    Post a chat message to a channel
-// @access  public
-router.post("/sendMessage/:channel_id", (req, res) => {
+// @access  private (TODO) (leaving auth out for now)
+router.post("/sendMessage/", (req, res) => {
   try {
-    let message = req.body.message;
+    const { message, channelID, agentID } = req.body;
 
-    chat.emit(`chatEvent-${req.params.channel_id}`, message);
+    chat.emit(`chatEvent-${channelID}`, message, agentID);
 
     res.status(200).json({ msg: "Response fired." });
   } catch (err) {
