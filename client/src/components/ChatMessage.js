@@ -1,7 +1,7 @@
 import React from "react";
 
-function ChatMessage() {
-  return <div></div>;
+function ChatMessage({ message }) {
+  return <div className="chatMessage">{message}</div>;
 }
 
 export default ChatMessage;
