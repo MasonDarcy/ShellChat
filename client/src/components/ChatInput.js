@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import sendCommand from "./helpers/sendCommand";
+import { useDispatch, useSelector} from "react-redux";
+import {subscribeToChannel} from "../actions/subscribe";
 
-function ChatInput({ channelID }) {
-  const prefix = `<${channelID}>`;
+function ChatInput() {
+  const rootPrefixContent = `root`;
+  let prefix = `<${rootPrefixContent}>`;
   const [command, setCommand] = useState({ contents: "" });
   let { contents } = command;
+  const dispatch = useDispatch();
+  let testFlag = true;
+
 
   return (
     <>
@@ -12,7 +18,11 @@ function ChatInput({ channelID }) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            sendCommand(e, channelID, contents);
+            if(testFlag) {
+            dispatch(subscribeToChannel({channelID:1}));
+            testFlag = false;
+            }
+            sendCommand(e, contents);
             setCommand({ contents: "" });
           }}
         >

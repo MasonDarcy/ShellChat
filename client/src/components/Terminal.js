@@ -5,7 +5,7 @@ function Terminal({ channelID }) {
   return (
     <>
       <div>
-        <Channel channelID={channelID} />
+        <Channel />
       </div>
     </>
   );

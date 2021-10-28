@@ -1,6 +1,6 @@
 import { combineReducer, combineReducers } from "redux";
-//import alert from "./alert";
+import subscribeToChannel from "./subscribeToChannel";
 
 export default combineReducers({
-  //  alert,
+  subscribeToChannel
 });
