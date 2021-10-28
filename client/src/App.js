@@ -12,13 +12,7 @@ const App = () => (
   <Provider store={store}>
     <Router>
       <Fragment>
-        <Route exact path="/" render={(props) => <Terminal channelID={0} />} />
-        <Route exact path="/1" render={(props) => <Terminal channelID={1} />} />
-        <Route
-          exact
-          path="/2"
-          render={(props) => <Channel {...props} channelID={1} />}
-        />
+        <Route exact path="/" render={(props) => <Terminal />} />
       </Fragment>
     </Router>
   </Provider>

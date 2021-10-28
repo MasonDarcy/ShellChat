@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useSubscribeToChat from "./helpers/subscribe";
 import ChatMessage from "./ChatMessage";
+import ChatInput from "./ChatInput";
 import { v4 as iiudv4, v4 } from "uuid";
 
 function Channel({ channelID }) {
@@ -21,7 +22,10 @@ function Channel({ channelID }) {
 
   return (
     <>
-      <div className="channelBox">{chatMessages}</div>
+      {chatMessages}
+      <div className="chatMessage">
+        <ChatInput channelID={channelID} />
+      </div>
     </>
   );
 }

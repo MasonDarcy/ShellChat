@@ -18,3 +18,14 @@
 .terminalBox {
   color: blue;
 }
+
+.commandInput {
+  color: #fbad2e;
+  font-family: monospace;
+  border: none;
+  box-shadow: none;
+}
+
+input:focus {
+  outline: none;
+}

@@ -1,7 +1,7 @@
 const express = require("express");
 const config = require("config");
 const db = require("./config/db");
-
+const cors = require("cors");
 //Server sent events
 //const ssEvents = require("express-sse");
 
@@ -15,6 +15,14 @@ db.connectDB();
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions)); // Use this after the variable declaration
 
 app.use(
   session({
