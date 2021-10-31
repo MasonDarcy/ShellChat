@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import sendCommand from "./helpers/sendCommand";
-import { useDispatch, useSelector} from "react-redux";
-import {subscribeToChannel} from "../actions/subscribe";
+import React, { useState } from "react";
+import sendChat from "./helpers/sendChat";
+import { useDispatch, useSelector } from "react-redux";
+import { ROOT_CONSOLE_VAL } from "../resources/Strings";
+import getDispatchArgument from "./helpers/commandParser/getDispatchArgument";
 
-function ChatInput() {
-  const rootPrefixContent = `root`;
-  let prefix = `<${rootPrefixContent}>`;
+function ChatInput({ cid, setMessageList }) {
   const [command, setCommand] = useState({ contents: "" });
-  let { contents } = command;
-  const dispatch = useDispatch();
-  let testFlag = true;
 
+  let { contents } = command;
+  let dispatch = useDispatch();
+  let prefix;
+  cid ? (prefix = cid) : (prefix = ROOT_CONSOLE_VAL);
 
   return (
     <>
@@ -18,15 +18,29 @@ function ChatInput() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if(testFlag) {
-            dispatch(subscribeToChannel({channelID:1}));
-            testFlag = false;
+
+            let action = getDispatchArgument(contents);
+
+            if (action) {
+              action.status === "success"
+                ? dispatch(action.cb(...action.args))
+                : setMessageList((oldState) => [
+                    ...oldState,
+                    `<${prefix}>${action.errMessage}`,
+                  ]);
+            } else {
+              cid
+                ? sendChat(contents, cid)
+                : setMessageList((oldState) => [
+                    ...oldState,
+                    `<${prefix}>${contents}`,
+                  ]);
             }
-            sendCommand(e, contents);
+
             setCommand({ contents: "" });
           }}
         >
-          <label htmlFor="commandInput">{`${prefix}`}</label>
+          <label htmlFor="commandInput">{`<${prefix}>`}</label>
           <input
             className="commandInput"
             id="commandInput"

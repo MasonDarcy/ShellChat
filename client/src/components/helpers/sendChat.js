@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const sendCommand = async (e,contents) => {
+const sendChat = async (contents, cid) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -8,21 +8,21 @@ const sendCommand = async (e,contents) => {
   };
 
   const body = JSON.stringify({
-    channelID: 1,
-    message: `<${1}>${contents}`,
+    channelID: cid,
+    message: `<${cid}>${contents}`,
     agentID: "1",
   });
 
   try {
-   let res = await axios.post(
+    console.log(`called from within send chat: ${contents} ${cid}`);
+    await axios.post(
       "http://localhost:5000/api/chat/sendMessage/",
       body,
       config
     );
-
   } catch (err) {
     console.log(err);
   }
 };
 
-export default sendCommand;
+export default sendChat;
