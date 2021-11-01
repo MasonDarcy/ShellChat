@@ -14,8 +14,8 @@ const sendChat = async (contents, cid) => {
   });
 
   try {
-    console.log(`called from within send chat: ${contents} ${cid}`);
-    await axios.post(
+    //  console.log(`called from within send chat: ${contents} ${cid}`);
+    return await axios.post(
       "http://localhost:5000/api/chat/sendMessage/",
       body,
       config

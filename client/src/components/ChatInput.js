@@ -3,6 +3,7 @@ import sendChat from "./helpers/sendChat";
 import { useDispatch, useSelector } from "react-redux";
 import { ROOT_CONSOLE_VAL } from "../resources/Strings";
 import getDispatchArgument from "./helpers/commandParser/getDispatchArgument";
+import { subscribeAction } from "../actions/subscribeAction";
 
 function ChatInput({ cid, setMessageList }) {
   const [command, setCommand] = useState({ contents: "" });
@@ -36,7 +37,11 @@ function ChatInput({ cid, setMessageList }) {
                     `<${prefix}>${contents}`,
                   ]);
             }
-
+            // if (cid) {
+            //   sendChat(contents, 1);
+            // } else {
+            //   dispatch(subscribeAction(1));
+            // }
             setCommand({ contents: "" });
           }}
         >
