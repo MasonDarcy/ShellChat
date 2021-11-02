@@ -1,6 +1,7 @@
 import { SUBSCRIBE_TO_CHANNEL } from "../actions/types";
 
 const initialState = {
+  source: null,
   previousChannelID: null,
   currentChannelID: null,
   isSubscribed: false,
@@ -14,6 +15,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         previousChannelID: state.currentChannelID,
+        source: payload.source,
         currentChannelID: payload.channelID,
         isSubscribed: true,
       };

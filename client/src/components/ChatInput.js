@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import sendChat from "./helpers/sendChat";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ROOT_CONSOLE_VAL } from "../resources/Strings";
 import getDispatchArgument from "./helpers/commandParser/getDispatchArgument";
-import { subscribeAction } from "../actions/subscribeAction";
+import { messageAction } from "../actions/messageAction";
 
-function ChatInput({ cid, setMessageList }) {
+function ChatInput({ cid }) {
   const [command, setCommand] = useState({ contents: "" });
 
   let { contents } = command;
@@ -19,29 +19,22 @@ function ChatInput({ cid, setMessageList }) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-
             let action = getDispatchArgument(contents);
-
             if (action) {
               action.status === "success"
                 ? dispatch(action.cb(...action.args))
-                : setMessageList((oldState) => [
-                    ...oldState,
-                    `<${prefix}>${action.errMessage}`,
-                  ]);
+                : dispatch(messageAction(`<${prefix}>${action.errMessage}`));
             } else {
-              cid
-                ? sendChat(contents, cid)
-                : setMessageList((oldState) => [
-                    ...oldState,
-                    `<${prefix}>${contents}`,
-                  ]);
+              if (cid) {
+                try {
+                  sendChat(contents, cid);
+                } catch (err) {
+                  dispatch(messageAction(`<${prefix}>Error: ${err}`));
+                }
+              } else {
+                dispatch(messageAction(`<${prefix}>${contents}`));
+              }
             }
-            // if (cid) {
-            //   sendChat(contents, 1);
-            // } else {
-            //   dispatch(subscribeAction(1));
-            // }
             setCommand({ contents: "" });
           }}
         >

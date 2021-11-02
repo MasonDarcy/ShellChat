@@ -19,6 +19,7 @@ const bindChatChannel = (req, res) => {
   console.log(chat.listenerCount());
 
   const activeListener = (data) => {
+    console.log(`inside active listener in backend: ${data}`);
     const sseFormattedResponse = `data: ${JSON.stringify(data)}\n\n`;
     res.write(sseFormattedResponse);
   };
@@ -46,7 +47,7 @@ router.post("/sendMessage/", (req, res) => {
 
   try {
     const { message, channelID, agentID } = req.body;
-
+    console.log(`From inside backend api:${message} `);
     chat.emit(`chatEvent-${channelID}`, message, agentID);
 
     res.status(200).json({ msg: "Response fired." });

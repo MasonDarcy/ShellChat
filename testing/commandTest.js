@@ -31,3 +31,13 @@
 // } catch (err) {
 //   //  obj.error = err;
 // }
+
+const errorThrower = () => {
+  throw new Error();
+};
+
+try {
+  errorThrower();
+} catch (err) {
+  console.log(`did i catch it ${err}`);
+}

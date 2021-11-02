@@ -13,16 +13,11 @@ const sendChat = async (contents, cid) => {
     agentID: "1",
   });
 
-  try {
-    //  console.log(`called from within send chat: ${contents} ${cid}`);
-    return await axios.post(
-      "http://localhost:5000/api/chat/sendMessage/",
-      body,
-      config
-    );
-  } catch (err) {
-    console.log(err);
-  }
+  return await axios.post(
+    "http://localhost:5000/api/chat/sendMessage/",
+    body,
+    config
+  );
 };
 
 export default sendChat;

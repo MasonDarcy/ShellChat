@@ -1,6 +1,7 @@
 /*Actions-------- ---------------------------------------------*/
-import { SchemaTypeOptions } from "mongoose";
 import { subscribeAction } from "../../../actions/subscribeAction";
+import { clearMessagesAction } from "../../../actions/clearMessagesAction";
+
 /*-------------------------------------------------------------*/
 const program = require("commander");
 program.version("0.0.1");
@@ -37,6 +38,16 @@ program
     } else {
       output.args = [channelID];
     }
+  });
+
+/*Clear command to clear the agent log.*/
+program
+  .command("clear")
+  .description("Clears the client-side messsage log.")
+  .action(() => {
+    output.status = "success";
+    output.cb = clearMessagesAction;
+    output.args = [];
   });
 
 /*Main export, utility function that parses and returns a function for the redux dispatch.*/
