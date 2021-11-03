@@ -24,6 +24,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Use this after the variable declaration
 
+// app.use("/", (req, res, next) => {
+//   console.log("Request HTTP Version: ", req.httpVersion);
+// });
+
 app.use(
   session({
     secret: config.get("sessionSecret"),

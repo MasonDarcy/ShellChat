@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import sendChat from "./helpers/sendChat";
-import { useDispatch } from "react-redux";
 import { ROOT_CONSOLE_VAL } from "../resources/Strings";
-import getDispatchArgument from "./helpers/commandParser/getDispatchArgument";
-import { messageAction } from "../actions/messageAction";
+import dispatchCommand from "./helpers/commandParser/dispatchCommand";
 
 function ChatInput({ cid }) {
   const [command, setCommand] = useState({ contents: "" });
-
   let { contents } = command;
-  let dispatch = useDispatch();
   let prefix;
   cid ? (prefix = cid) : (prefix = ROOT_CONSOLE_VAL);
 
@@ -19,22 +14,7 @@ function ChatInput({ cid }) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            let action = getDispatchArgument(contents);
-            if (action) {
-              action.status === "success"
-                ? dispatch(action.cb(...action.args))
-                : dispatch(messageAction(`<${prefix}>${action.errMessage}`));
-            } else {
-              if (cid) {
-                try {
-                  sendChat(contents, cid);
-                } catch (err) {
-                  dispatch(messageAction(`<${prefix}>Error: ${err}`));
-                }
-              } else {
-                dispatch(messageAction(`<${prefix}>${contents}`));
-              }
-            }
+            dispatchCommand(contents, cid);
             setCommand({ contents: "" });
           }}
         >

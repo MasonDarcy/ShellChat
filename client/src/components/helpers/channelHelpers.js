@@ -1,12 +1,11 @@
-const setSource = (channelID) => {
-  return new EventSource(`http://localhost:5000/api/chat/${channelID}`);
+import ReconnectingEventSource from "reconnecting-eventsource";
+
+export const setSource = (channelID) => {
+  return new ReconnectingEventSource(
+    `http://localhost:5000/api/chat/${channelID}`
+  );
 };
 
-const setSubscriberCallback = (source, callback) => {
+export const setSubscriberCallback = (source, callback) => {
   source.onmessage = callback;
-};
-
-module.exports = {
-  setSource,
-  setSubscriberCallback,
 };

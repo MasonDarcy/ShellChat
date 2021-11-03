@@ -46,3 +46,46 @@
             //   dispatch(subscribeAction(1));
             // }
             */
+
+// try {
+
+//     return output;
+//   } catch (err) {
+//     return output;
+//   }
+// } else {
+//   return null;
+// }
+// let action = getDispatchArgument(contents);
+// if (action) {
+//   action.status === "success"
+//     ? dispatch(action.cb(...action.args))
+//     : dispatch(messageAction(`<${prefix}>${action.errMessage}`));
+// } else {
+//   if (cid) {
+//     try {
+//       sendChat(contents, cid);
+//     } catch (err) {
+//       dispatch(messageAction(`<${prefix}>Error: ${err}`));
+//     }
+//   } else {
+//     dispatch(messageAction(`<${prefix}>${contents}`));
+//   }
+// }
+// setCommand({ contents: "" });
+
+// import { useEffect, useState } from "react";
+
+// const useSubscribeToChat = (url) => {
+//   const [data, updateData] = useState(null);
+
+//   useEffect(() => {
+//     const source = new EventSource(url);
+//     source.onmessage = function logEvents(event) {
+//       updateData(JSON.parse(event.data));
+//     };
+//   }, []);
+//   return data;
+// };
+
+// export default useSubscribeToChat;

@@ -1,8 +1,8 @@
 import { combineReducer, combineReducers } from "redux";
-import subscribeToChannel from "./subscribeToChannel";
+import subscribeToChannelReducer from "./subscribeToChannelReducer";
 import messageReducer from "./messageReducer";
 
 export default combineReducers({
-  subscribeToChannel,
+  subscribeToChannelReducer,
   messageReducer,
 });

@@ -1,4 +1,4 @@
-import { SUBSCRIBE_TO_CHANNEL } from "../actions/types";
+import { SUBSCRIBE_TO_CHANNEL, UNSUBSCRIBE_TO_CHANNEL } from "../actions/types";
 
 const initialState = {
   source: null,
@@ -18,6 +18,11 @@ export default function (state = initialState, action) {
         source: payload.source,
         currentChannelID: payload.channelID,
         isSubscribed: true,
+      };
+    case UNSUBSCRIBE_TO_CHANNEL:
+      return {
+        ...state,
+        source: payload.source,
       };
     default:
       return state;
