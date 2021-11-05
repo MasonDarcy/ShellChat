@@ -4,7 +4,7 @@ import dispatchCommand from "./helpers/commandParser/dispatchCommand";
 import actions from "../actions";
 import sendChat from "./helpers/sendChat";
 
-function ChatInput({ cid, agentName, store }) {
+function ChatInput({ cid, agentName, store, keys }) {
   const [command, setCommand] = useState({ contents: "" });
   let { contents } = command;
 
@@ -22,7 +22,7 @@ function ChatInput({ cid, agentName, store }) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            dispatchCommand(contents, cid, store, actions, sendChat);
+            dispatchCommand(contents, cid, store, actions, sendChat, keys);
             setCommand({ contents: "" });
           }}
         >

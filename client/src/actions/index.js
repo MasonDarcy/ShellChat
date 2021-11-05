@@ -3,6 +3,7 @@ let { messageAction } = require("./messageAction");
 let { setAgentNameAction } = require("./setAgentNameAction");
 let { unsubscribeAction } = require("./unsubscribeAction");
 let { clearMessagesAction } = require("./clearMessagesAction");
+let { channelMessageAction } = require("./channelMessageAction");
 
 module.exports = {
   subscribeAction,
@@ -10,4 +11,5 @@ module.exports = {
   setAgentNameAction,
   unsubscribeAction,
   clearMessagesAction,
+  channelMessageAction,
 };

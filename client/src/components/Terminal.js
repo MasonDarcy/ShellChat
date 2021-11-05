@@ -1,11 +1,11 @@
 import React from "react";
 import Channel from "./Channel";
 
-function Terminal({ channelID }) {
+function Terminal({ keys }) {
   return (
     <>
       <div>
-        <Channel />
+        <Channel keys={keys} />
       </div>
     </>
   );

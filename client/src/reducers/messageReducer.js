@@ -1,4 +1,8 @@
-import { CLEAR_MESSAGES, NEW_MESSAGE } from "../actions/types";
+import {
+  CLEAR_MESSAGES,
+  NEW_MESSAGE,
+  NEW_CHANNEL_MESSAGE,
+} from "../actions/types";
 
 const initialState = {
   messageLog: [],
@@ -6,12 +10,13 @@ const initialState = {
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
-
+  console.log(`payload inside reducer: ${payload}`);
   switch (type) {
+    case NEW_CHANNEL_MESSAGE:
     case NEW_MESSAGE:
       return {
         ...state,
-        messageLog: [...state.messageLog, payload.message],
+        messageLog: [...state.messageLog, payload],
       };
     case CLEAR_MESSAGES:
       return {

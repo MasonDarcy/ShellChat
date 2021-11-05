@@ -1,8 +1,7 @@
 import { getCommandProgram } from "./getCommandProgram";
 
-const dispatchCommand = (agentCommand, cid, store, actions, sendChat) => {
-  console.log(actions);
-  let program = getCommandProgram(store, actions);
+const dispatchCommand = (agentCommand, cid, store, actions, sendChat, keys) => {
+  let program = getCommandProgram(store, actions, keys);
   let { messageAction } = actions;
   if (agentCommand[0] === "/") {
     const trimmedCommand = agentCommand.slice(1);
@@ -17,7 +16,14 @@ const dispatchCommand = (agentCommand, cid, store, actions, sendChat) => {
     store.getState().subscribeToChannelReducer.isSubscribed
       ? //Name vs id vs alias ?
         sendChat(agentCommand, cid, store.getState().agentReducer.agentName)
-      : store.dispatch(messageAction(agentCommand));
+      : store.dispatch(
+          messageAction(
+            agentCommand,
+            store.getState().agentReducer.agentName,
+            keys.CHAT_EVENT_KEY,
+            cid
+          )
+        );
   }
 };
 

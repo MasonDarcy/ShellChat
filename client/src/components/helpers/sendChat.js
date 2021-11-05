@@ -7,9 +7,14 @@ const sendChat = async (contents, cid, agentID) => {
     },
   };
 
+  // const body = JSON.stringify({
+  //   channelID: cid,
+  //   message: `<${cid}> ${agentID}: ${contents}`,
+  //   agentID: agentID,
+  // });
   const body = JSON.stringify({
     channelID: cid,
-    message: `<${cid}> ${agentID}: ${contents}`,
+    message: contents,
     agentID: agentID,
   });
 

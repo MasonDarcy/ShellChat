@@ -1,4 +1,4 @@
-export const getCommandProgram = (store, actions) => {
+export const getCommandProgram = (store, actions, keys) => {
   let { dispatch, getState } = store;
   let {
     messageAction,
@@ -8,7 +8,7 @@ export const getCommandProgram = (store, actions) => {
     setAgentNameAction,
   } = actions;
 
-  console.log(messageAction);
+  //console.log(messageAction);
 
   const program = require("commander");
   program.version("0.0.1");
@@ -20,7 +20,13 @@ export const getCommandProgram = (store, actions) => {
   program.configureOutput({
     writeErr: (str) => {
       //perhaps dispatch an error message
-      dispatch(messageAction(str));
+      dispatch(
+        messageAction(
+          str,
+          store.getState().agentReducer.agentName,
+          keys.ERROR_EVENT_KEY
+        )
+      );
     },
   });
 

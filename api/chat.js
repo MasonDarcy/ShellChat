@@ -15,18 +15,13 @@ const bindChatChannel = (req, res) => {
 
   const hbt = setInterval(pump, 30000);
 
+  /*Main chat listener.*/
   const activeListener = (data) => {
     const sseFormattedResponse = `data: ${JSON.stringify(data)}\n\n`;
     res.write(sseFormattedResponse);
   };
 
-  // const channelListener = (data) => {
-  //   const sseFormattedResponse = `event: channelEvent\ndata: ${JSON.stringify(
-  //     data
-  //   )}\n\n`;
-  //   res.write(sseFormattedResponse);
-  // };
-
+  /*Channel listener (leaving/joining)*/
   const channelListener = getSSEListener("channelEvent", res);
 
   chat.on(`channelEvent-${req.params.channel_id}`, channelListener);
@@ -63,7 +58,7 @@ router.post("/sendMessage/", (req, res) => {
   try {
     const { message, channelID, agentID } = req.body;
     // chat.emit(`chatEvent-${channelID}`, [message, agentID]);
-    chat.emit(`chatEvent-${channelID}`, message, agentID);
+    chat.emit(`chatEvent-${channelID}`, [message, agentID]);
     res.status(200).json({ msg: "Response fired." });
   } catch (err) {
     errorTool.error400(err, res);
