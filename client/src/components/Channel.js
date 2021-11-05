@@ -3,11 +3,14 @@ import { useSelector } from "react-redux";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 import { v4 } from "uuid";
+import store from "../store/store";
 
 function Channel() {
   const channelID = useSelector(
     (state) => state.subscribeToChannelReducer.currentChannelID
   );
+
+  const agentName = useSelector((state) => state.agentReducer.agentName);
 
   // const oldChannelID = useSelector(
   //   (state) => state.subscribeToChannelReducer.previousChannelID
@@ -23,7 +26,7 @@ function Channel() {
     <>
       {chatMessages}
       <div className="chatMessage">
-        <ChatInput cid={channelID} />
+        <ChatInput cid={channelID} agentName={agentName} store={store} />
       </div>
     </>
   );

@@ -6,3 +6,5 @@ export const messageAction = (message) => (dispatch) => {
     payload: { message: message },
   });
 };
+
+//IDEA-TODO: Dispatch CSS classes with messages. Break up messages into multiple components (prefix-content)

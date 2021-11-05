@@ -32,12 +32,24 @@
 //   //  obj.error = err;
 // }
 
-const errorThrower = () => {
-  throw new Error();
-};
+// const errorThrower = () => {
+//   throw new Error();
+// };
 
-try {
-  errorThrower();
-} catch (err) {
-  console.log(`did i catch it ${err}`);
-}
+// try {
+//   errorThrower();
+// } catch (err) {
+//   console.log(`did i catch it ${err}`);
+// }
+
+const EventEmitter = require("events");
+
+class BareEmitter extends EventEmitter {}
+const chat = new BareEmitter();
+
+const listenerFunc = (data) => {
+  console.log(data);
+};
+chat.on(`event`, listenerFunc);
+
+chat.emit(`event`, ["hello", "array"], "mreaghh");

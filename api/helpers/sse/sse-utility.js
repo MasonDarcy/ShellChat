@@ -8,6 +8,16 @@ const setSSEHeaders = (req, res, next) => {
   next();
 };
 
+const getSSEListener = (eventName, res) => {
+  return (data) => {
+    const sseFormattedResponse = `event: ${eventName}\ndata: ${JSON.stringify(
+      data
+    )}\n\n`;
+    res.write(sseFormattedResponse);
+  };
+};
+
 module.exports = sseUtility = {
   setSSEHeaders,
+  getSSEListener,
 };

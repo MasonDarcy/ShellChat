@@ -2,55 +2,81 @@ const express = require("express");
 const router = express.Router();
 const errorTool = require("./helpers/errors");
 const EventEmitter = require("events");
-const { setSSEHeaders } = require("./helpers/sse/sse-utility");
+const { setSSEHeaders, getSSEListener } = require("./helpers/sse/sse-utility");
+const { JOINED_CHANNEL_KEY, LEFT_CHANNEL_KEY } = require("../constants");
 
-//Leaving this out for now
-//const auth = require("./helpers/auth");
-
-//What happens if I refactor this into the piece of middleware itself?
-//It would be provisioned and destroyed with the middleware lexical environment
-//Instead of one eventemitter, I would have an eventemitter for every connection
 class BareEmitter extends EventEmitter {}
 const chat = new BareEmitter();
 
-// Unfortunately, we must send the channelID in the query string
-// This makes this route vulnerable to an XSS attack so I might want to add some regex scrubbers here
 const bindChatChannel = (req, res) => {
-  console.log(chat.listenerCount());
+  const pump = () => {
+    res.write("\n");
+  };
+
+  const hbt = setInterval(pump, 30000);
 
   const activeListener = (data) => {
-    console.log(`inside active listener in backend: ${data}`);
     const sseFormattedResponse = `data: ${JSON.stringify(data)}\n\n`;
     res.write(sseFormattedResponse);
   };
 
-  chat.on(`chatEvent-${req.params.channel_id}`, activeListener);
+  // const channelListener = (data) => {
+  //   const sseFormattedResponse = `event: channelEvent\ndata: ${JSON.stringify(
+  //     data
+  //   )}\n\n`;
+  //   res.write(sseFormattedResponse);
+  // };
 
+  const channelListener = getSSEListener("channelEvent", res);
+
+  chat.on(`channelEvent-${req.params.channel_id}`, channelListener);
+  chat.on(`chatEvent-${req.params.channel_id}`, activeListener);
+  chat.emit(`channelEvent-${req.params.channel_id}`, [
+    req.params.agent_id,
+    JOINED_CHANNEL_KEY,
+  ]);
   res.on("close", () => {
     console.log("Close event fired");
+
+    clearInterval(hbt);
     chat.removeListener(`chatEvent-${req.params.channel_id}`, activeListener);
+    chat.removeListener(
+      `channelEvent-${req.params.channel_id}`,
+      channelListener
+    );
+    chat.emit(`channelEvent-${req.params.channel_id}`, [
+      req.params.agent_id,
+      LEFT_CHANNEL_KEY,
+    ]);
   });
 };
 
-// @route   post api/chat/:channel_id
+// @route   post api/chat/:channel_id/:agent_id
 // @desc    chat subscription
 // @access  private (TODO) (leaving auth out for now)
-router.get("/:channel_id/", setSSEHeaders, bindChatChannel);
+router.get("/:channel_id/:agent_id", setSSEHeaders, bindChatChannel);
 
 // @route   post api/sendMessage/:channel_id/:agent_id
 // @desc    Post a chat message to a channel
 // @access  private (TODO) (leaving auth out for now)
 router.post("/sendMessage/", (req, res) => {
-  // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  // res.setHeader("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-  // res.setHeader("Access-Control-Allow-Headers: Content-Type, Authorization");
-
   try {
     const { message, channelID, agentID } = req.body;
-    console.log(`From inside backend api:${message} `);
+    // chat.emit(`chatEvent-${channelID}`, [message, agentID]);
     chat.emit(`chatEvent-${channelID}`, message, agentID);
-
     res.status(200).json({ msg: "Response fired." });
+  } catch (err) {
+    errorTool.error400(err, res);
+  }
+});
+
+// @route   post api/sendMessage/:channel_id/:agent_id
+// @desc    Post a chat message to a channel
+// @access  private (TODO) (leaving auth out for now)
+router.post("/sendChannelEvent/", (req, res) => {
+  try {
+    const { message, channelID, agentID } = req.body;
+    chat.emit(`channelEvent-${channelID}`, [message, agentID]);
   } catch (err) {
     errorTool.error400(err, res);
   }
