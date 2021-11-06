@@ -48,6 +48,14 @@ export const getCommandProgram = (store, actions, keys) => {
       }
     });
 
+  /*Leave command, leaves the current channel.*/
+  program
+    .command("leave")
+    .description("Unsubscribes the agent from the current channel.")
+    .action(() => {
+      dispatch(unsubscribeAction());
+    });
+
   /*Clear command, deletes the agent message log from redux store.*/
   program
     .command("clear")

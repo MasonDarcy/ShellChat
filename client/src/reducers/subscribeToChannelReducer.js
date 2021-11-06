@@ -23,6 +23,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         source: payload.source,
+        currentChannelID: payload.currentChannelID,
+        isSubscribed: payload.isSubscribed,
       };
     default:
       return state;
