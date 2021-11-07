@@ -53,7 +53,7 @@ let obj = {};
 
 try {
   //  let q = program.parse(["null", "null", "blah", "-d", "true", "1", "2"]);
-  console.log(program);
+  console.log(program.commands[0].options);
 } catch (err) {
   //  obj.error = err;
 }

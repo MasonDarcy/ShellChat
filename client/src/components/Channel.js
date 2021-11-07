@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import ChatMessage from "./ChatMessage";
+import HelpChatMessage from "./HelpChatMessage";
+
 import ChatInput from "./ChatInput";
 import { v4 } from "uuid";
 import store from "../store/store";
@@ -24,6 +26,7 @@ function Channel({ keys }) {
         keys={keys}
       />
     );
+    // }
   });
 
   return (

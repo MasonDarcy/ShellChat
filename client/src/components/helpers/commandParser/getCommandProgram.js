@@ -1,8 +1,10 @@
 import { getHelpString, getAllHelpStrings } from "./helpers/getHelpString";
+import { getAllHelp, getBasicHelp } from "./helpers/getHelpJsx";
+const program = require("commander");
 
 export const getCommandProgram = (store, actions, keys) => {
   let { dispatch, getState } = store;
-  const program = require("commander");
+  // const program = require("commander");
 
   //This is a hack. Basically the program is cached by node.js and running
   //this multiple times adds redundant commands every time. It's already a singleton.
@@ -83,33 +85,34 @@ export const getCommandProgram = (store, actions, keys) => {
       .description("Displays a list of all commands")
       .argument("[commandName]", "The name of the command to query help about.")
       .action((commandName, options) => {
+        console.log(`commandName: ${commandName}`);
+        console.log(`options.all: ${options.all}`);
+
         if (!commandName && !options.all) {
           dispatch(
-            actions.helpMessageAction(
-              'Type "/help -a" or "/help <command>" to get a list of commands, or command-specific help.',
-              keys.HELP_EVENT_KEY
-            )
+            actions.helpMessageAction(getBasicHelp(), keys.HELP_EVENT_KEY)
           );
-        }
-
-        if (commandName && !options.all) {
-          let val = getHelpString(
-            program.commands.find((c) => {
-              return c._name == commandName;
-            })
-          );
-          dispatch(actions.helpMessageAction(val, keys.HELP_EVENT_KEY));
-        }
-
-        if (options.all && !commandName) {
-          console.log(getAllHelpStrings(program.commands));
+        } else if (options.all && !commandName) {
           dispatch(
             actions.helpMessageAction(
-              getAllHelpStrings(program.commands),
+              getAllHelp(program.commands),
               keys.HELP_EVENT_KEY
             )
           );
+
+          //This is kind of strange, but options.all seems to stay true even after the command is executed.
+          options.all = false;
         }
+
+        // if (commandName && !options.all) {
+        //   dispatch(
+        //     actions.helpMessageAction(
+        //       program.commands,
+        //       keys.PRINT_ONE_COMMAND_KEY,
+        //       keys.HELP_EVENT_KEY
+        //     )
+        //   );
+        // }
       });
 
     return program;

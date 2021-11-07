@@ -19,11 +19,7 @@ function ChatMessage({ message, agent, eventName, channelID, keys }) {
     case keys.ERROR_EVENT_KEY:
       return <div className={style}>{`${message}`}</div>;
     case keys.HELP_EVENT_KEY:
-      return (
-        <div className={style}>
-          <pre>S{`${message}`}</pre>
-        </div>
-      );
+      return <div>{message}</div>;
     default:
       return null;
   }
