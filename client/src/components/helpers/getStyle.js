@@ -8,5 +8,7 @@ export const getStyle = (eventName, keys) => {
       return "joinedChannel";
     case keys.ERROR_EVENT_KEY:
       return "commandError";
+    case keys.HELP_EVENT_KEY:
+      return "help";
   }
 };

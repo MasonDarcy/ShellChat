@@ -28,14 +28,17 @@ function Channel({ keys }) {
 
   return (
     <>
-      {chatMessages}
-      <div className="chatMessage">
-        <ChatInput
-          cid={channelID}
-          agentName={agentName}
-          store={store}
-          keys={keys}
-        />
+      <div className="chatBox">
+        {" "}
+        {chatMessages}
+        <div className="chatInput">
+          <ChatInput
+            cid={channelID}
+            agentName={agentName}
+            store={store}
+            keys={keys}
+          />
+        </div>
       </div>
     </>
   );

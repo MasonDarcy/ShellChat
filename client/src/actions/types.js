@@ -6,4 +6,6 @@ export const CHAT_EVENT = "CHAT_EVENT";
 export const CLEAR_MESSAGES = "CLEAR_MESSAGES";
 export const NEW_MESSAGE = "NEW_MESSAGE";
 export const NEW_CHANNEL_MESSAGE = "NEW_CHANNEL_MESSAGE";
+export const NEW_HELP_MESSAGE = "NEW_HELP_MESSAGE";
+
 export const SET_AGENT_NAME = "SET_AGENT_NAME";

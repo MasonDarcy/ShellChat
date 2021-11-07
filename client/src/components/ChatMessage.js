@@ -3,10 +3,6 @@ import { getStyle } from "./helpers/getStyle";
 
 function ChatMessage({ message, agent, eventName, channelID, keys }) {
   let style = getStyle(eventName, keys);
-  console.log(`message inside ChatMessage component: ${message}`);
-  console.log(`event key  ${keys.CHAT_EVENT_KEY}`);
-  console.log(`event name  ${eventName}`);
-  console.log(`WHATs the channel id?:${channelID}`);
   let channelPrefix = channelID ? channelID : `root`;
 
   switch (eventName) {
@@ -22,6 +18,12 @@ function ChatMessage({ message, agent, eventName, channelID, keys }) {
       );
     case keys.ERROR_EVENT_KEY:
       return <div className={style}>{`${message}`}</div>;
+    case keys.HELP_EVENT_KEY:
+      return (
+        <div className={style}>
+          <pre>S{`${message}`}</pre>
+        </div>
+      );
     default:
       return null;
   }
