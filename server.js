@@ -19,6 +19,7 @@ const app = express();
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
+  exposedHeaders: ["set-cookie"],
   optionSuccessStatus: 200,
 };
 
@@ -32,7 +33,7 @@ app.use(
   session({
     secret: config.get("sessionSecret"),
     name: "sid",
-    cookie: { maxAge: 990000, httpOnly: true },
+    cookie: { maxAge: 990000, httpOnly: false },
     resave: true,
     store: MongoStore.create({ mongoUrl: config.get("mongoURI") }),
     saveUninitialized: false,
@@ -44,6 +45,10 @@ app.listen(PORT, () => {
 });
 
 app.use(express.json());
+
+// app.use((req, res) => {
+//   console.log(req.session.userID);
+// });
 
 app.get("/", (req, res) => {
   res.status(200).json({

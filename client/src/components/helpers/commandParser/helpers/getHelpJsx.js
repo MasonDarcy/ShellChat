@@ -12,6 +12,36 @@ export const getBasicHelp = () => {
   );
 };
 
+export const getSingleCommandHelp = (command) => {
+  return (
+    <div className="help">
+      <pre>
+        Command name: <span className="command">{command._name}</span>
+        <br />
+        <span className="helpDescription">Description:</span>{" "}
+        {command._description}
+        <br />
+        {command._args.map((arg) => {
+          return (
+            <div key={v4()}>
+              Arguments: <span className="argument">{arg._name}</span> --{" "}
+              {arg.description}
+            </div>
+          );
+        })}
+        {command.options.map((arg) => {
+          return (
+            <div key={v4()}>
+              <span className="helpDescription">Options:</span>{" "}
+              <span className="option">{arg.flags}</span> -- {arg.description}
+            </div>
+          );
+        })}
+      </pre>
+    </div>
+  );
+};
+
 export const getAllHelp = (commands) => {
   return (
     <div className="help">
@@ -27,7 +57,7 @@ export const getAllHelp = (commands) => {
               {command._args.map((arg) => {
                 return (
                   <div key={v4()}>
-                    Arguments: <span className="argument">{arg._name}</span> --{" "}
+                    Argument: <span className="argument">{arg._name}</span> --{" "}
                     {arg.description}
                   </div>
                 );

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Channel from "./components/Channel";
+import Auth from "./components/Auth";
 import Terminal from "./components/Terminal";
 import "./App.css";
 import keys from "./constants/constants";

@@ -1,7 +1,8 @@
-import { SET_AGENT_NAME } from "../actions/types";
+import { SET_AGENT_NAME, LOGIN } from "../actions/types";
 
 const initialState = {
   agentName: null,
+  isLoggedOn: false,
 };
 
 export default function (state = initialState, action) {
@@ -9,6 +10,7 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case SET_AGENT_NAME:
+    case LOGIN:
       return {
         ...state,
         agentName: payload.agentName,

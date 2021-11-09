@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const errorTool = require("./helpers/errors");
 const EventEmitter = require("events");
+const auth = require("./helpers/auth");
 const { setSSEHeaders, getSSEListener } = require("./helpers/sse/sse-utility");
 const { JOINED_CHANNEL_KEY, LEFT_CHANNEL_KEY } = require("../constants");
 
@@ -48,16 +49,15 @@ const bindChatChannel = (req, res) => {
 
 // @route   post api/chat/:channel_id/:agent_id
 // @desc    chat subscription
-// @access  private (TODO) (leaving auth out for now)
-router.get("/:channel_id/:agent_id", setSSEHeaders, bindChatChannel);
+// @access  private (TODO)
+router.get("/:channel_id/:agent_id", auth, setSSEHeaders, bindChatChannel);
 
 // @route   post api/sendMessage/:channel_id/:agent_id
 // @desc    Post a chat message to a channel
 // @access  private (TODO) (leaving auth out for now)
-router.post("/sendMessage/", (req, res) => {
+router.post("/sendMessage/", auth, (req, res) => {
   try {
     const { message, channelID, agentID } = req.body;
-    // chat.emit(`chatEvent-${channelID}`, [message, agentID]);
     chat.emit(`chatEvent-${channelID}`, [message, agentID]);
     res.status(200).json({ msg: "Response fired." });
   } catch (err) {

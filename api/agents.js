@@ -3,10 +3,12 @@ const Agent = require("../models/Agent");
 const bcrypt = require("bcrypt");
 const { check, validationResult } = require("express-validator");
 const auth = require("./helpers/auth");
+const checkAuth = require("./helpers/checkAuth");
 const sessionSaver = require("./helpers/sessionSaver");
 const errorTool = require("./helpers/errors");
 const router = express.Router();
 const SALT_VAL = 10;
+const mongoose = require("mongoose");
 
 // @route   post api/agents
 // @desc    register agent
@@ -59,12 +61,12 @@ router.post(
   sessionSaver
 );
 
-// @route   get api/agents
+// @route   get api/agents/login
 // @desc    Logs in an agent
 // @access  public
 
-router.get(
-  "/",
+router.post(
+  "/login",
   [
     check("agentName", "Name is required.").not().isEmpty(),
     check("password", "Password is required.").not().isEmpty(),
@@ -72,7 +74,7 @@ router.get(
   async (req, res, next) => {
     console.log(req.body);
     const errors = validationResult(req);
-
+    console.log(errors);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errs: errors.array() });
     }
@@ -83,7 +85,7 @@ router.get(
 
       //Does this agent exist
       if (!fetchedAgent) {
-        return res.status(404).json({ msg: "Agent not found." });
+        return res.status(404).json({ msg: "Agent not found??" });
       }
 
       //Compare the encrypted password to the supplied password
@@ -91,12 +93,12 @@ router.get(
 
       if (isMatch) {
         res.locals.agentID = fetchedAgent.id;
+        console.log(`Inside login: ${res.locals.agentID}`);
         next();
       } else {
         return res.status(401).json({ msg: "Incorrect credentials." });
       }
     } catch (err) {
-      console.log("Got here");
       errorTool.error400(err, res);
     }
   },
@@ -130,10 +132,27 @@ router.get("/:agent_name", async (req, res) => {
     const fetchedAgent = await Agent.findOne({ agentName }).select("-password");
 
     if (!fetchedAgent) {
-      return res.status(404).json({ msg: "Agent not found." });
+      return res.status(404).json({ msg: "Agent not found?!." });
     }
 
     res.status(200).json({ fetchedAgent });
+  } catch (err) {
+    console.log("Got here");
+    errorTool.error400(err, res);
+  }
+});
+
+// @route   GET api/agents/check
+// @desc    checks if the agent still has a session token and sets their login status
+// @access  private
+
+router.get("/check/login", checkAuth, async (req, res) => {
+  try {
+    let userID = req.session.userID;
+    console.log(`userID: ${userID}`);
+    let agent = await Agent.findById(userID).select("-password");
+
+    res.status(200).json({ agentName: agent.agentName });
   } catch (err) {
     console.log("Got here");
     errorTool.error400(err, res);

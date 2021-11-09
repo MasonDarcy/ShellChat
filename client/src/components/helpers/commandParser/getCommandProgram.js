@@ -1,10 +1,12 @@
-import { getHelpString, getAllHelpStrings } from "./helpers/getHelpString";
-import { getAllHelp, getBasicHelp } from "./helpers/getHelpJsx";
+import {
+  getAllHelp,
+  getBasicHelp,
+  getSingleCommandHelp,
+} from "./helpers/getHelpJsx";
 const program = require("commander");
 
 export const getCommandProgram = (store, actions, keys) => {
   let { dispatch, getState } = store;
-  // const program = require("commander");
 
   //This is a hack. Basically the program is cached by node.js and running
   //this multiple times adds redundant commands every time. It's already a singleton.
@@ -22,15 +24,20 @@ export const getCommandProgram = (store, actions, keys) => {
     program.configureOutput({
       writeErr: (str) => {
         //perhaps dispatch an error message
-        dispatch(
-          actions.messageAction(
-            str,
-            store.getState().agentReducer.agentName,
-            keys.ERROR_EVENT_KEY
-          )
-        );
+        dispatch(actions.errorMessageAction(str, keys.ERROR_EVENT_KEY));
       },
     });
+
+    /*Join another channel. TODO Must unsubscribe from previous channel.*/
+    program
+      .command("login")
+      .argument("agentName", "Name of your account. Required.")
+      .argument("agentPassword", "Password to your account. Required.")
+      .description("Logs the agent into the system.")
+      .action((agentName, agentPassword) => {
+        console.log(`${agentName}, ${agentPassword}`);
+        dispatch(actions.loginAction(agentName, agentPassword));
+      });
 
     /*Join another channel. TODO Must unsubscribe from previous channel.*/
     program
@@ -92,7 +99,7 @@ export const getCommandProgram = (store, actions, keys) => {
           dispatch(
             actions.helpMessageAction(getBasicHelp(), keys.HELP_EVENT_KEY)
           );
-        } else if (options.all && !commandName) {
+        } else if (options.all) {
           dispatch(
             actions.helpMessageAction(
               getAllHelp(program.commands),
@@ -102,17 +109,18 @@ export const getCommandProgram = (store, actions, keys) => {
 
           //This is kind of strange, but options.all seems to stay true even after the command is executed.
           options.all = false;
+        } else if (commandName && !options.all) {
+          dispatch(
+            actions.helpMessageAction(
+              getSingleCommandHelp(
+                program.commands.find((command) => {
+                  return command._name == commandName;
+                })
+              ),
+              keys.HELP_EVENT_KEY
+            )
+          );
         }
-
-        // if (commandName && !options.all) {
-        //   dispatch(
-        //     actions.helpMessageAction(
-        //       program.commands,
-        //       keys.PRINT_ONE_COMMAND_KEY,
-        //       keys.HELP_EVENT_KEY
-        //     )
-        //   );
-        // }
       });
 
     return program;
