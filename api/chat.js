@@ -32,7 +32,7 @@ const bindChatChannel = (req, res) => {
     JOINED_CHANNEL_KEY,
   ]);
   res.on("close", () => {
-    console.log("Close event fired");
+    console.log("EventSource stream closed.");
 
     clearInterval(hbt);
     chat.removeListener(`chatEvent-${req.params.channel_id}`, activeListener);

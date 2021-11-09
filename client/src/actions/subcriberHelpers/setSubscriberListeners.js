@@ -2,7 +2,8 @@ export const setSource = (channelID, store, EventSourceSpecies) => {
   return new EventSourceSpecies(
     `http://localhost:5000/api/chat/${channelID}/${
       store.getState().agentReducer.agentName
-    }`
+    }`,
+    { withCredentials: true }
   );
 };
 

@@ -47,14 +47,24 @@ export const getCommandProgram = (store, actions, keys) => {
       .description("Join a channel, unsubscribes from previous channel.")
       .action((channelID, options, command) => {
         if (getState().subscribeToChannelReducer.isSubscribed) {
+          //TODO: preflight authorization
           dispatch(actions.unsubscribeAction());
         }
 
         if (options.password) {
           dispatch(actions.subscribeAction(channelID, options.password));
         } else {
+          //Modify here
           dispatch(actions.subscribeAction(channelID));
         }
+      });
+
+    /*Logout command, destroys the user'ss session if it exists.*/
+    program
+      .command("logout")
+      .description("Logout from the service.")
+      .action(() => {
+        dispatch(actions.logoutAction());
       });
 
     /*Leave command, leaves the current channel.*/

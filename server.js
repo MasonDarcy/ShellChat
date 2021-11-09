@@ -33,7 +33,9 @@ app.use(
   session({
     secret: config.get("sessionSecret"),
     name: "sid",
-    cookie: { maxAge: 990000, httpOnly: false },
+    cookie: { maxAge: 100000000, httpOnly: true },
+    // cookie: { httpOnly: true },
+
     resave: true,
     store: MongoStore.create({ mongoUrl: config.get("mongoURI") }),
     saveUninitialized: false,

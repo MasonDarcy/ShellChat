@@ -1,13 +1,12 @@
 import React, { useEffect, useSelector } from "react";
 import { useDispatch } from "react-redux";
+import { autoLoginAction } from "../actions/autoLoginAction";
 
 function Auth() {
-  //Create a function that fires when the component loads -- tries to authenticate - dispatch an action?
-  //If it fails, the user is not logged in
-  //When the login action gets fired, we adjust the state
+  let dispatch = useDispatch();
+
   useEffect(() => {
-    //dispatch an attempt to login with the sessionID
-    //dispatch();
+    dispatch(autoLoginAction());
   }, []);
 
   return null;

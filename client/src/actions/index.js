@@ -2,6 +2,7 @@ let { subscribeAction } = require("./subscribeAction");
 let { messageAction } = require("./messageAction");
 let { helpMessageAction } = require("./helpMessageAction");
 let { loginAction } = require("./loginAction");
+let { logoutAction } = require("./logoutAction");
 let { setAgentNameAction } = require("./setAgentNameAction");
 let { unsubscribeAction } = require("./unsubscribeAction");
 let { clearMessagesAction } = require("./clearMessagesAction");
@@ -11,13 +12,14 @@ let { autoLoginAction } = require("./autoLoginAction");
 
 module.exports = {
   subscribeAction,
+  unsubscribeAction,
   messageAction,
   setAgentNameAction,
-  unsubscribeAction,
   clearMessagesAction,
   channelMessageAction,
   helpMessageAction,
-  loginAction,
   errorMessageAction,
+  loginAction,
   autoLoginAction,
+  logoutAction,
 };

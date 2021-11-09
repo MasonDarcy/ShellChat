@@ -1,10 +1,11 @@
 import store from "../store/store";
-import { SUBSCRIBE_TO_CHANNEL, NEW_MESSAGE } from "./types";
+import { SUBSCRIBE_TO_CHANNEL, NEW_MESSAGE, NEW_ERROR_MESSAGE } from "./types";
 import ReconnectingEventSource from "reconnecting-eventsource";
 import {
   JOINED_CHANNEL_KEY,
   LEFT_CHANNEL_KEY,
   CHAT_EVENT_KEY,
+  ERROR_EVENT_KEY,
 } from "../constants/constants";
 import { channelMessageAction } from "./channelMessageAction";
 import {
@@ -13,26 +14,38 @@ import {
 } from "./subcriberHelpers/setSubscriberListeners";
 import { getMessageCallback } from "./subcriberHelpers/subscribeOnMessageCallback";
 import { getEventTupleArray } from "./subcriberHelpers/getEventTuples";
+import checkCredentials from "../authentication/checkCredentials";
 
-//Need to unpack all keys automatically into getEventTuplearray so I dont have ot update them here
-export const subscribeAction = (channelID, channelPassword) => (dispatch) => {
-  let source = setSource(channelID, store, ReconnectingEventSource);
+export const subscribeAction =
+  (channelID, channelPassword) => async (dispatch) => {
+    let { agentName } = await checkCredentials();
 
-  setSubscriberCallback(
-    source,
-    getMessageCallback(store, {
-      newMessage: NEW_MESSAGE,
-      CHAT_EVENT_KEY,
-    }),
-    getEventTupleArray(
-      store,
-      { channelMessageAction: channelMessageAction },
-      { JOINED_CHANNEL_KEY, LEFT_CHANNEL_KEY }
-    )
-  );
+    if (agentName) {
+      let source = setSource(channelID, store, ReconnectingEventSource);
+      setSubscriberCallback(
+        source,
+        getMessageCallback(store, {
+          newMessage: NEW_MESSAGE,
+          CHAT_EVENT_KEY,
+        }),
+        getEventTupleArray(
+          store,
+          { channelMessageAction: channelMessageAction },
+          { JOINED_CHANNEL_KEY, LEFT_CHANNEL_KEY }
+        )
+      );
 
-  dispatch({
-    type: SUBSCRIBE_TO_CHANNEL,
-    payload: { source, channelID, channelPassword },
-  });
-};
+      dispatch({
+        type: SUBSCRIBE_TO_CHANNEL,
+        payload: { source, channelID, channelPassword },
+      });
+    } else {
+      dispatch({
+        type: NEW_ERROR_MESSAGE,
+        payload: {
+          message: "error: authorized command. Please login.",
+          eventName: ERROR_EVENT_KEY,
+        },
+      });
+    }
+  };

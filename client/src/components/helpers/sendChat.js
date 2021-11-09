@@ -13,7 +13,7 @@ const sendChat = async (contents, cid, agentID) => {
   const body = JSON.stringify({
     channelID: cid,
     message: contents,
-    agentID: 1,
+    agentID: agentID,
   });
 
   console.log(`AgentID: ${agentID}`);

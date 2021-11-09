@@ -1,20 +1,16 @@
-import { LOGIN, NEW_ERROR_MESSAGE } from "./types";
-import sendLogin from "../components/helpers/sendLogin";
-export const autoLoginAction = () => (dispatch) => {
-  //   sendLogin(agentName, agentPassword)
-  //     .then(() => {
-  //       dispatch({
-  //         type: LOGIN,
-  //         payload: { agentName: agentName, isLoggedOn: true },
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       dispatch({
-  //         type: NEW_ERROR_MESSAGE,
-  //         payload: {
-  //           message: "error: invalid credentials.",
-  //           eventName: "ERROR_EVENT",
-  //         },
-  //       });
-  //     });
+import { AUTO_LOGIN } from "./types";
+import checkCredentials from "../authentication/checkCredentials";
+export const autoLoginAction = () => async (dispatch) => {
+  let {agentName} = await checkCredentials();
+  let logOnValue = false;
+
+  !agentName ? (agentName = "null") : (logOnValue = true);
+
+  dispatch({
+    type: AUTO_LOGIN,
+    payload: {
+      isLoggedOn: logOnValue,
+      agentName: agentName,
+    },
+  });
 };

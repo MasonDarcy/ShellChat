@@ -8,7 +8,6 @@ const sessionSaver = require("./helpers/sessionSaver");
 const errorTool = require("./helpers/errors");
 const router = express.Router();
 const SALT_VAL = 10;
-const mongoose = require("mongoose");
 
 // @route   post api/agents
 // @desc    register agent
