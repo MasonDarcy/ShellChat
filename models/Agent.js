@@ -14,6 +14,12 @@ const AgentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "agent",
+    },
+  ],
 });
 
 module.exports = mongoose.model("agent", AgentSchema);

@@ -60,3 +60,4 @@ app.get("/", (req, res) => {
 
 app.use("/api/agents", require("./api/agents"));
 app.use("/api/chat", require("./api/chat"));
+app.use("/api/friends", require("./api/friends"));

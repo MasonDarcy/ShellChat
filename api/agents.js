@@ -128,7 +128,9 @@ router.get("/:agent_name", async (req, res) => {
   try {
     const agentName = req.params.agent_name;
 
-    const fetchedAgent = await Agent.findOne({ agentName }).select("-password");
+    const fetchedAgent = await Agent.findOne({ agentName: agentName }).select(
+      "-password"
+    );
 
     if (!fetchedAgent) {
       return res.status(404).json({ msg: "Agent not found?!." });

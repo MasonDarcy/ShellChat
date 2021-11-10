@@ -3,58 +3,30 @@ const router = express.Router();
 const errorTool = require("./helpers/errors");
 const EventEmitter = require("events");
 const auth = require("./helpers/auth");
-const { setSSEHeaders, getSSEListener } = require("./helpers/sse/sse-utility");
-const { JOINED_CHANNEL_KEY, LEFT_CHANNEL_KEY } = require("../constants");
-
+const { setSSEHeaders } = require("./helpers/sse/sse-utility");
+const { getSetupSSE } = require("./helpers/getSetupSSE");
+const {
+  listenerTuples,
+  onConnectTuples,
+  onCloseTuples,
+} = require("./helpers/sse/chatSubscriptionData");
 class BareEmitter extends EventEmitter {}
 const chat = new BareEmitter();
-
-const bindChatChannel = (req, res) => {
-  const pump = () => {
-    res.write("\n");
-  };
-
-  const hbt = setInterval(pump, 30000);
-
-  /*Main chat listener.*/
-  const activeListener = (data) => {
-    const sseFormattedResponse = `data: ${JSON.stringify(data)}\n\n`;
-    res.write(sseFormattedResponse);
-  };
-
-  /*Channel listener (leaving/joining)*/
-  const channelListener = getSSEListener("channelEvent", res);
-
-  chat.on(`channelEvent-${req.params.channel_id}`, channelListener);
-  chat.on(`chatEvent-${req.params.channel_id}`, activeListener);
-  chat.emit(`channelEvent-${req.params.channel_id}`, [
-    req.params.agent_id,
-    JOINED_CHANNEL_KEY,
-  ]);
-  res.on("close", () => {
-    console.log("EventSource stream closed.");
-
-    clearInterval(hbt);
-    chat.removeListener(`chatEvent-${req.params.channel_id}`, activeListener);
-    chat.removeListener(
-      `channelEvent-${req.params.channel_id}`,
-      channelListener
-    );
-    chat.emit(`channelEvent-${req.params.channel_id}`, [
-      req.params.agent_id,
-      LEFT_CHANNEL_KEY,
-    ]);
-  });
-};
+const setupSSE = getSetupSSE(
+  chat,
+  listenerTuples,
+  onConnectTuples,
+  onCloseTuples
+);
 
 // @route   post api/chat/:channel_id/:agent_id
 // @desc    chat subscription
-// @access  private (TODO)
-router.get("/:channel_id/:agent_id", auth, setSSEHeaders, bindChatChannel);
+// @access  private
+router.get("/:channel_id/:agent_id", auth, setSSEHeaders, setupSSE);
 
 // @route   post api/sendMessage/:channel_id/:agent_id
 // @desc    Post a chat message to a channel
-// @access  private (TODO) (leaving auth out for now)
+// @access  private
 router.post("/sendMessage/", auth, (req, res) => {
   try {
     const { message, channelID, agentID } = req.body;
