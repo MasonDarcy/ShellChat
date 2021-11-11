@@ -13,7 +13,6 @@ const getSetupSSE =
         listenerTuple.callback(res)
       );
     });
-
     onConnectTuples.forEach((connectTuple) => {
       chat.emit(`${connectTuple.prefix}-${req.params[connectTuple.paramKey]}`, [
         ...connectTuple.payload.paramKeys.map((pk) => req.params[pk]),

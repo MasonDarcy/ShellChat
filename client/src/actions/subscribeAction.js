@@ -21,9 +21,13 @@ export const subscribeAction =
     let { agentName } = await checkCredentials();
 
     if (agentName) {
-      let source = setSource(channelID, store, ReconnectingEventSource);
+      let channelSource = setSource(
+        "http://localhost:5000/api/chat/",
+        [channelID, store.getState().agentReducer.agentName],
+        ReconnectingEventSource
+      );
       setSubscriberCallback(
-        source,
+        channelSource,
         getMessageCallback(store, {
           newMessage: NEW_MESSAGE,
           CHAT_EVENT_KEY,
@@ -37,7 +41,7 @@ export const subscribeAction =
 
       dispatch({
         type: SUBSCRIBE_TO_CHANNEL,
-        payload: { source, channelID, channelPassword },
+        payload: { channelSource, channelID, channelPassword },
       });
     } else {
       dispatch({

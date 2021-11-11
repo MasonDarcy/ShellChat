@@ -37,16 +37,17 @@ router.post("/sendMessage/", auth, (req, res) => {
   }
 });
 
+//This literally was doing nothing lol
 // @route   post api/sendMessage/:channel_id/:agent_id
-// @desc    Post a chat message to a channel
-// @access  private (TODO) (leaving auth out for now)
-router.post("/sendChannelEvent/", (req, res) => {
-  try {
-    const { message, channelID, agentID } = req.body;
-    chat.emit(`channelEvent-${channelID}`, [message, agentID]);
-  } catch (err) {
-    errorTool.error400(err, res);
-  }
-});
+// @desc    Sends a channel event to all subscribed agents (agent has left or joined the channel)
+// @access  private (TODO)
+// router.post("/sendChannelEvent/", (req, res) => {
+//   try {
+//     const { message, channelID, agentID } = req.body;
+//     chat.emit(`channelEvent-${channelID}`, [message, agentID]);
+//   } catch (err) {
+//     errorTool.error400(err, res);
+//   }
+// });
 
 module.exports = router;

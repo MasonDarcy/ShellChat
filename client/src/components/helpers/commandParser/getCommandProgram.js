@@ -39,6 +39,18 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.loginAction(agentName, agentPassword));
       });
 
+    /*Dispatch a friend request to another agent.*/
+    program
+      .command("add")
+      .argument("agentName", "The request target agent.")
+      .description("Sends a request to another agent to be friends.")
+      .action((agentName) => {
+        console.log(
+          `/commandprogram/addCommand/:agentName argument: ${agentName}`
+        );
+        dispatch(actions.friendRequestAction(agentName));
+      });
+
     /*Join another channel. TODO Must unsubscribe from previous channel.*/
     program
       .command("join")
