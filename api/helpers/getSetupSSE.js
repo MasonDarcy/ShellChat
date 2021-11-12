@@ -8,6 +8,11 @@ const getSetupSSE =
 
     /* Iterate over the listeners -- each a 3-tuple [eventPrefix, paramKey, callback] */
     listenerTuples.forEach((listenerTuple) => {
+      console.log(
+        `Setting up listener: ${listenerTuple.prefix}-${
+          req.params[listenerTuple.paramKey]
+        }`
+      );
       chat.on(
         `${listenerTuple.prefix}-${req.params[listenerTuple.paramKey]}`,
         listenerTuple.callback(res)

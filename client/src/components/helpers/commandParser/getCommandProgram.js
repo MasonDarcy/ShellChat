@@ -7,7 +7,7 @@ const program = require("commander");
 
 export const getCommandProgram = (store, actions, keys) => {
   let { dispatch, getState } = store;
-
+  let { authorizedAction } = actions;
   //This is a hack. Basically the program is cached by node.js and running
   //this multiple times adds redundant commands every time. It's already a singleton.
 
@@ -44,11 +44,13 @@ export const getCommandProgram = (store, actions, keys) => {
       .command("add")
       .argument("agentName", "The request target agent.")
       .description("Sends a request to another agent to be friends.")
-      .action((agentName) => {
-        console.log(
-          `/commandprogram/addCommand/:agentName argument: ${agentName}`
+      .action((agentTarget) => {
+        dispatch(
+          authorizedAction(actions.friendRequestAction, [
+            store.getState().agentReducer.agentName,
+            agentTarget,
+          ])
         );
-        dispatch(actions.friendRequestAction(agentName));
       });
 
     /*Accept a friend request from another agent.*/
@@ -60,7 +62,9 @@ export const getCommandProgram = (store, actions, keys) => {
         console.log(
           `/commandprogram/addCommand/:agentName argument: ${agentName}`
         );
-        dispatch(actions.acceptFriendRequestAction(agentName));
+        dispatch(
+          authorizedAction(actions.acceptFriendRequestAction, [agentName])
+        );
       });
 
     /*Join another channel. TODO Must unsubscribe from previous channel.*/
@@ -78,7 +82,6 @@ export const getCommandProgram = (store, actions, keys) => {
         if (options.password) {
           dispatch(actions.subscribeAction(channelID, options.password));
         } else {
-          //Modify here
           dispatch(actions.subscribeAction(channelID));
         }
       });
@@ -107,6 +110,15 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.clearMessagesAction());
         console.log(`Program commands: ${program.commands}`);
       });
+
+    /*Clear command, deletes the agent message log from redux store.*/
+    // program
+    //   .command("authorizedClear")
+    //   .description("Clears the client-side messsage log.")
+    //   .action(() => {
+    //     dispatch(actions.authorizedAction(actions.testAction));
+    //     console.log(`Program commands: ${program.commands}`);
+    //   });
 
     /*Set the agent's identifier.
   -Temporary hack before log in is fully implemented

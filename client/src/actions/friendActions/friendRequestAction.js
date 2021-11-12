@@ -1,22 +1,14 @@
-import {
-  NEW_FRIEND_EVENT_MESSAGE,
-  NEW_ERROR_MESSAGE,
-  NEW_SERVER_MESSAGE,
-} from "../types";
+import { NEW_ERROR_MESSAGE, NEW_SERVER_MESSAGE } from "../types";
 import sendFriendRequest from "../requestHelpers/sendFriendRequest";
 import { COMMAND_SUCCESS_EVENT_KEY } from "../../constants/constants";
-import checkCredentials from "../../authentication/checkCredentials";
-import { errorMessageAction } from "../messageActions/errorMessageAction";
-export const friendRequestAction = (targetAgent) => async (dispatch) => {
-  let { agentName } = await checkCredentials();
-  console.log("test");
-  if (agentName) {
+export const friendRequestAction =
+  (agentName, targetAgent) => async (dispatch) => {
     sendFriendRequest(agentName, targetAgent)
       .then(() => {
         dispatch({
           type: NEW_SERVER_MESSAGE,
           payload: {
-            message: `Sent friend request to ${targetAgent}`,
+            message: `Sent friend request to ${targetAgent}.`,
             eventName: COMMAND_SUCCESS_EVENT_KEY,
           },
         });
@@ -31,5 +23,4 @@ export const friendRequestAction = (targetAgent) => async (dispatch) => {
           },
         });
       });
-  }
-};
+  };

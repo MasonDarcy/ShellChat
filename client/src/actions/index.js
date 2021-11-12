@@ -13,8 +13,14 @@ let { friendRequestAction } = require("./friendActions/friendRequestAction");
 let {
   subscribeToFriendsAction,
 } = require("./friendActions/subscribeToFriendsAction");
-
+let {
+  acceptFriendRequestAction,
+} = require("./friendActions/acceptFriendRequestAction");
+let { authorizedAction } = require("./authorizedAction");
+let { testAction } = require("./testAction");
 module.exports = {
+  authorizedAction,
+  testAction,
   subscribeAction,
   unsubscribeAction,
   subscribeToFriendsAction,
@@ -28,4 +34,5 @@ module.exports = {
   loginAction,
   autoLoginAction,
   logoutAction,
+  acceptFriendRequestAction,
 };

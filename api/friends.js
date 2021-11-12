@@ -63,4 +63,39 @@ router.post("/request/", auth, verifyAgentExists, async (req, res) => {
   }
 });
 
+// @route   post api/friends/accept/:agent_id
+// @desc    Accept a friend request
+// @access  private, subscribed on logon
+router.post("/accept/", auth, async (req, res) => {
+  const { accepteeAgent } = req.body;
+  try {
+    let target = await Agent.findOne({ agentName: accepteeAgent }).select(
+      "-password"
+    );
+    let source = await Agent.findById(req.session.userID).select("-password");
+
+    target.friends.unshift(req.session.userID);
+    source.friends.unshift(target.id);
+    let stringID = target.id.toString();
+
+    source.requests = source.requests.filter((request) => {
+      console.log(
+        `request.toString(): ${request.toString()} -- stringID: ${stringID}`
+      );
+      return request.toString() !== stringID;
+    });
+
+    target.save();
+    source.save();
+
+    console.log(`friendAcceptedEvent-${target.agentName}`);
+    //Emit event
+    chat.emit(`friendAcceptedEvent-${target.agentName}`, [source.agentName]);
+
+    res.status(201).json({ msg: "success" });
+  } catch (err) {
+    errorTool.error400(err, res);
+  }
+});
+
 module.exports = router;

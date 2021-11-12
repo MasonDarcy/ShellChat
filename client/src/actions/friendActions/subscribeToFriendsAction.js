@@ -1,7 +1,10 @@
 import store from "../../store/store";
 import { SUBSCRIBE_TO_FRIENDS, NEW_MESSAGE, NEW_ERROR_MESSAGE } from "../types";
 import ReconnectingEventSource from "reconnecting-eventsource";
-import { ERROR_EVENT_KEY } from "../../constants/constants";
+import {
+  ERROR_EVENT_KEY,
+  COMMAND_SUCCESS_EVENT_KEY,
+} from "../../constants/constants";
 import {
   setSource,
   setSubscriberCallback,
@@ -9,6 +12,7 @@ import {
 import { getFriendEventTupleArray } from "../subcriberHelpers/getFriendEventTuples";
 import checkCredentials from "../../authentication/checkCredentials";
 import { friendRequestReceivedAction } from "./friendRequestReceivedAction";
+import { serverMessageAction } from "../messageActions/serverMessageAction";
 
 export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
   let { agentName } = await checkCredentials();
@@ -22,7 +26,11 @@ export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
     setSubscriberCallback(
       friendSource,
       null,
-      getFriendEventTupleArray(store, { friendRequestReceivedAction }, {})
+      getFriendEventTupleArray(
+        store,
+        { friendRequestReceivedAction, serverMessageAction },
+        { COMMAND_SUCCESS_EVENT_KEY }
+      )
     );
 
     dispatch({

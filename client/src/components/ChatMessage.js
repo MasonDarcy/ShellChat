@@ -23,6 +23,9 @@ function ChatMessage({ message, agent, eventName, channelID, keys }) {
     case keys.COMMAND_SUCCESS_EVENT_KEY:
       return <div className={style}>{message}</div>;
     default:
+      console.log("components/chatMessage/Logged default: null");
+      console.log(`eventName: ${eventName}`);
+
       return null;
   }
 }

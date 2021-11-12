@@ -22,16 +22,18 @@ const listenerTuples = [
       res.write(sseFormattedResponse);
     },
   },
-  //   {
-  //     prefix: "friendStatusEvent",
-  //     paramKey: "agent_id",
-  //     callback: (res) => (data) => {
-  //       const sseFormattedResponse = `event: friendStatusEvent\ndata: ${JSON.stringify(
-  //         data
-  //       )}\n\n`;
-  //       res.write(sseFormattedResponse);
-  //     },
-  //   },
+  {
+    prefix: "friendAcceptedEvent",
+    paramKey: "agent_id",
+    callback: (res) => (data) => {
+      console.log("friendSubscriptionData/friendAcceptedEvent: fired");
+
+      const sseFormattedResponse = `event: friendAcceptedEvent\ndata: ${JSON.stringify(
+        data
+      )}\n\n`;
+      res.write(sseFormattedResponse);
+    },
+  },
 ];
 
 /*
