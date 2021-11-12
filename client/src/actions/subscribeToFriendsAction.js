@@ -6,10 +6,9 @@ import {
   setSource,
   setSubscriberCallback,
 } from "./subcriberHelpers/setSubscriberListeners";
-import { getMessageCallback } from "./subcriberHelpers/subscribeOnMessageCallback";
 import { getFriendEventTupleArray } from "./subcriberHelpers/getFriendEventTuples";
 import checkCredentials from "../authentication/checkCredentials";
-import { friendRequestReceivedAction } from "./friendRequestReceivedAction";
+import { friendRequestReceivedAction } from "./friendActions/friendRequestReceivedAction";
 
 export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
   let { agentName } = await checkCredentials();

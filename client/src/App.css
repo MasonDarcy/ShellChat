@@ -64,6 +64,13 @@
   color: #a01023;
 }
 
+.commandSuccess {
+  color: chartreuse;
+  font-family: monospace;
+  height: 14px;
+  text-align: left;
+}
+
 .terminalBox {
   color: blue;
 }

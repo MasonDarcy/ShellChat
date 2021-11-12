@@ -32,19 +32,32 @@ router.get("/:agent_id", auth, setSSEHeaders, setupSSE);
 // @route   post api/friends/request/
 // @desc    Trigger a friend request event to be emitted by the server
 // @access  private
-router.post("/request/", auth, verifyAgentExists, (req, res) => {
+router.post("/request/", auth, verifyAgentExists, async (req, res) => {
   try {
     const { sourceAgentID, targetAgentID } = req.body;
     console.log(`Got a request: ${sourceAgentID}, ${targetAgentID}`);
     //Each agent subscribes to incoming requests, named after them
+
+    //1. Check to see that the targetAgentID exists
+    let target = await Agent.findOne({ agentName: targetAgentID }).select(
+      "-password"
+    );
+
+    if (target) {
+      if (target.requests.includes(req.session.userID)) {
+        return res.status(400).json({ msg: "Request already sent." });
+      } else {
+        target.requests.unshift(req.session.userID);
+        target.save();
+        console.log("added request");
+      }
+    } else {
+      return res.status(404).json({ error: "Agent doesn't exist." });
+    }
+
     chat.emit(`friendRequestEvent-${targetAgentID}`, [sourceAgentID]);
 
-    /* TODO
-    We also want to populate some kind of 
-    database request field, in case the user is offline. 
-    */
-
-    return res.status(201).json({ msg: "Successfully emitted." });
+    return res.status(201).json({ msg: "Success." });
   } catch (err) {
     errorTool.error400(err, res);
   }

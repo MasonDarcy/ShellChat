@@ -1,4 +1,9 @@
-import { NEW_ERROR_MESSAGE, LOGOUT, UNSUBSCRIBE_TO_CHANNEL } from "./types";
+import {
+  NEW_ERROR_MESSAGE,
+  LOGOUT,
+  UNSUBSCRIBE_TO_CHANNEL,
+  UNSUBSCRIBE_TO_FRIENDS,
+} from "./types";
 import sendLogout from "../authentication/sendLogout";
 import store from "../store/store";
 
@@ -10,14 +15,30 @@ export const logoutAction = () => async (dispatch) => {
         payload: { agentName: null, isLoggedOn: false },
       });
 
-      let subscriptions = store.getState().subscribeToChannelReducer.source;
+      let subscriptions =
+        store.getState().subscribeToChannelReducer.channelSource;
       if (subscriptions) {
         subscriptions.close();
       }
 
       dispatch({
         type: UNSUBSCRIBE_TO_CHANNEL,
-        payload: { source: null, currentChannelID: null, isSubscribed: false },
+        payload: {
+          channelSource: null,
+          currentChannelID: null,
+          isSubscribed: false,
+        },
+      });
+
+      store.getState().subscribeToFriendsReducer.friendSource.close();
+
+      dispatch({
+        type: UNSUBSCRIBE_TO_FRIENDS,
+        payload: {
+          friendSource: null,
+          currentChannelID: null,
+          isSubscribed: false,
+        },
       });
     })
     .catch((err) => {

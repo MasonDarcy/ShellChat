@@ -51,6 +51,18 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.friendRequestAction(agentName));
       });
 
+    /*Accept a friend request from another agent.*/
+    program
+      .command("accept")
+      .argument("agentName", "Name of the friend requester.")
+      .description("Accepts a friend request from an agent.")
+      .action((agentName) => {
+        console.log(
+          `/commandprogram/addCommand/:agentName argument: ${agentName}`
+        );
+        dispatch(actions.acceptFriendRequestAction(agentName));
+      });
+
     /*Join another channel. TODO Must unsubscribe from previous channel.*/
     program
       .command("join")

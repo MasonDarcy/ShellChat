@@ -7,19 +7,18 @@ const sendFriendRequest = async (agentSource, agentTarget) => {
     },
     withCredentials: true,
   };
-
   const body = JSON.stringify({
     sourceAgentID: agentSource,
     targetAgentID: agentTarget,
   });
 
-  console.log(body);
-
-  return await axios.post(
+  let res = await axios.post(
     "http://localhost:5000/api/friends/request",
     body,
     config
   );
+
+  console.log(res);
 };
 
 export default sendFriendRequest;

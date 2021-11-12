@@ -1,5 +1,7 @@
 import { LOGIN, NEW_ERROR_MESSAGE } from "./types";
 import sendLogin from "../authentication/sendLogin";
+import { subscribeToFriendsAction } from "./subscribeToFriendsAction";
+
 import store from "../store/store";
 export const loginAction = (agentName, agentPassword) => (dispatch) => {
   if (store.getState().agentReducer.isLoggedOn) {
@@ -17,6 +19,8 @@ export const loginAction = (agentName, agentPassword) => (dispatch) => {
           type: LOGIN,
           payload: { agentName: agentName, isLoggedOn: true },
         });
+
+        dispatch(subscribeToFriendsAction(agentName));
       })
       .catch((err) => {
         dispatch({

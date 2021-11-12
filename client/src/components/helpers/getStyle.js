@@ -10,5 +10,7 @@ export const getStyle = (eventName, keys) => {
       return "commandError";
     case keys.HELP_EVENT_KEY:
       return "help";
+    case keys.COMMAND_SUCCESS_EVENT_KEY:
+      return "commandSuccess";
   }
 };

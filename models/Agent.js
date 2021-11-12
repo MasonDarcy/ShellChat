@@ -20,6 +20,12 @@ const AgentSchema = new mongoose.Schema({
       ref: "agent",
     },
   ],
+  requests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "agent",
+    },
+  ],
 });
 
 module.exports = mongoose.model("agent", AgentSchema);
