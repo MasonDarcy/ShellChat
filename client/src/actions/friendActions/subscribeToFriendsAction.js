@@ -1,14 +1,14 @@
-import store from "../store/store";
-import { SUBSCRIBE_TO_FRIENDS, NEW_MESSAGE, NEW_ERROR_MESSAGE } from "./types";
+import store from "../../store/store";
+import { SUBSCRIBE_TO_FRIENDS, NEW_MESSAGE, NEW_ERROR_MESSAGE } from "../types";
 import ReconnectingEventSource from "reconnecting-eventsource";
-import { ERROR_EVENT_KEY } from "../constants/constants";
+import { ERROR_EVENT_KEY } from "../../constants/constants";
 import {
   setSource,
   setSubscriberCallback,
-} from "./subcriberHelpers/setSubscriberListeners";
-import { getFriendEventTupleArray } from "./subcriberHelpers/getFriendEventTuples";
-import checkCredentials from "../authentication/checkCredentials";
-import { friendRequestReceivedAction } from "./friendActions/friendRequestReceivedAction";
+} from "../subcriberHelpers/setSubscriberListeners";
+import { getFriendEventTupleArray } from "../subcriberHelpers/getFriendEventTuples";
+import checkCredentials from "../../authentication/checkCredentials";
+import { friendRequestReceivedAction } from "./friendRequestReceivedAction";
 
 export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
   let { agentName } = await checkCredentials();

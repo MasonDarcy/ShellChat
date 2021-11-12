@@ -1,4 +1,4 @@
-import { NEW_HELP_MESSAGE } from "./types";
+import { NEW_HELP_MESSAGE } from "../types";
 
 export const helpMessageAction = (helpJsx, eventName) => (dispatch) => {
   dispatch({

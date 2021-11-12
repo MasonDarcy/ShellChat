@@ -3,9 +3,9 @@ import {
   LOGOUT,
   UNSUBSCRIBE_TO_CHANNEL,
   UNSUBSCRIBE_TO_FRIENDS,
-} from "./types";
-import sendLogout from "../authentication/sendLogout";
-import store from "../store/store";
+} from "../types";
+import sendLogout from "../../authentication/sendLogout";
+import store from "../../store/store";
 
 export const logoutAction = () => async (dispatch) => {
   sendLogout()

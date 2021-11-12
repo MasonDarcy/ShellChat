@@ -1,8 +1,8 @@
-import { LOGIN, NEW_ERROR_MESSAGE } from "./types";
-import sendLogin from "../authentication/sendLogin";
-import { subscribeToFriendsAction } from "./subscribeToFriendsAction";
+import { LOGIN, NEW_ERROR_MESSAGE } from "../types";
+import sendLogin from "../../authentication/sendLogin";
+import { subscribeToFriendsAction } from "../friendActions/subscribeToFriendsAction";
 
-import store from "../store/store";
+import store from "../../store/store";
 export const loginAction = (agentName, agentPassword) => (dispatch) => {
   if (store.getState().agentReducer.isLoggedOn) {
     dispatch({

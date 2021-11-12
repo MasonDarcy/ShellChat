@@ -1,4 +1,4 @@
-import { NEW_MESSAGE } from "./types";
+import { NEW_MESSAGE } from "../types";
 
 export const messageAction =
   (message, agent, eventName, channelID) => (dispatch) => {

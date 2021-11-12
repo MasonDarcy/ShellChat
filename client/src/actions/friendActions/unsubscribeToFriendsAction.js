@@ -1,5 +1,5 @@
-import { UNSUBSCRIBE_TO_FRIENDS } from "./types";
-import store from "../store/store";
+import { UNSUBSCRIBE_TO_FRIENDS } from "../types";
+import store from "../../store/store";
 export const unsubscribeToFriendsAction = () => (dispatch) => {
   store.getState().subscribeToFriendsReducer.friendSource.close();
 

@@ -1,20 +1,20 @@
-import store from "../store/store";
-import { SUBSCRIBE_TO_CHANNEL, NEW_MESSAGE, NEW_ERROR_MESSAGE } from "./types";
+import store from "../../store/store";
+import { SUBSCRIBE_TO_CHANNEL, NEW_MESSAGE, NEW_ERROR_MESSAGE } from "../types";
 import ReconnectingEventSource from "reconnecting-eventsource";
 import {
   JOINED_CHANNEL_KEY,
   LEFT_CHANNEL_KEY,
   CHAT_EVENT_KEY,
   ERROR_EVENT_KEY,
-} from "../constants/constants";
+} from "../../constants/constants";
 import { channelMessageAction } from "./channelMessageAction";
 import {
   setSource,
   setSubscriberCallback,
-} from "./subcriberHelpers/setSubscriberListeners";
-import { getMessageCallback } from "./subcriberHelpers/subscribeOnMessageCallback";
-import { getEventTupleArray } from "./subcriberHelpers/getEventTuples";
-import checkCredentials from "../authentication/checkCredentials";
+} from "../subcriberHelpers/setSubscriberListeners";
+import { getMessageCallback } from "../subcriberHelpers/subscribeOnMessageCallback";
+import { getEventTupleArray } from "../subcriberHelpers/getEventTuples";
+import checkCredentials from "../../authentication/checkCredentials";
 
 export const subscribeAction =
   (channelID, channelPassword) => async (dispatch) => {

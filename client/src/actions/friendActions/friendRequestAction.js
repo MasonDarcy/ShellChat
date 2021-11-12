@@ -2,11 +2,11 @@ import {
   NEW_FRIEND_EVENT_MESSAGE,
   NEW_ERROR_MESSAGE,
   NEW_SERVER_MESSAGE,
-} from "./types";
-import sendFriendRequest from "./requestHelpers/sendFriendRequest";
-import { COMMAND_SUCCESS_EVENT_KEY } from "../constants/constants";
-import checkCredentials from "../authentication/checkCredentials";
-import { errorMessageAction } from "./errorMessageAction";
+} from "../types";
+import sendFriendRequest from "../requestHelpers/sendFriendRequest";
+import { COMMAND_SUCCESS_EVENT_KEY } from "../../constants/constants";
+import checkCredentials from "../../authentication/checkCredentials";
+import { errorMessageAction } from "../messageActions/errorMessageAction";
 export const friendRequestAction = (targetAgent) => async (dispatch) => {
   let { agentName } = await checkCredentials();
   console.log("test");

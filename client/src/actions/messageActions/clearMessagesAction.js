@@ -1,4 +1,4 @@
-import { CLEAR_MESSAGES } from "./types";
+import { CLEAR_MESSAGES } from "../types";
 
 export const clearMessagesAction = () => (dispatch) => {
   dispatch({

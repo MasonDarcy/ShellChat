@@ -1,5 +1,5 @@
-import { UNSUBSCRIBE_TO_CHANNEL } from "./types";
-import store from "../store/store";
+import { UNSUBSCRIBE_TO_CHANNEL } from "../types";
+import store from "../../store/store";
 export const unsubscribeAction = () => (dispatch) => {
   store.getState().subscribeToChannelReducer.channelSource.close();
 

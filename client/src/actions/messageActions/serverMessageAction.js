@@ -1,4 +1,4 @@
-import { NEW_SERVER_MESSAGE } from "./types";
+import { NEW_SERVER_MESSAGE } from "../types";
 
 export const serverMessageAction = (message, eventName) => (dispatch) => {
   dispatch({

@@ -1,6 +1,6 @@
 import React, { useEffect, useSelector } from "react";
 import { useDispatch } from "react-redux";
-import { autoLoginAction } from "../actions/autoLoginAction";
+import { autoLoginAction } from "../actions/loginActions/autoLoginAction";
 
 function Auth() {
   let dispatch = useDispatch();

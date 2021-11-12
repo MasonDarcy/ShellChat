@@ -1,6 +1,6 @@
-import { AUTO_LOGIN } from "./types";
-import checkCredentials from "../authentication/checkCredentials";
-import { subscribeToFriendsAction } from "./subscribeToFriendsAction";
+import { AUTO_LOGIN } from "../types";
+import checkCredentials from "../../authentication/checkCredentials";
+import { subscribeToFriendsAction } from "../friendActions/subscribeToFriendsAction";
 export const autoLoginAction = () => async (dispatch) => {
   let { agentName } = await checkCredentials();
   let logOnValue = false;

@@ -1,16 +1,18 @@
-let { subscribeAction } = require("./subscribeAction");
-let { messageAction } = require("./messageAction");
-let { helpMessageAction } = require("./helpMessageAction");
-let { loginAction } = require("./loginAction");
-let { logoutAction } = require("./logoutAction");
+let { subscribeAction } = require("./channelActions/subscribeAction");
+let { messageAction } = require("./messageActions/messageAction");
+let { helpMessageAction } = require("./messageActions/helpMessageAction");
+let { loginAction } = require("./loginActions/loginAction");
+let { logoutAction } = require("./loginActions/logoutAction");
 let { setAgentNameAction } = require("./setAgentNameAction");
-let { unsubscribeAction } = require("./unsubscribeAction");
-let { clearMessagesAction } = require("./clearMessagesAction");
-let { channelMessageAction } = require("./channelMessageAction");
-let { errorMessageAction } = require("./errorMessageAction");
-let { autoLoginAction } = require("./autoLoginAction");
-let { friendRequestAction } = require("./friendRequestAction");
-let { subscribeToFriendsAction } = require("./subscribeToFriendsAction");
+let { unsubscribeAction } = require("./channelActions/unsubscribeAction");
+let { clearMessagesAction } = require("./messageActions/clearMessagesAction");
+let { channelMessageAction } = require("./channelActions/channelMessageAction");
+let { errorMessageAction } = require("./messageActions/errorMessageAction");
+let { autoLoginAction } = require("./loginActions/autoLoginAction");
+let { friendRequestAction } = require("./friendActions/friendRequestAction");
+let {
+  subscribeToFriendsAction,
+} = require("./friendActions/subscribeToFriendsAction");
 
 module.exports = {
   subscribeAction,
