@@ -4,7 +4,8 @@ const auth = function (req, res, next) {
     next();
   } else {
     console.log("Got into auth fail");
-    res.status(400).json([{ msg: "No previous session." }]);
+    console.log(`credentials: ${req.session.userID}`);
+    res.status(400).json({ msg: "No previous session." });
   }
 };
 

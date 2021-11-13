@@ -105,7 +105,10 @@ router.post("/accept/", auth, async (req, res) => {
   }
 });
 
-router.post("/message/", auth, async (req, res) => {
+// @route   post api/friends/message
+// @desc    Send a private message to a friend.
+// @access  private
+router.post("/message/", auth, verifyAgentExists, async (req, res) => {
   const { targetAgentID, sourceAgentID, message } = req.body;
   try {
     //Emit event
@@ -113,6 +116,18 @@ router.post("/message/", auth, async (req, res) => {
     chat.emit(`friendMessageEvent-${targetAgentID}`, [sourceAgentID, message]);
 
     res.status(201).json({ msg: "success" });
+  } catch (err) {
+    errorTool.error400(err, res);
+  }
+});
+
+// @route   get api/friends/status
+// @desc    Check if a friend is online
+// @access  private, subscribed on logon
+router.get("/status/isOnline", auth, verifyAgentExists, async (req, res) => {
+  const { targetAgentID } = res.locals;
+  try {
+    res.status(200).json({ isOnline: targetAgentID.isOnline });
   } catch (err) {
     errorTool.error400(err, res);
   }

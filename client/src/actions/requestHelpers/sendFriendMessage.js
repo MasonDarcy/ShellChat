@@ -1,29 +1,22 @@
-import axios from "axios";
-
 export const sendFriendMessage = async (
   targetAgentID,
   message,
   sourceAgentID
 ) => {
   const config = {
+    method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    withCredentials: true,
+    body: JSON.stringify({
+      targetAgentID: targetAgentID,
+      sourceAgentID: sourceAgentID,
+      message: message,
+    }),
   };
-  const body = JSON.stringify({
-    targetAgentID: targetAgentID,
-    sourceAgentID: sourceAgentID,
-    message: message,
-  });
+  let res = await fetch("http://localhost:5000/api/friends/message", config);
 
-  let res = await axios.post(
-    "http://localhost:5000/api/friends/message",
-    body,
-    config
-  );
-
-  console.log(res);
+  return res;
 };
-
 export default sendFriendMessage;

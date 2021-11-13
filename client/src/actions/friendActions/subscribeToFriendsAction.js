@@ -1,8 +1,7 @@
 import store from "../../store/store";
-import { SUBSCRIBE_TO_FRIENDS, NEW_MESSAGE, NEW_ERROR_MESSAGE } from "../types";
+import { SUBSCRIBE_TO_FRIENDS } from "../types";
 import ReconnectingEventSource from "reconnecting-eventsource";
 import {
-  ERROR_EVENT_KEY,
   COMMAND_SUCCESS_EVENT_KEY,
   NEW_FRIEND_MESSAGE_EVENT_KEY,
 } from "../../constants/constants";
@@ -11,7 +10,6 @@ import {
   setSubscriberCallback,
 } from "../subcriberHelpers/setSubscriberListeners";
 import { getFriendEventTupleArray } from "../subcriberHelpers/getFriendEventTuples";
-import checkCredentials from "../../authentication/checkCredentials";
 import { friendRequestReceivedAction } from "./friendRequestReceivedAction";
 import { serverMessageAction } from "../messageActions/serverMessageAction";
 
