@@ -1,6 +1,6 @@
-import { NEW_ERROR_MESSAGE, NEW_SERVER_MESSAGE } from "../types";
-import sendFriendRequest from "../requestHelpers/sendFriendRequest";
-import { COMMAND_SUCCESS_EVENT_KEY } from "../../constants/constants";
+import { NEW_ERROR_MESSAGE, NEW_SERVER_MESSAGE } from "../../types";
+import sendFriendRequest from "../../requestHelpers/sendFriendRequest";
+import { COMMAND_SUCCESS_EVENT_KEY } from "../../../constants/constants";
 export const friendRequestAction =
   (agentName, targetAgent) => async (dispatch) => {
     sendFriendRequest(agentName, targetAgent)

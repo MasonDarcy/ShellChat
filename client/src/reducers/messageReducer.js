@@ -4,7 +4,6 @@ import {
   NEW_CHANNEL_MESSAGE,
   NEW_HELP_MESSAGE,
   NEW_ERROR_MESSAGE,
-  NEW_FRIEND_EVENT_MESSAGE,
   NEW_FRIEND_MESSAGE,
   NEW_SERVER_MESSAGE,
 } from "../actions/types";
@@ -21,7 +20,6 @@ export default function (state = initialState, action) {
     case NEW_ERROR_MESSAGE:
     case NEW_CHANNEL_MESSAGE:
     case NEW_MESSAGE:
-    case NEW_FRIEND_EVENT_MESSAGE:
     case NEW_FRIEND_MESSAGE:
       return {
         ...state,

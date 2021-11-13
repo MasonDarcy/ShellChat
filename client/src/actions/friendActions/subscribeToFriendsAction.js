@@ -4,6 +4,7 @@ import ReconnectingEventSource from "reconnecting-eventsource";
 import {
   ERROR_EVENT_KEY,
   COMMAND_SUCCESS_EVENT_KEY,
+  NEW_FRIEND_MESSAGE_EVENT_KEY,
 } from "../../constants/constants";
 import {
   setSource,
@@ -15,35 +16,26 @@ import { friendRequestReceivedAction } from "./friendRequestReceivedAction";
 import { serverMessageAction } from "../messageActions/serverMessageAction";
 
 export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
-  let { agentName } = await checkCredentials();
+  /*Authorization is implicit here because this action only happens
+  when the user logs in.*/
 
-  if (agentName) {
-    let friendSource = setSource(
-      "http://localhost:5000/api/friends",
-      [agentName],
-      ReconnectingEventSource
-    );
-    setSubscriberCallback(
-      friendSource,
-      null,
-      getFriendEventTupleArray(
-        store,
-        { friendRequestReceivedAction, serverMessageAction },
-        { COMMAND_SUCCESS_EVENT_KEY }
-      )
-    );
+  let friendSource = setSource(
+    "http://localhost:5000/api/friends",
+    [agentName],
+    ReconnectingEventSource
+  );
+  setSubscriberCallback(
+    friendSource,
+    null,
+    getFriendEventTupleArray(
+      store,
+      { friendRequestReceivedAction, serverMessageAction },
+      { COMMAND_SUCCESS_EVENT_KEY, NEW_FRIEND_MESSAGE_EVENT_KEY }
+    )
+  );
 
-    dispatch({
-      type: SUBSCRIBE_TO_FRIENDS,
-      payload: { friendSource: friendSource, isSubscribed: true },
-    });
-  } else {
-    dispatch({
-      type: NEW_ERROR_MESSAGE,
-      payload: {
-        message: "error: authorized command. Please login.",
-        eventName: ERROR_EVENT_KEY,
-      },
-    });
-  }
+  dispatch({
+    type: SUBSCRIBE_TO_FRIENDS,
+    payload: { friendSource: friendSource, isSubscribed: true },
+  });
 };

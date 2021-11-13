@@ -71,6 +71,13 @@
   text-align: left;
 }
 
+.friend {
+  color: rgb(145, 36, 179);
+  font-family: monospace;
+  height: 14px;
+  text-align: left;
+}
+
 .terminalBox {
   color: blue;
 }

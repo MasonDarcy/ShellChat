@@ -67,6 +67,29 @@ export const getCommandProgram = (store, actions, keys) => {
         );
       });
 
+    /*Accept a friend request from another agent.*/
+    program
+      .command("m")
+      .argument("agentName", "Name of the friend to message.")
+      .argument("<message...>", "The message to send.")
+      .description("Direct message a friend.")
+      .action((agentName, message) => {
+        let agentMessage = "";
+
+        /*Messaged is pieced together here by a variadic argument.*/
+        message.forEach((word) => {
+          agentMessage += ` ${word}`;
+        });
+
+        dispatch(
+          authorizedAction(actions.friendMessageAction, [
+            agentName,
+            agentMessage,
+            store.getState().agentReducer.agentName,
+          ])
+        );
+      });
+
     /*Join another channel. TODO Must unsubscribe from previous channel.*/
     program
       .command("join")
@@ -80,9 +103,22 @@ export const getCommandProgram = (store, actions, keys) => {
         }
 
         if (options.password) {
-          dispatch(actions.subscribeAction(channelID, options.password));
+          dispatch(
+            authorizedAction(
+              actions.subscribeAction(
+                store.getState().agentReducer.agentName,
+                channelID,
+                options.password
+              )
+            )
+          );
         } else {
-          dispatch(actions.subscribeAction(channelID));
+          dispatch(
+            authorizedAction(actions.subscribeAction, [
+              store.getState().agentReducer.agentName,
+              channelID,
+            ])
+          );
         }
       });
 

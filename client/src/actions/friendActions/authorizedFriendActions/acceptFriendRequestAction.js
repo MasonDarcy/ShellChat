@@ -1,6 +1,6 @@
-import { NEW_SERVER_MESSAGE } from "../types";
-import { COMMAND_SUCCESS_EVENT_KEY } from "../../constants/constants";
-import { acceptFriendRequest } from "../requestHelpers/acceptFriendRequest";
+import { NEW_SERVER_MESSAGE } from "../../types";
+import { COMMAND_SUCCESS_EVENT_KEY } from "../../../constants/constants";
+import { acceptFriendRequest } from "../../requestHelpers/acceptFriendRequest";
 export const acceptFriendRequestAction = (accepteeAgent) => (dispatch) => {
   acceptFriendRequest(accepteeAgent)
     .then(() => {

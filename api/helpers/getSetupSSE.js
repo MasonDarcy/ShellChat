@@ -1,10 +1,26 @@
 const getSetupSSE =
-  (chat, listenerTuples, onConnectTuples, onCloseTuples) => (req, res) => {
+  (
+    chat,
+    listenerTuples,
+    onConnectTuples,
+    onCloseTuples,
+    onOpenFire,
+    onCloseFire,
+    Agent
+  ) =>
+  (req, res) => {
     /*Maintains connection.---------------------*/
     const pump = () => {
       res.write("\n");
     };
     const hbt = setInterval(pump, 30000);
+
+    /*Any functions we need to run on launch fire here.*/
+    onOpenFire.forEach((func) => {
+      let args = func.args.map((arg) => eval(arg));
+      let temp = func.callback(...args);
+      temp();
+    });
 
     /* Iterate over the listeners -- each a 3-tuple [eventPrefix, paramKey, callback] */
     listenerTuples.forEach((listenerTuple) => {
@@ -30,6 +46,12 @@ const getSetupSSE =
       console.log("EventSource stream closed.");
       clearInterval(hbt);
       /*---------------------------------------*/
+
+      onCloseFire.forEach((func) => {
+        let args = func.args.map((arg) => eval(arg));
+        let temp = func.callback(...args);
+        temp();
+      });
 
       /*Cleanup listeners----------------------*/
       listenerTuples.forEach((listenerTuple) => {

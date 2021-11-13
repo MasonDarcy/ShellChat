@@ -27,5 +27,20 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
     },
   };
 
-  return [friendRequest, friendAcceptedEvent];
+  const friendMessageEvent = {
+    eventName: "friendMessageEvent",
+    callback: (e) => {
+      const { dispatch } = store;
+      let parsedData = JSON.parse(e.data);
+
+      dispatch(
+        actions.serverMessageAction(
+          `<${parsedData[0]}>: ${parsedData[1]}`,
+          keys.NEW_FRIEND_MESSAGE_EVENT_KEY
+        )
+      );
+    },
+  };
+
+  return [friendRequest, friendAcceptedEvent, friendMessageEvent];
 };

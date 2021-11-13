@@ -7,9 +7,13 @@ const {
   listenerTuples,
   onConnectTuples,
   onCloseTuples,
+  onOpenFire,
+  onCloseFire,
 } = require("./helpers/sse/friendSubscriptionData");
 const { getSetupSSE } = require("./helpers/getSetupSSE");
 const { setSSEHeaders } = require("./helpers/sse/sse-utility");
+
+/*Warning, the name of Agent is coupled with friendSubscription data.*/
 const Agent = require("../models/Agent");
 const { getVerifyAgentExists } = require("./helpers/getVerifyAgentExist");
 const verifyAgentExists = getVerifyAgentExists(Agent);
@@ -20,7 +24,10 @@ const setupSSE = getSetupSSE(
   chat,
   listenerTuples,
   onConnectTuples,
-  onCloseTuples
+  onCloseTuples,
+  onOpenFire,
+  onCloseFire,
+  Agent
 );
 
 // @route   post api/friends/:agent_id
@@ -91,6 +98,19 @@ router.post("/accept/", auth, async (req, res) => {
     console.log(`friendAcceptedEvent-${target.agentName}`);
     //Emit event
     chat.emit(`friendAcceptedEvent-${target.agentName}`, [source.agentName]);
+
+    res.status(201).json({ msg: "success" });
+  } catch (err) {
+    errorTool.error400(err, res);
+  }
+});
+
+router.post("/message/", auth, async (req, res) => {
+  const { targetAgentID, sourceAgentID, message } = req.body;
+  try {
+    //Emit event
+
+    chat.emit(`friendMessageEvent-${targetAgentID}`, [sourceAgentID, message]);
 
     res.status(201).json({ msg: "success" });
   } catch (err) {
