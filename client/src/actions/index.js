@@ -20,6 +20,9 @@ let {
 let {
   acceptFriendRequestAction,
 } = require("./friendActions/authorizedFriendActions/acceptFriendRequestAction");
+let {
+  rejectFriendRequestAction,
+} = require("./friendActions/authorizedFriendActions/rejectFriendRequestAction");
 let { authorizedAction } = require("./authorizedAction");
 let { testAction } = require("./testAction");
 let {
@@ -43,5 +46,6 @@ module.exports = {
   autoLoginAction,
   logoutAction,
   acceptFriendRequestAction,
+  rejectFriendRequestAction,
   friendMessageAction,
 };

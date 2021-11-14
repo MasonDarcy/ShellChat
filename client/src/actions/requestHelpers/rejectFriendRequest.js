@@ -1,23 +1,17 @@
-import axios from "axios";
-
-const acceptFriendRequest = async (rejecteeAgent) => {
+const rejectFriendRequest = async (targetAgentID) => {
   const config = {
+    method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    withCredentials: true,
+    body: JSON.stringify({
+      targetAgentID: targetAgentID,
+    }),
   };
-  const body = JSON.stringify({
-    rejecteeAgent: rejecteeAgent,
-  });
+  let res = await fetch("http://localhost:5000/api/friends/reject", config);
 
-  let res = await axios.post(
-    "http://localhost:5000/api/friends/reject",
-    body,
-    config
-  );
-
-  console.log(res);
+  return res;
 };
 
-export default acceptFriendRequest;
+export default rejectFriendRequest;

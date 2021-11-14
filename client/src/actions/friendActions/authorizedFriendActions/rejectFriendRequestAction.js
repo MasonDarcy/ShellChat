@@ -1,17 +1,17 @@
 import { NEW_SERVER_MESSAGE, NEW_ERROR_MESSAGE } from "../../types";
-import { NEW_FRIEND_MESSAGE_EVENT_KEY } from "../../../constants/constants";
-import { sendFriendMessage } from "../../requestHelpers/sendFriendMessage";
-export const friendMessageAction =
-  (targetAgentID, message, yourName) => async (dispatch) => {
-    let res = await sendFriendMessage(targetAgentID, message);
-
+import { COMMAND_SUCCESS_EVENT_KEY } from "../../../constants/constants";
+import rejectFriendRequest from "../../requestHelpers/rejectFriendRequest";
+export const rejectFriendRequestAction =
+  (targetAgentID) => async (dispatch) => {
+    let res = await rejectFriendRequest(targetAgentID);
+    console.log(`rejectFriendRequestAction: ${res.status}`);
     switch (res.status) {
       case 201:
         dispatch({
           type: NEW_SERVER_MESSAGE,
           payload: {
-            message: `<${yourName}>${message}`,
-            eventName: NEW_FRIEND_MESSAGE_EVENT_KEY,
+            message: `Rejected friend request from ${targetAgentID}`,
+            eventName: COMMAND_SUCCESS_EVENT_KEY,
           },
         });
         break;
@@ -24,20 +24,11 @@ export const friendMessageAction =
           },
         });
         break;
-      case 403:
-        dispatch({
-          type: NEW_ERROR_MESSAGE,
-          payload: {
-            message: "Target agent is not your friend.",
-            eventName: "ERROR_EVENT",
-          },
-        });
-        break;
       case 401:
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Unauthorized action. Please login.",
+            message: "Authentication error, please login.",
             eventName: "ERROR_EVENT",
           },
         });
@@ -46,7 +37,16 @@ export const friendMessageAction =
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Agent is offline.",
+            message: "Target agent wasn't trying to be your friend yet.",
+            eventName: "ERROR_EVENT",
+          },
+        });
+        break;
+      case 403:
+        dispatch({
+          type: NEW_ERROR_MESSAGE,
+          payload: {
+            message: "Target agent is already your friend.",
             eventName: "ERROR_EVENT",
           },
         });

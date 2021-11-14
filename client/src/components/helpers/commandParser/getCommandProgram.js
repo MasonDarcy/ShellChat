@@ -45,12 +45,7 @@ export const getCommandProgram = (store, actions, keys) => {
       .argument("agentName", "The request target agent.")
       .description("Sends a request to another agent to be friends.")
       .action((agentTarget) => {
-        dispatch(
-          authorizedAction(actions.friendRequestAction, [
-            store.getState().agentReducer.agentName,
-            agentTarget,
-          ])
-        );
+        dispatch(actions.friendRequestAction(agentTarget));
       });
 
     /*Accept a friend request from another agent.*/
@@ -59,12 +54,16 @@ export const getCommandProgram = (store, actions, keys) => {
       .argument("agentName", "Name of the friend requester.")
       .description("Accepts a friend request from an agent.")
       .action((agentName) => {
-        console.log(
-          `/commandprogram/addCommand/:agentName argument: ${agentName}`
-        );
-        dispatch(
-          authorizedAction(actions.acceptFriendRequestAction, [agentName])
-        );
+        dispatch(actions.acceptFriendRequestAction(agentName));
+      });
+
+    /*Accept a friend request from another agent.*/
+    program
+      .command("reject")
+      .argument("agentName", "Name of the agent to reject.")
+      .description("Rejects a friend request from an agent.")
+      .action((agentName) => {
+        dispatch(actions.rejectFriendRequestAction(agentName));
       });
 
     /*Accept a friend request from another agent.*/
@@ -80,13 +79,9 @@ export const getCommandProgram = (store, actions, keys) => {
         message.forEach((word) => {
           agentMessage += ` ${word}`;
         });
-
+        let yourName = getState().agentReducer.agentName;
         dispatch(
-          authorizedAction(actions.friendMessageAction, [
-            agentName,
-            agentMessage,
-            store.getState().agentReducer.agentName,
-          ])
+          actions.friendMessageAction(agentName, agentMessage, yourName)
         );
       });
 
@@ -98,7 +93,6 @@ export const getCommandProgram = (store, actions, keys) => {
       .description("Join a channel, unsubscribes from previous channel.")
       .action((channelID, options, command) => {
         if (getState().subscribeToChannelReducer.isSubscribed) {
-          //TODO: preflight authorization
           dispatch(actions.unsubscribeAction());
         }
 
@@ -140,26 +134,6 @@ export const getCommandProgram = (store, actions, keys) => {
       .action(() => {
         dispatch(actions.clearMessagesAction());
         console.log(`Program commands: ${program.commands}`);
-      });
-
-    /*Clear command, deletes the agent message log from redux store.*/
-    // program
-    //   .command("authorizedClear")
-    //   .description("Clears the client-side messsage log.")
-    //   .action(() => {
-    //     dispatch(actions.authorizedAction(actions.testAction));
-    //     console.log(`Program commands: ${program.commands}`);
-    //   });
-
-    /*Set the agent's identifier.
-  -Temporary hack before log in is fully implemented
-*/
-    program
-      .command("name")
-      .description("Set your agent name.")
-      .argument("agentName", "The name you're assigning to yourself.")
-      .action((agentName) => {
-        dispatch(actions.setAgentNameAction(agentName));
       });
 
     /*Help command. Displays commands.*/

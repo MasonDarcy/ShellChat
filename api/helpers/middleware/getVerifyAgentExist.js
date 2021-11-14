@@ -1,5 +1,4 @@
 const getVerifyAgentExists = (Agent) => async (req, res, next) => {
-  //Check if target agent exists
   try {
     console.log("Got here");
 
@@ -11,8 +10,11 @@ const getVerifyAgentExists = (Agent) => async (req, res, next) => {
     console.log(targetAgent);
 
     if (!targetAgent) {
+      console.log("verifyAgentExist/targetAgentID does not exist");
+
       return res.status(404).json({ msg: "Target agent does not exist." });
     } else {
+      console.log("verifyAgentExist/targetAgentID does exist");
       res.locals.targetAgentID = targetAgentID;
       next();
     }

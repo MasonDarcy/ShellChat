@@ -19,11 +19,24 @@ const {
   getVerifyAgentExists,
 } = require("./helpers/middleware/getVerifyAgentExist");
 const { getIsFriend } = require("./helpers/middleware/getIsFriend");
+const { getIsFriendBad } = require("./helpers/middleware/getIsFriendBad");
+
+const { getIsNotFriend } = require("./helpers/middleware/getIsNotFriend");
+
 const { getIsOnline } = require("./helpers/middleware/getIsOnline");
+const {
+  getExistsInRequests,
+} = require("./helpers/middleware/getExistsInRequests");
 
 const verifyAgentExists = getVerifyAgentExists(Agent);
 const isFriend = getIsFriend(Agent);
+const isFriendBad = getIsFriendBad(Agent);
+
+const isNotFriend = getIsNotFriend(Agent);
+
 const isOnline = getIsOnline(Agent);
+const existsInRequest = getExistsInRequests(Agent);
+
 class BareEmitter extends EventEmitter {}
 const chat = new BareEmitter();
 const setupSSE = getSetupSSE(
@@ -45,18 +58,24 @@ router.get("/:agent_id", auth, setSSEHeaders, setupSSE);
 // @route   post api/friends/request/
 // @desc    Trigger a friend request event to be emitted by the server
 // @access  private
-router.post("/request/", auth, verifyAgentExists, async (req, res) => {
-  try {
-    const { sourceAgentID, targetAgentID } = req.body;
-    console.log(`Got a request: ${sourceAgentID}, ${targetAgentID}`);
-    //Each agent subscribes to incoming requests, named after them
+router.post(
+  "/request/",
+  auth,
+  verifyAgentExists,
+  isNotFriend,
+  async (req, res) => {
+    try {
+      console.log("friends/request/Fired terminalware.");
+      const { targetAgentID } = req.body;
+      //Each agent subscribes to incoming requests, named after them
 
-    //1. Check to see that the targetAgentID exists
-    let target = await Agent.findOne({ agentName: targetAgentID }).select(
-      "-password"
-    );
+      //1. Check to see that the targetAgentID exists
+      let target = await Agent.findOne({ agentName: targetAgentID }).select(
+        "-password"
+      );
 
-    if (target) {
+      let source = await Agent.findById(req.session.userID).select("-password");
+
       if (target.requests.includes(req.session.userID)) {
         return res.status(400).json({ msg: "Request already sent." });
       } else {
@@ -64,52 +83,92 @@ router.post("/request/", auth, verifyAgentExists, async (req, res) => {
         target.save();
         console.log("added request");
       }
-    } else {
-      return res.status(404).json({ error: "Agent doesn't exist." });
+
+      chat.emit(`friendRequestEvent-${targetAgentID}`, [source.agentName]);
+
+      return res.status(201).json({ msg: "Success." });
+    } catch (err) {
+      errorTool.error400(err, res);
     }
-
-    chat.emit(`friendRequestEvent-${targetAgentID}`, [sourceAgentID]);
-
-    return res.status(201).json({ msg: "Success." });
-  } catch (err) {
-    errorTool.error400(err, res);
   }
-});
+);
 
 // @route   post api/friends/accept/:agent_id
 // @desc    Accept a friend request
 // @access  private, subscribed on logon
-router.post("/accept/", auth, async (req, res) => {
-  const { accepteeAgent } = req.body;
-  try {
-    let target = await Agent.findOne({ agentName: accepteeAgent }).select(
-      "-password"
-    );
-    let source = await Agent.findById(req.session.userID).select("-password");
-
-    target.friends.unshift(req.session.userID);
-    source.friends.unshift(target.id);
-    let stringID = target.id.toString();
-
-    source.requests = source.requests.filter((request) => {
-      console.log(
-        `request.toString(): ${request.toString()} -- stringID: ${stringID}`
+router.post(
+  "/accept/",
+  auth,
+  verifyAgentExists,
+  existsInRequest,
+  async (req, res) => {
+    const { targetAgentID } = req.body;
+    try {
+      let target = await Agent.findOne({ agentName: targetAgentID }).select(
+        "-password"
       );
-      return request.toString() !== stringID;
-    });
+      let source = await Agent.findById(req.session.userID).select("-password");
 
-    target.save();
-    source.save();
+      target.friends.unshift(req.session.userID);
+      source.friends.unshift(target.id);
+      let stringID = target.id.toString();
 
-    console.log(`friendAcceptedEvent-${target.agentName}`);
-    //Emit event
-    chat.emit(`friendAcceptedEvent-${target.agentName}`, [source.agentName]);
+      source.requests = source.requests.filter((request) => {
+        console.log(
+          `request.toString(): ${request.toString()} -- stringID: ${stringID}`
+        );
+        return request.toString() !== stringID;
+      });
 
-    res.status(201).json({ msg: "success" });
-  } catch (err) {
-    errorTool.error400(err, res);
+      target.save();
+      source.save();
+
+      console.log(`friendAcceptedEvent-${target.agentName}`);
+      //Emit event
+      chat.emit(`friendAcceptedEvent-${target.agentName}`, [source.agentName]);
+
+      res.status(201).json({ msg: "success" });
+    } catch (err) {
+      errorTool.error400(err, res);
+    }
   }
-});
+);
+
+// @route   post api/friends/reject/:agent_id
+// @desc    Accept a friend request
+// @access  private, subscribed on logon
+router.post(
+  "/reject/",
+  auth,
+  verifyAgentExists,
+  isFriendBad,
+  existsInRequest,
+  async (req, res) => {
+    const { targetAgentID } = req.body;
+    try {
+      let target = await Agent.findOne({ agentName: targetAgentID }).select(
+        "-password"
+      );
+      let source = await Agent.findById(req.session.userID).select("-password");
+
+      let stringID = target.id.toString();
+
+      //remove the request
+      source.requests = source.requests.filter((request) => {
+        console.log(
+          `request.toString(): ${request.toString()} -- stringID: ${stringID}`
+        );
+        return request.toString() !== stringID;
+      });
+
+      source.save();
+
+      res.status(201).json({ msg: "success" });
+    } catch (err) {
+      errorTool.error400(err, res);
+    }
+  }
+);
 
 // @route   post api/friends/message
 // @desc    Send a private message to a friend.
@@ -121,12 +180,16 @@ router.post(
   isFriend,
   isOnline,
   async (req, res) => {
-    const { targetAgentID, sourceAgentID, message } = req.body;
+    const { targetAgentID, message } = req.body;
     try {
       //Emit event
 
+      let sourceAgent = await Agent.findById(req.session.userID).select(
+        "-password"
+      );
+
       chat.emit(`friendMessageEvent-${targetAgentID}`, [
-        sourceAgentID,
+        sourceAgent.agentName,
         message,
       ]);
 
@@ -140,13 +203,13 @@ router.post(
 // @route   get api/friends/status
 // @desc    Check if a friend is online
 // @access  private, subscribed on logon
-router.get("/status/isOnline", auth, verifyAgentExists, async (req, res) => {
-  const { targetAgentID } = res.locals;
-  try {
-    res.status(200).json({ isOnline: targetAgentID.isOnline });
-  } catch (err) {
-    errorTool.error400(err, res);
-  }
-});
+// router.get("/status/isOnline", auth, verifyAgentExists, async (req, res) => {
+//   const { targetAgentID } = res.locals;
+//   try {
+//     res.status(200).json({ isOnline: targetAgentID.isOnline });
+//   } catch (err) {
+//     errorTool.error400(err, res);
+//   }
+// });
 
 module.exports = router;

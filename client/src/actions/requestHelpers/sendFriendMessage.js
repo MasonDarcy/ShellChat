@@ -1,8 +1,4 @@
-export const sendFriendMessage = async (
-  targetAgentID,
-  message,
-  sourceAgentID
-) => {
+export const sendFriendMessage = async (targetAgentID, message) => {
   const config = {
     method: "POST",
     credentials: "include",
@@ -11,7 +7,6 @@ export const sendFriendMessage = async (
     },
     body: JSON.stringify({
       targetAgentID: targetAgentID,
-      sourceAgentID: sourceAgentID,
       message: message,
     }),
   };
