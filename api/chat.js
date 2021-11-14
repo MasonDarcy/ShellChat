@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const errorTool = require("./helpers/errors");
+const errorTool = require("./helpers/errors/errors");
 const EventEmitter = require("events");
-const auth = require("./helpers/auth");
+const auth = require("./helpers/middleware/auth");
 const { setSSEHeaders } = require("./helpers/sse/sse-utility");
-const { getSetupSSE } = require("./helpers/getSetupSSE");
+const { getSetupSSE } = require("./helpers/sse/getSetupSSE");
 const {
   listenerTuples,
   onConnectTuples,
@@ -36,18 +36,5 @@ router.post("/sendMessage/", auth, (req, res) => {
     errorTool.error400(err, res);
   }
 });
-
-//This literally was doing nothing lol
-// @route   post api/sendMessage/:channel_id/:agent_id
-// @desc    Sends a channel event to all subscribed agents (agent has left or joined the channel)
-// @access  private (TODO)
-// router.post("/sendChannelEvent/", (req, res) => {
-//   try {
-//     const { message, channelID, agentID } = req.body;
-//     chat.emit(`channelEvent-${channelID}`, [message, agentID]);
-//   } catch (err) {
-//     errorTool.error400(err, res);
-//   }
-// });
 
 module.exports = router;

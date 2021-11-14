@@ -17,6 +17,6 @@ export const sendFriendMessage = async (
   };
   let res = await fetch("http://localhost:5000/api/friends/message", config);
 
-  return res;
+  return await res;
 };
 export default sendFriendMessage;

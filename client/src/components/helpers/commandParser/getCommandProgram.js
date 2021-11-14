@@ -113,12 +113,7 @@ export const getCommandProgram = (store, actions, keys) => {
             )
           );
         } else {
-          dispatch(
-            authorizedAction(actions.subscribeAction, [
-              store.getState().agentReducer.agentName,
-              channelID,
-            ])
-          );
+          dispatch(authorizedAction(actions.subscribeAction, [channelID]));
         }
       });
 

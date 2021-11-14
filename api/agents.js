@@ -2,10 +2,9 @@ const express = require("express");
 const Agent = require("../models/Agent");
 const bcrypt = require("bcrypt");
 const { check, validationResult } = require("express-validator");
-const auth = require("./helpers/auth");
-const checkAuth = require("./helpers/checkAuth");
-const sessionSaver = require("./helpers/sessionSaver");
-const errorTool = require("./helpers/errors");
+const auth = require("./helpers/middleware/auth");
+const sessionSaver = require("./helpers/middleware/sessionSaver");
+const errorTool = require("./helpers/errors/errors");
 const router = express.Router();
 const SALT_VAL = 10;
 
@@ -147,7 +146,7 @@ router.get("/:agent_name", async (req, res) => {
 // @desc    checks if the agent still has a session token and sets their login status
 // @access  private
 
-router.get("/check/login", checkAuth, async (req, res) => {
+router.get("/check/login", auth, async (req, res) => {
   try {
     let userID = req.session.userID;
     console.log(`userID: ${userID}`);

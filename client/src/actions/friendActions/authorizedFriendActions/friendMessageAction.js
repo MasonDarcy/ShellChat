@@ -3,18 +3,10 @@ import { NEW_FRIEND_MESSAGE_EVENT_KEY } from "../../../constants/constants";
 import { sendFriendMessage } from "../../requestHelpers/sendFriendMessage";
 export const friendMessageAction =
   (targetAgent, message, agentName) => async (dispatch) => {
-    // Make a request here
-    // Two criteria for this
-    // 1. Must be on your friends lsit
-    // 2. Must be online
-    // 2. (a) have to establish what it means to be "online"
-    // 2.
-    sendFriendMessage(targetAgent, message, agentName).then((res) => {
-      console.log(`res.status?: ${res.status}`);
-      console.log(`res.status type: ${typeof res.status}`);
-      console.log(`res.status != 404: ${res.status != 404}`);
+    let res = await sendFriendMessage(targetAgent, message, agentName);
 
-      if (res.status != 404) {
+    switch (res.status) {
+      case 201:
         dispatch({
           type: NEW_SERVER_MESSAGE,
           payload: {
@@ -22,8 +14,8 @@ export const friendMessageAction =
             eventName: NEW_FRIEND_MESSAGE_EVENT_KEY,
           },
         });
-      } else {
-        console.log("THIS SHOULD BE CALLEED");
+        break;
+      case 404:
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
@@ -31,6 +23,35 @@ export const friendMessageAction =
             eventName: "ERROR_EVENT",
           },
         });
-      }
-    });
+        break;
+      case 403:
+        dispatch({
+          type: NEW_ERROR_MESSAGE,
+          payload: {
+            message: "Target agent is not your friend.",
+            eventName: "ERROR_EVENT",
+          },
+        });
+        break;
+      case 400:
+        dispatch({
+          type: NEW_ERROR_MESSAGE,
+          payload: {
+            message: "Unauthorized action. Please login.",
+            eventName: "ERROR_EVENT",
+          },
+        });
+        break;
+      case 418:
+        dispatch({
+          type: NEW_ERROR_MESSAGE,
+          payload: {
+            message: "Agent is offline.",
+            eventName: "ERROR_EVENT",
+          },
+        });
+        break;
+      default:
+        console.log("Should be unreachable");
+    }
   };

@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const errorTool = require("./helpers/errors");
+const errorTool = require("./helpers/errors/errors");
 const EventEmitter = require("events");
-const auth = require("./helpers/auth");
+const auth = require("./helpers/middleware/auth");
 const {
   listenerTuples,
   onConnectTuples,
@@ -10,14 +10,20 @@ const {
   onOpenFire,
   onCloseFire,
 } = require("./helpers/sse/friendSubscriptionData");
-const { getSetupSSE } = require("./helpers/getSetupSSE");
+const { getSetupSSE } = require("./helpers/sse/getSetupSSE");
 const { setSSEHeaders } = require("./helpers/sse/sse-utility");
 
 /*Warning, the name of Agent is coupled with friendSubscription data.*/
 const Agent = require("../models/Agent");
-const { getVerifyAgentExists } = require("./helpers/getVerifyAgentExist");
-const verifyAgentExists = getVerifyAgentExists(Agent);
+const {
+  getVerifyAgentExists,
+} = require("./helpers/middleware/getVerifyAgentExist");
+const { getIsFriend } = require("./helpers/middleware/getIsFriend");
+const { getIsOnline } = require("./helpers/middleware/getIsOnline");
 
+const verifyAgentExists = getVerifyAgentExists(Agent);
+const isFriend = getIsFriend(Agent);
+const isOnline = getIsOnline(Agent);
 class BareEmitter extends EventEmitter {}
 const chat = new BareEmitter();
 const setupSSE = getSetupSSE(
@@ -108,18 +114,28 @@ router.post("/accept/", auth, async (req, res) => {
 // @route   post api/friends/message
 // @desc    Send a private message to a friend.
 // @access  private
-router.post("/message/", auth, verifyAgentExists, async (req, res) => {
-  const { targetAgentID, sourceAgentID, message } = req.body;
-  try {
-    //Emit event
+router.post(
+  "/message/",
+  auth,
+  verifyAgentExists,
+  isFriend,
+  isOnline,
+  async (req, res) => {
+    const { targetAgentID, sourceAgentID, message } = req.body;
+    try {
+      //Emit event
 
-    chat.emit(`friendMessageEvent-${targetAgentID}`, [sourceAgentID, message]);
+      chat.emit(`friendMessageEvent-${targetAgentID}`, [
+        sourceAgentID,
+        message,
+      ]);
 
-    res.status(201).json({ msg: "success" });
-  } catch (err) {
-    errorTool.error400(err, res);
+      res.status(201).json({ msg: "success" });
+    } catch (err) {
+      errorTool.error400(err, res);
+    }
   }
-});
+);
 
 // @route   get api/friends/status
 // @desc    Check if a friend is online
