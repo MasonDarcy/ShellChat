@@ -85,6 +85,14 @@ export const getCommandProgram = (store, actions, keys) => {
         );
       });
 
+    /*Accept a friend request from another agent.*/
+    program
+      .command("friends")
+      .description("Lists your friends and their status.")
+      .action(() => {
+        dispatch(actions.getFriendListAction());
+      });
+
     /*Join another channel. TODO Must unsubscribe from previous channel.*/
     program
       .command("join")

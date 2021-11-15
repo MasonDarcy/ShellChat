@@ -28,8 +28,11 @@ let { testAction } = require("./testAction");
 let {
   friendMessageAction,
 } = require("./friendActions/authorizedFriendActions/friendMessageAction");
-
+let {
+  getFriendListAction,
+} = require("./friendActions/authorizedFriendActions/getFriendListAction");
 module.exports = {
+  getFriendListAction,
   authorizedAction,
   testAction,
   subscribeAction,

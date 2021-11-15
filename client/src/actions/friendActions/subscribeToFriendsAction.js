@@ -4,6 +4,8 @@ import ReconnectingEventSource from "reconnecting-eventsource";
 import {
   COMMAND_SUCCESS_EVENT_KEY,
   NEW_FRIEND_MESSAGE_EVENT_KEY,
+  FRIEND_HAS_LOGGED_ON_EVENT_KEY,
+  FRIEND_HAS_LOGGED_OFF_EVENT_KEY,
 } from "../../constants/constants";
 import {
   setSource,
@@ -28,7 +30,12 @@ export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
     getFriendEventTupleArray(
       store,
       { friendRequestReceivedAction, serverMessageAction },
-      { COMMAND_SUCCESS_EVENT_KEY, NEW_FRIEND_MESSAGE_EVENT_KEY }
+      {
+        COMMAND_SUCCESS_EVENT_KEY,
+        NEW_FRIEND_MESSAGE_EVENT_KEY,
+        FRIEND_HAS_LOGGED_ON_EVENT_KEY,
+        FRIEND_HAS_LOGGED_OFF_EVENT_KEY,
+      }
     )
   );
 

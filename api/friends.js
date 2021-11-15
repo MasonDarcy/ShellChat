@@ -200,16 +200,37 @@ router.post(
   }
 );
 
-// @route   get api/friends/status
-// @desc    Check if a friend is online
+// @route   get api/friends/list
+// @desc    Retrieve list of friends and their status
 // @access  private, subscribed on logon
-// router.get("/status/isOnline", auth, verifyAgentExists, async (req, res) => {
-//   const { targetAgentID } = res.locals;
-//   try {
-//     res.status(200).json({ isOnline: targetAgentID.isOnline });
-//   } catch (err) {
-//     errorTool.error400(err, res);
-//   }
-// });
+router.get("/info/list", auth, async (req, res) => {
+  try {
+    let currentAgent = await Agent.findById(req.session.userID).select(
+      "-password"
+    );
+
+    let friends = currentAgent.friends;
+
+    const friendData = await Promise.all(
+      friends.map(async (friend) => {
+        let currentFriend = await Agent.findById(friend);
+        let agentName = currentFriend.agentName;
+        let isOnline = currentFriend.isOnline;
+        return {
+          agentName: agentName,
+          agentStatus: isOnline,
+        };
+      })
+    );
+
+    if (friends.length > 0) {
+      return res.status(200).json(friendData);
+    } else {
+      return res.status(404).json({ msg: "No friends" });
+    }
+  } catch (err) {
+    errorTool.error400(err, res);
+  }
+});
 
 module.exports = router;

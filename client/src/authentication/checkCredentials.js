@@ -1,15 +1,13 @@
-import axios from "axios";
-
 const checkCredentials = async () => {
   const config = {
-    withCredentials: true,
+    method: "GET",
+    credentials: "include",
   };
 
-  const { data } = await axios.get(
-    "http://localhost:5000/api/agents/check/login",
-    config
-  );
-  return data;
+  let res = await fetch("http://localhost:5000/api/agents/check/login", config);
+
+  let val = await res.json();
+  return val;
 };
 
 export default checkCredentials;

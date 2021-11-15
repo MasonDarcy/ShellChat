@@ -1,11 +1,11 @@
-import axios from "axios";
-
 const sendLogout = async () => {
   const config = {
-    withCredentials: true,
+    method: "DELETE",
+    credentials: "include",
   };
+  let res = await fetch("http://localhost:5000/api/agents/logout", config);
 
-  return await axios.delete("http://localhost:5000/api/agents/logout", config);
+  return res;
 };
 
 export default sendLogout;

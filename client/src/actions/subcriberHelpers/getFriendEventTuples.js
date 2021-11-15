@@ -42,5 +42,41 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
     },
   };
 
-  return [friendRequest, friendAcceptedEvent, friendMessageEvent];
+  //agentID, event
+  const friendStatusEvent = {
+    eventName: "friendStatusEvent",
+    callback: (e) => {
+      const { dispatch } = store;
+      let parsedData = JSON.parse(e.data);
+
+      console.log(
+        `friendStatusEvent: arg1: ${parsedData[0]}, arg2: ${parsedData[1]}`
+      );
+
+      if (parsedData[1] == keys.FRIEND_HAS_LOGGED_OFF_EVENT_KEY) {
+        dispatch(
+          actions.serverMessageAction(
+            `${parsedData[0]} has logged off.`,
+            keys.NEW_FRIEND_MESSAGE_EVENT_KEY
+          )
+        );
+      }
+
+      if (parsedData[1] == keys.FRIEND_HAS_LOGGED_ON_EVENT_KEY) {
+        dispatch(
+          actions.serverMessageAction(
+            `${parsedData[0]} has logged on.`,
+            keys.NEW_FRIEND_MESSAGE_EVENT_KEY
+          )
+        );
+      }
+    },
+  };
+
+  return [
+    friendRequest,
+    friendAcceptedEvent,
+    friendMessageEvent,
+    friendStatusEvent,
+  ];
 };

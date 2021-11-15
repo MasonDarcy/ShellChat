@@ -1,24 +1,19 @@
-import axios from "axios";
-
 const sendLogin = async (agentName, agentPassword) => {
   const config = {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    withCredentials: true,
+    credentials: "include",
+    body: JSON.stringify({
+      agentName: agentName,
+      password: agentPassword,
+    }),
   };
 
-  const body = JSON.stringify({
-    agentName: agentName,
-    password: agentPassword,
-  });
-  console.log(body);
+  let res = fetch("http://localhost:5000/api/agents/login", config);
 
-  return await axios.post(
-    "http://localhost:5000/api/agents/login",
-    body,
-    config
-  );
+  return res;
 };
 
 export default sendLogin;
