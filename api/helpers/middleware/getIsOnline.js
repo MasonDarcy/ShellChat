@@ -6,7 +6,7 @@ const getIsOnline = (Agent) => async (req, res, next) => {
       agentName: targetAgentID,
     }).select("-password");
 
-    if (targetAgent.isOnline) {
+    if (targetAgent.authConnections > 0) {
       next();
     } else {
       return res.status(418).json({ msg: "Target agent is offline." });

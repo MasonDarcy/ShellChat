@@ -14,6 +14,7 @@ import {
 import { getFriendEventTupleArray } from "../subcriberHelpers/getFriendEventTuples";
 import { friendRequestReceivedAction } from "./friendRequestReceivedAction";
 import { serverMessageAction } from "../messageActions/serverMessageAction";
+import { logoutAction } from "../loginActions/logoutAction";
 
 export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
   /*Authorization is implicit here because this action only happens
@@ -29,7 +30,7 @@ export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
     null,
     getFriendEventTupleArray(
       store,
-      { friendRequestReceivedAction, serverMessageAction },
+      { friendRequestReceivedAction, serverMessageAction, logoutAction },
       {
         COMMAND_SUCCESS_EVENT_KEY,
         NEW_FRIEND_MESSAGE_EVENT_KEY,

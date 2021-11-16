@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const errorTool = require("./helpers/errors/errors");
-const EventEmitter = require("events");
 const auth = require("./helpers/middleware/auth");
 const {
   listenerTuples,
@@ -28,6 +27,7 @@ const {
   getExistsInRequests,
 } = require("./helpers/middleware/getExistsInRequests");
 
+const { chat } = require("./helpers/sse/getEventEmitter");
 const verifyAgentExists = getVerifyAgentExists(Agent);
 const isFriend = getIsFriend(Agent);
 const isFriendBad = getIsFriendBad(Agent);
@@ -37,8 +37,6 @@ const isNotFriend = getIsNotFriend(Agent);
 const isOnline = getIsOnline(Agent);
 const existsInRequest = getExistsInRequests(Agent);
 
-class BareEmitter extends EventEmitter {}
-const chat = new BareEmitter();
 const setupSSE = getSetupSSE(
   chat,
   listenerTuples,
@@ -215,7 +213,7 @@ router.get("/info/list", auth, async (req, res) => {
       friends.map(async (friend) => {
         let currentFriend = await Agent.findById(friend);
         let agentName = currentFriend.agentName;
-        let isOnline = currentFriend.isOnline;
+        let isOnline = currentFriend.authConnections > 0;
         return {
           agentName: agentName,
           agentStatus: isOnline,

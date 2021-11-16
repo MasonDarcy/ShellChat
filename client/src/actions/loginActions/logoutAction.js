@@ -6,6 +6,7 @@ import {
 } from "../types";
 import sendLogout from "../../authentication/sendLogout";
 import store from "../../store/store";
+import { ERROR_EVENT_KEY } from "../../constants/constants";
 
 export const logoutAction = () => async (dispatch) => {
   sendLogout()
@@ -20,6 +21,9 @@ export const logoutAction = () => async (dispatch) => {
       if (subscriptions) {
         subscriptions.close();
       }
+
+      let authSubscription = store.getState().subscribeToAuthReducer.authSource;
+      authSubscription.close();
 
       dispatch({
         type: UNSUBSCRIBE_TO_CHANNEL,
@@ -42,15 +46,11 @@ export const logoutAction = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("are we in here howd we get here");
-      console.log(`Error: ${err}`);
-
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
           message: "error: invalid credentials.",
-          eventName: "ERROR_EVENT",
-          //Fix this
+          eventName: ERROR_EVENT_KEY,
         },
       });
     });

@@ -1,6 +1,8 @@
 import { AUTO_LOGIN } from "../types";
 import checkCredentials from "../../authentication/checkCredentials";
 import { subscribeToFriendsAction } from "../friendActions/subscribeToFriendsAction";
+import { subscribeToAuthAction } from "./subscribeToAuthAction";
+
 export const autoLoginAction = () => async (dispatch) => {
   let { agentName } = await checkCredentials();
   let logOnValue = false;
@@ -19,5 +21,6 @@ export const autoLoginAction = () => async (dispatch) => {
   //Kind of an issue here, we're validating the users credentials twice
   if (logOnValue) {
     dispatch(subscribeToFriendsAction(agentName));
+    dispatch(subscribeToAuthAction(agentName));
   }
 };

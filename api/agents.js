@@ -7,6 +7,26 @@ const sessionSaver = require("./helpers/middleware/sessionSaver");
 const errorTool = require("./helpers/errors/errors");
 const router = express.Router();
 const SALT_VAL = 10;
+const { chat } = require("./helpers/sse/getEventEmitter");
+const { getSetupSSE } = require("./helpers/sse/getSetupSSE");
+const { setSSEHeaders } = require("./helpers/sse/sse-utility");
+const {
+  listenerTuples,
+  onConnectTuples,
+  onCloseTuples,
+  onOpenFire,
+  onCloseFire,
+} = require("./helpers/sse/authSubscriptionData");
+
+const setupSSE = getSetupSSE(
+  chat,
+  listenerTuples,
+  onConnectTuples,
+  onCloseTuples,
+  onOpenFire,
+  onCloseFire,
+  Agent
+);
 
 // @route   post api/agents
 // @desc    register agent
@@ -83,7 +103,7 @@ router.post(
 
       //Does this agent exist
       if (!fetchedAgent) {
-        return res.status(404).json({ msg: "Agent not found??" });
+        return res.status(404).json({ msg: "Agent not found." });
       }
 
       //Compare the encrypted password to the supplied password
@@ -158,5 +178,12 @@ router.get("/check/login", auth, async (req, res) => {
     errorTool.error400(err, res);
   }
 });
+
+//http://localhost:5000/api/agents/auth/connect
+// @route   GET api/agents/auth/connect
+// @desc    Keeps track of an agent's presence
+// @access  private
+
+router.get("/auth/connect/:agent_id", auth, setSSEHeaders, setupSSE);
 
 module.exports = router;

@@ -14,9 +14,9 @@ const AgentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  isOnline: {
-    type: Boolean,
-    default: false,
+  authConnections: {
+    type: Number,
+    default: 0,
   },
   friends: [
     {

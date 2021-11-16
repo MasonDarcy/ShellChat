@@ -1,6 +1,7 @@
 import { LOGIN, NEW_ERROR_MESSAGE } from "../types";
 import sendLogin from "../../authentication/sendLogin";
 import { subscribeToFriendsAction } from "../friendActions/subscribeToFriendsAction";
+import { subscribeToAuthAction } from "./subscribeToAuthAction";
 
 import store from "../../store/store";
 export const loginAction = (agentName, agentPassword) => (dispatch) => {
@@ -21,6 +22,7 @@ export const loginAction = (agentName, agentPassword) => (dispatch) => {
         });
 
         dispatch(subscribeToFriendsAction(agentName));
+        dispatch(subscribeToAuthAction(agentName));
       })
       .catch((err) => {
         dispatch({

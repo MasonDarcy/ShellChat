@@ -73,10 +73,22 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
     },
   };
 
+  const duplicateLogonEvent = {
+    eventName: "duplicateLogonEvent",
+    callback: (e) => {
+      const { dispatch } = store;
+
+      setTimeout(function () {
+        dispatch(actions.logoutAction());
+      }, 10000);
+    },
+  };
+
   return [
     friendRequest,
     friendAcceptedEvent,
     friendMessageEvent,
     friendStatusEvent,
+    duplicateLogonEvent,
   ];
 };
