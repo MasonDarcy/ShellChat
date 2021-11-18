@@ -4,7 +4,7 @@ import { subscribeToFriendsAction } from "../friendActions/subscribeToFriendsAct
 import { subscribeToAuthAction } from "./subscribeToAuthAction";
 
 import store from "../../store/store";
-export const loginAction = (agentName, agentPassword) => (dispatch) => {
+export const loginAction = (agentName, agentPassword) => async (dispatch) => {
   if (store.getState().agentReducer.isLoggedOn) {
     dispatch({
       type: NEW_ERROR_MESSAGE,
@@ -14,8 +14,10 @@ export const loginAction = (agentName, agentPassword) => (dispatch) => {
       },
     });
   } else {
-    sendLogin(agentName, agentPassword)
-      .then(() => {
+    let res = await sendLogin(agentName, agentPassword);
+
+    switch (res.status) {
+      case 201:
         dispatch({
           type: LOGIN,
           payload: { agentName: agentName, isLoggedOn: true },
@@ -23,15 +25,50 @@ export const loginAction = (agentName, agentPassword) => (dispatch) => {
 
         dispatch(subscribeToFriendsAction(agentName));
         dispatch(subscribeToAuthAction(agentName));
-      })
-      .catch((err) => {
+
+        break;
+      case 404:
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "error: invalid credentials.",
+            message: "Agent does not exist.",
             eventName: "ERROR_EVENT",
           },
         });
-      });
+        break;
+      case 400:
+      case 401:
+        dispatch({
+          type: NEW_ERROR_MESSAGE,
+          payload: {
+            message: "Invalid credentials.",
+            eventName: "ERROR_EVENT",
+          },
+        });
+        break;
+      default:
+        console.log("Should be unreachable");
+    }
   }
 };
+
+//   sendLogin(agentName, agentPassword)
+//     .then(() => {
+//       dispatch({
+//         type: LOGIN,
+//         payload: { agentName: agentName, isLoggedOn: true },
+//       });
+
+//       dispatch(subscribeToFriendsAction(agentName));
+//       dispatch(subscribeToAuthAction(agentName));
+//     })
+//     .catch((err) => {
+//       dispatch({
+//         type: NEW_ERROR_MESSAGE,
+//         payload: {
+//           message: "error: invalid credentials.",
+//           eventName: "ERROR_EVENT",
+//         },
+//       });
+//     });
+// }

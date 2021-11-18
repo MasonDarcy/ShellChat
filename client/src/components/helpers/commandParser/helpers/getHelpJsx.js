@@ -7,7 +7,8 @@ export const getBasicHelp = () => {
       <span className="option">-a</span> or{" "}
       <span className="command">/help</span>{" "}
       <span className="argument">commandName</span> (argument) to list all
-      commands or get information about a specific command.
+      commands or get information about a specific command. Prefix commands with
+      '/'.
     </div>
   );
 };

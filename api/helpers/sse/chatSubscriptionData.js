@@ -23,6 +23,16 @@ const listenerTuples = [
       res.write(sseFormattedResponse);
     },
   },
+  {
+    prefix: "moduleEvent",
+    paramKey: "channel_id",
+    callback: (res) => (data) => {
+      const sseFormattedResponse = `event: moduleEvent\ndata: ${JSON.stringify(
+        data
+      )}\n\n`;
+      res.write(sseFormattedResponse);
+    },
+  },
 ];
 
 /*
@@ -55,4 +65,35 @@ const onCloseTuples = [
   },
 ];
 
-module.exports = { listenerTuples, onConnectTuples, onCloseTuples };
+/*Function that fires when the connection to the client is severed.*/
+const onCloseFire = [
+  {
+    args: ["req", "res", "Channel"],
+    callback: (req, res, Channel) => async () => {
+      //   console.log(`friendsSubscriptionDataonCloseFire: fired`);
+      /*
+       Basically we want to remove one instance of the agent from the 
+      channel listener list
+      */
+      try {
+        const targetChannel = await Channel.findOne({
+          channelName: req.params.channel_id,
+        });
+        let index = targetChannel.currentChannelListeners.indexOf(
+          req.session.userID
+        );
+        targetChannel.currentChannelListeners.splice(index, 1);
+        targetChannel.save();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+];
+
+module.exports = {
+  listenerTuples,
+  onConnectTuples,
+  onCloseTuples,
+  onCloseFire,
+};

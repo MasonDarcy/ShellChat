@@ -39,6 +39,31 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.loginAction(agentName, agentPassword));
       });
 
+    /*Load a module in a channel.*/
+    program
+      .command("load")
+      .argument("moduleType", "Type of the module to load.")
+      .description("Loads a channel module.")
+      .action((moduleType) => {
+        console.log(`commandProgram/load/arg1: ${moduleType}`);
+        let agentID = getState().agentReducer.agentName;
+        let channelID = getState().subscribeToChannelReducer.currentChannelID;
+
+        dispatch(
+          actions.loadChannelModuleAction(moduleType, channelID, agentID)
+        );
+      });
+
+    /*Close a module in a channel.*/
+    program
+      .command("close")
+      .description("Publically closes the channel module.")
+      .action(() => {
+        let agentID = getState().agentReducer.agentName;
+        let channelID = getState().subscribeToChannelReducer.currentChannelID;
+        dispatch(actions.loadChannelModuleAction(null, channelID, agentID));
+      });
+
     /*Dispatch a friend request to another agent.*/
     program
       .command("add")

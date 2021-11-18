@@ -6,7 +6,8 @@ const getSetupSSE =
     onCloseTuples,
     onOpenFire,
     onCloseFire,
-    Agent
+    Agent,
+    Channel
   ) =>
   (req, res) => {
     /*Maintains connection.---------------------*/

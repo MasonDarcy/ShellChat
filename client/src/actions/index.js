@@ -24,17 +24,19 @@ let {
   rejectFriendRequestAction,
 } = require("./friendActions/authorizedFriendActions/rejectFriendRequestAction");
 let { authorizedAction } = require("./authorizedAction");
-let { testAction } = require("./testAction");
 let {
   friendMessageAction,
 } = require("./friendActions/authorizedFriendActions/friendMessageAction");
 let {
   getFriendListAction,
 } = require("./friendActions/authorizedFriendActions/getFriendListAction");
+let {
+  loadChannelModuleAction,
+} = require("./channelActions/authorizedChannelActions/loadChannelModuleAction");
 module.exports = {
+  loadChannelModuleAction,
   getFriendListAction,
   authorizedAction,
-  testAction,
   subscribeAction,
   unsubscribeAction,
   subscribeToFriendsAction,

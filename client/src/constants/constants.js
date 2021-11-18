@@ -29,7 +29,13 @@ const FRIEND_HAS_LOGGED_ON_EVENT_KEY = "FRIEND_HAS_LOGGED_ON_EVENT";
 //Friend has logged off event
 const FRIEND_HAS_LOGGED_OFF_EVENT_KEY = "FRIEND_HAS_LOGGED_OFF_EVENT";
 
+//Friend message
 const NEW_FRIEND_MESSAGE_EVENT_KEY = "NEW_FRIEND_MESSAGE_EVENT";
+
+//Module keys
+const CODE_MODULE_KEY = "CODE";
+const LOAD_MODULE_KEY = "LOAD_MODULE";
+
 /*----------------------------------------------------------------------*/
 module.exports = {
   JOINED_CHANNEL_KEY,
@@ -43,4 +49,7 @@ module.exports = {
   FRIEND_HAS_LOGGED_OFF_EVENT_KEY,
   NEW_FRIEND_MESSAGE_EVENT_KEY,
   COMMAND_SUCCESS_EVENT_KEY,
+  COMMAND_SUCCESS_EVENT_KEY,
+  LOAD_MODULE_KEY,
+  CODE_MODULE_KEY,
 };

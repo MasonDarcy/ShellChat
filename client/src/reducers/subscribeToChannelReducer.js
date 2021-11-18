@@ -1,9 +1,14 @@
-import { SUBSCRIBE_TO_CHANNEL, UNSUBSCRIBE_TO_CHANNEL } from "../actions/types";
+import {
+  SUBSCRIBE_TO_CHANNEL,
+  UNSUBSCRIBE_TO_CHANNEL,
+  LOAD_CHANNEL_MODULE,
+  UNLOAD_CHANNEL_MODULE,
+} from "../actions/types";
 
 const initialState = {
   channelSource: null,
-  previousChannelID: null,
   currentChannelID: null,
+  currentModule: null,
   isSubscribed: false,
 };
 
@@ -17,6 +22,7 @@ export default function (state = initialState, action) {
         previousChannelID: state.currentChannelID,
         channelSource: payload.channelSource,
         currentChannelID: payload.channelID,
+        currentModule: payload.currentModule,
         isSubscribed: true,
       };
     case UNSUBSCRIBE_TO_CHANNEL:
@@ -25,6 +31,12 @@ export default function (state = initialState, action) {
         channelsource: payload.channelSource,
         currentChannelID: payload.currentChannelID,
         isSubscribed: payload.isSubscribed,
+      };
+    case LOAD_CHANNEL_MODULE:
+    case UNLOAD_CHANNEL_MODULE:
+      return {
+        ...state,
+        currentModule: payload.currentModule,
       };
     default:
       return state;
