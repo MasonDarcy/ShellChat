@@ -1,6 +1,7 @@
 import React from "react";
 import Channel from "./Channel";
 import ChannelModule from "./ChannelModule";
+import SplitPane from "react-split-pane";
 
 function Terminal({ keys }) {
   return (

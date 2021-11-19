@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import CodeEditor from "./prototypes/CodeMirrorEditor";
-import ResizePanel from "react-resize-panel";
 
 function ChannelModule({ keys }) {
   const currentModule = useSelector(
