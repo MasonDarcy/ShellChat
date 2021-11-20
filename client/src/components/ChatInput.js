@@ -4,7 +4,14 @@ import dispatchCommand from "./helpers/commandParser/dispatchCommand";
 import actions from "../actions";
 import sendChat from "./helpers/sendChat";
 
-function ChatInput({ cid, agentName, store, keys }) {
+function ChatInput({
+  cid,
+  agentName,
+  store,
+  keys,
+  commandState,
+  setCommandState,
+}) {
   const [command, setCommand] = useState({ contents: "" });
   let { contents } = command;
 
@@ -16,20 +23,48 @@ function ChatInput({ cid, agentName, store, keys }) {
   agentName ? (agentPrefix = agentName) : (agentPrefix = "unknown");
   cid ? (prefix = cid) : (prefix = ROOT_CONSOLE_VAL);
 
+  const commandSwap = (e) => {
+    if (e.code == "ArrowDown") {
+      setCommandState((prevCheck) => !prevCheck);
+    }
+  };
+
+  let chatJsx = (
+    <>
+      {<span className="focusAgentName">{`${agentName}`}</span>}
+      {`<${prefix}>`}
+    </>
+  );
+
+  let commandJsx = (
+    <>
+      <span>{`<command> `}</span>
+    </>
+  );
+
+  let output;
+
+  commandState ? (output = commandJsx) : (output = chatJsx);
+
   return (
     <>
-      <div>
+      <div onKeyUp={commandSwap}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            dispatchCommand(contents, cid, store, actions, sendChat, keys);
+            dispatchCommand(
+              contents,
+              cid,
+              store,
+              actions,
+              sendChat,
+              keys,
+              commandState
+            );
             setCommand({ contents: "" });
           }}
         >
-          <label htmlFor="commandInput">
-            {<span className="focusAgentName">{`${agentName}`}</span>}
-            {`<${prefix}>`}
-          </label>
+          <label htmlFor="commandInput">{output}</label>
           <input
             className="commandInput"
             id="commandInput"

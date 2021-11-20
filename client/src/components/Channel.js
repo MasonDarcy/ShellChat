@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ChatMessage from "./ChatMessage";
 
@@ -6,7 +6,7 @@ import ChatInput from "./ChatInput";
 import { v4 } from "uuid";
 import store from "../store/store";
 
-function Channel({ keys }) {
+function Channel({ keys, commandState, setCommandState }) {
   const channelID = useSelector(
     (state) => state.subscribeToChannelReducer.currentChannelID
   );
@@ -39,6 +39,8 @@ function Channel({ keys }) {
             agentName={agentName}
             store={store}
             keys={keys}
+            commandState={commandState}
+            setCommandState={setCommandState}
           />
         </div>
       </div>

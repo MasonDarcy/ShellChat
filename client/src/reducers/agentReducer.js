@@ -1,8 +1,15 @@
-import { SET_AGENT_NAME, LOGIN, AUTO_LOGIN, LOGOUT } from "../actions/types";
+import {
+  SET_AGENT_NAME,
+  LOGIN,
+  AUTO_LOGIN,
+  LOGOUT,
+  SWAP_COMMAND_STATE,
+} from "../actions/types";
 
 const initialState = {
   agentName: null,
   isLoggedOn: false,
+  commandState: false,
 };
 
 export default function (state = initialState, action) {
@@ -17,6 +24,11 @@ export default function (state = initialState, action) {
         ...state,
         agentName: payload.agentName,
         isLoggedOn: payload.isLoggedOn,
+      };
+    case SWAP_COMMAND_STATE:
+      return {
+        ...state,
+        commandState: payload.commandState,
       };
     default:
       return state;

@@ -1,13 +1,22 @@
 import { getCommandProgram } from "./getCommandProgram";
 
-const dispatchCommand = (agentCommand, cid, store, actions, sendChat, keys) => {
+const dispatchCommand = (
+  agentCommand,
+  cid,
+  store,
+  actions,
+  sendChat,
+  keys,
+  commandState
+) => {
   let program = getCommandProgram(store, actions, keys);
 
   let { messageAction } = actions;
-
-  if (agentCommand[0] === "/") {
-    const trimmedCommand = agentCommand.slice(1);
-    const commandArray = [null, null, ...trimmedCommand.split(" ")];
+  console.log(`commandState inside dispatchCommand: ${commandState}`);
+  if (commandState) {
+    // const trimmedCommand = agentCommand.slice(1);
+    const commandArray = [null, null, ...agentCommand.split(" ")];
+    console.log(`command array inside dispatchCommand: ${commandArray}`);
 
     /*Have to catch a possible error here.*/
     try {

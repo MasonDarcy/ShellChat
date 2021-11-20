@@ -21,3 +21,4 @@ export const SET_AGENT_NAME = "SET_AGENT_NAME";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const AUTO_LOGIN = "AUTO_LOGIN";
+export const SWAP_COMMAND_STATE = "SWAP_COMMAND_STATE";

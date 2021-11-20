@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Channel from "./Channel";
 import ChannelModule from "./ChannelModule";
 import SplitPane from "react-split-pane";
@@ -8,6 +8,10 @@ function Terminal({ keys }) {
   const currentModule = useSelector(
     (state) => state.subscribeToChannelReducer.currentModule
   );
+
+  const [commandState, setCommandState] = useState(false);
+
+  const dispatch = useDispatch();
 
   if (currentModule) {
     return (
@@ -26,7 +30,11 @@ function Terminal({ keys }) {
           }}
         >
           <div className="chan">
-            <Channel keys={keys} />
+            <Channel
+              keys={keys}
+              commandState={commandState}
+              setCommandState={setCommandState}
+            />
           </div>
           <div className="mod">
             <ChannelModule keys={keys} currentModule={currentModule} />
@@ -39,7 +47,11 @@ function Terminal({ keys }) {
     return (
       <>
         <div className="channelBox">
-          <Channel keys={keys} />
+          <Channel
+            keys={keys}
+            commandState={commandState}
+            setCommandState={setCommandState}
+          />
         </div>
       </>
     );
@@ -47,16 +59,3 @@ function Terminal({ keys }) {
 }
 
 export default Terminal;
-
-// return (
-//   <>
-//     <div className="mainRow">
-//       <div className="channelColumn">
-//         <Channel keys={keys} />
-//       </div>
-//       <div className="moduleColumn">
-//         <ChannelModule keys={keys} />
-//       </div>
-//     </div>
-//   </>
-// );
