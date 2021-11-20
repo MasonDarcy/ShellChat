@@ -8,7 +8,10 @@ function ChatMessage({ message, agent, eventName, channelID, keys }) {
   switch (eventName) {
     case keys.CHAT_EVENT_KEY:
       return (
-        <div className={style}>{`<${agent}><${channelPrefix}>${message}`}</div>
+        <div className={style}>
+          {<span className="agentName">{`${agent}`}</span>}
+          {`<${channelPrefix}> ${message}`}
+        </div>
       );
     case keys.LEFT_CHANNEL_KEY:
       return <div className={style}>{`<${agent}> has left the channel.`}</div>;

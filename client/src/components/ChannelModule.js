@@ -2,11 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import CodeEditor from "./prototypes/CodeMirrorEditor";
 
-function ChannelModule({ keys }) {
-  const currentModule = useSelector(
-    (state) => state.subscribeToChannelReducer.currentModule
-  );
-
+function ChannelModule({ keys, currentModule }) {
   const currentChannelID = useSelector(
     (state) => state.subscribeToChannelReducer.currentChannelID
   );
@@ -16,7 +12,7 @@ function ChannelModule({ keys }) {
   switch (currentModule) {
     case keys.CODE_MODULE_KEY:
       return (
-        <div className="module">
+        <div>
           <CodeEditor
             currentChannelID={currentChannelID}
             agentName={agentName}
@@ -31,12 +27,3 @@ function ChannelModule({ keys }) {
 }
 
 export default ChannelModule;
-
-{
-  /* <div className="module">
-            <CodeEditor
-              currentChannelID={currentChannelID}
-              agentName={agentName}
-            />
-          </div> */
-}

@@ -26,7 +26,10 @@ function ChatInput({ cid, agentName, store, keys }) {
             setCommand({ contents: "" });
           }}
         >
-          <label htmlFor="commandInput">{`<${agentName}><${prefix}>`}</label>
+          <label htmlFor="commandInput">
+            {<span className="focusAgentName">{`${agentName}`}</span>}
+            {`<${prefix}>`}
+          </label>
           <input
             className="commandInput"
             id="commandInput"

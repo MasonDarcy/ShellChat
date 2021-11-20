@@ -149,9 +149,25 @@ input:focus {
   z-index: 3;
 }
 
+.mod {
+  margin: 10px 10px 10px 10px;
+}
+
+.chan {
+  margin: 10px 10px 10px 10px;
+}
+
+.agentName {
+  color: #648de4;
+}
+
+.focusAgentName {
+  color: #46f327;
+}
+
 /*Styling for the split pane.*/
 .Resizer {
-  background: #000;
+  background: rgb(212, 208, 208);
   opacity: 0.2;
   z-index: 1;
   -moz-box-sizing: border-box;
@@ -165,6 +181,10 @@ input:focus {
 .Resizer:hover {
   -webkit-transition: all 2s ease;
   transition: all 2s ease;
+}
+
+.SplitPane.vertical {
+  overflow-y: scroll;
 }
 
 .Resizer.horizontal {
@@ -182,17 +202,17 @@ input:focus {
 }
 
 .Resizer.vertical {
-  width: 11px;
+  width: 5px;
   margin: 0 -5px;
-  border-left: 5px solid rgba(255, 255, 255, 0);
-  border-right: 5px solid rgba(255, 255, 255, 0);
+  border-left: 5px solid #188dfa;
+  border-right: 5px solid #188dfa;
   cursor: col-resize;
 }
 
-.Resizer.vertical:hover {
-  border-left: 5px solid rgba(0, 0, 0, 0.5);
-  border-right: 5px solid rgba(0, 0, 0, 0.5);
-}
+/* .Resizer.vertical:hover {
+  border-left: 5px solid rgba(255, 51, 51, 0.664);
+  border-right: 5px solid rgba(255, 51, 51, 0.664);
+} */
 .Resizer.disabled {
   cursor: not-allowed;
 }
