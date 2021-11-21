@@ -29,15 +29,3 @@ const App = () => (
 );
 
 export default App;
-
-{
-  /* <Route
-exact
-path="/proto"
-render={(props) => (
-  <>
-    <CodeEditor />
-  </>
-)}
-/> */
-}

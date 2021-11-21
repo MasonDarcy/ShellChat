@@ -18,7 +18,7 @@ export const getEventTupleArray = (store, actions, keys, types) => {
             dispatch(channelMessageAction(parsedData[0], parsedData[1]));
             break;
           default:
-            console.log("Error");
+            console.log(`getEventTuples/parsedData[0]: ${parsedData[0]}`);
         }
       }
     },
@@ -40,9 +40,25 @@ export const getEventTupleArray = (store, actions, keys, types) => {
         switch (parsedData[0]) {
           case keys.CODE_MODULE_KEY:
             dispatch(actions.basicLoadAction(parsedData[0]));
+            dispatch({
+              type: types.AGENT_ACTION_MESSAGE,
+              payload: {
+                message: ` has opened the code module.`,
+                agent: parsedData[1],
+                eventName: keys.AGENT_ACTION_KEY,
+              },
+            });
             break;
           case null:
             dispatch(actions.basicLoadAction(null));
+            dispatch({
+              type: types.AGENT_ACTION_MESSAGE,
+              payload: {
+                message: ` has closed the module.`,
+                agent: parsedData[1],
+                eventName: keys.AGENT_ACTION_KEY,
+              },
+            });
             break;
           default:
             console.log(`EventTuples/ModuleEvent/Error!`);

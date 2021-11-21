@@ -63,7 +63,7 @@
 }
 
 .leftChannel {
-  color: #ff0000;
+  color: #c71010de;
   font-family: monospace;
   text-align: left;
 }
@@ -71,7 +71,6 @@
 .commandError {
   color: #787dc2;
   font-family: monospace;
-  height: 14px;
   text-align: left;
 }
 
@@ -96,14 +95,24 @@
 .commandSuccess {
   color: chartreuse;
   font-family: monospace;
-  height: 14px;
+  text-align: left;
+}
+
+.authSuccess {
+  color: rgb(3, 202, 169);
+  font-family: monospace;
+  text-align: left;
+}
+
+.agentAction {
+  color: rgb(187, 5, 178);
+  font-family: monospace;
   text-align: left;
 }
 
 .friend {
   color: rgb(145, 36, 179);
   font-family: monospace;
-  height: 14px;
   text-align: left;
 }
 
@@ -218,4 +227,21 @@ input:focus {
 }
 .Resizer.disabled:hover {
   border-color: transparent;
+}
+
+.resize {
+  border: 1px solid black;
+  overflow: auto;
+}
+.resize.horizontal {
+  resize: horizontal;
+}
+.resize.vertical {
+  resize: vertical;
+}
+.resize.both {
+  resize: both;
+}
+.wrap {
+  max-width: 100%;
 }

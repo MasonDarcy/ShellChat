@@ -1,12 +1,7 @@
 import store from "../../store/store";
 import { SUBSCRIBE_TO_FRIENDS } from "../types";
 import ReconnectingEventSource from "reconnecting-eventsource";
-import {
-  COMMAND_SUCCESS_EVENT_KEY,
-  NEW_FRIEND_MESSAGE_EVENT_KEY,
-  FRIEND_HAS_LOGGED_ON_EVENT_KEY,
-  FRIEND_HAS_LOGGED_OFF_EVENT_KEY,
-} from "../../constants/constants";
+import keys from "../../constants/constants";
 import {
   setSource,
   setSubscriberCallback,
@@ -31,12 +26,7 @@ export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
     getFriendEventTupleArray(
       store,
       { friendRequestReceivedAction, serverMessageAction, logoutAction },
-      {
-        COMMAND_SUCCESS_EVENT_KEY,
-        NEW_FRIEND_MESSAGE_EVENT_KEY,
-        FRIEND_HAS_LOGGED_ON_EVENT_KEY,
-        FRIEND_HAS_LOGGED_OFF_EVENT_KEY,
-      }
+      keys
     )
   );
 

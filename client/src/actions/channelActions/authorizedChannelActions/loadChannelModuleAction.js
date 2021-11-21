@@ -1,5 +1,6 @@
-import { LOAD_CHANNEL_MODULE, NEW_ERROR_MESSAGE } from "../../types";
+import { types } from "../../types";
 import loadModuleRequest from "../../requestHelpers/loadModuleRequest";
+import keys from "../../../constants/constants";
 export const loadChannelModuleAction =
   (moduleType, targetChannelID, sourceAgentID) => async (dispatch) => {
     console.log(`loadChannelModuleAction: targetChannelID: ${targetChannelID}`);
@@ -12,18 +13,28 @@ export const loadChannelModuleAction =
     switch (res.status) {
       case 201:
         dispatch({
-          type: LOAD_CHANNEL_MODULE,
+          type: types.LOAD_CHANNEL_MODULE,
           payload: {
             currentModule: moduleType,
+          },
+        });
+        dispatch({
+          type: types.AGENT_ACTION_MESSAGE,
+          payload: {
+            message: moduleType
+              ? ` is loading ${moduleType}.`
+              : ` has closed the module.`,
+            eventName: keys.AGENT_ACTION_KEY,
+            agent: sourceAgentID,
           },
         });
         break;
       case 401:
         dispatch({
-          type: NEW_ERROR_MESSAGE,
+          type: types.NEW_ERROR_MESSAGE,
           payload: {
             message: "Unauthorized action. Please login.",
-            eventName: "ERROR_EVENT",
+            eventName: keys.ERROR_EVENT_KEY,
           },
         });
         break;

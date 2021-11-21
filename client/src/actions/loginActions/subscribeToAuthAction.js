@@ -1,12 +1,9 @@
-import store from "../../store/store";
 import { SUBSCRIBE_TO_AUTH } from "../types";
 import ReconnectingEventSource from "reconnecting-eventsource";
-import { COMMAND_SUCCESS_EVENT_KEY } from "../../constants/constants";
 import {
   setSource,
   setSubscriberCallback,
 } from "../subcriberHelpers/setSubscriberListeners";
-import { serverMessageAction } from "../messageActions/serverMessageAction";
 
 export const subscribeToAuthAction = (agentName) => async (dispatch) => {
   /*

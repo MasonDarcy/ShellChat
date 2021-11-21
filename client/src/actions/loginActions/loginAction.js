@@ -1,7 +1,8 @@
-import { LOGIN, NEW_ERROR_MESSAGE } from "../types";
+import { LOGIN, NEW_ERROR_MESSAGE, NEW_SERVER_MESSAGE } from "../types";
 import sendLogin from "../../authentication/sendLogin";
 import { subscribeToFriendsAction } from "../friendActions/subscribeToFriendsAction";
 import { subscribeToAuthAction } from "./subscribeToAuthAction";
+import types from "../../constants/constants";
 
 import store from "../../store/store";
 export const loginAction = (agentName, agentPassword) => async (dispatch) => {
@@ -22,7 +23,13 @@ export const loginAction = (agentName, agentPassword) => async (dispatch) => {
           type: LOGIN,
           payload: { agentName: agentName, isLoggedOn: true },
         });
-
+        dispatch({
+          type: NEW_SERVER_MESSAGE,
+          payload: {
+            message: `Logged on as ${agentName}.`,
+            eventName: types.AUTH_SUCCESS_EVENT_KEY,
+          },
+        });
         dispatch(subscribeToFriendsAction(agentName));
         dispatch(subscribeToAuthAction(agentName));
 

@@ -61,6 +61,7 @@ export const getCommandProgram = (store, actions, keys) => {
       .action(() => {
         let agentID = getState().agentReducer.agentName;
         let channelID = getState().subscribeToChannelReducer.currentChannelID;
+        // dispatch(actions.closeChannelModuleAction(null, channelID, agentID));
         dispatch(actions.loadChannelModuleAction(null, channelID, agentID));
       });
 

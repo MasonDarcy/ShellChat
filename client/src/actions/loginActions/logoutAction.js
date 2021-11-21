@@ -1,19 +1,22 @@
-import {
-  NEW_ERROR_MESSAGE,
-  LOGOUT,
-  UNSUBSCRIBE_TO_CHANNEL,
-  UNSUBSCRIBE_TO_FRIENDS,
-} from "../types";
+import { types } from "../types";
 import sendLogout from "../../authentication/sendLogout";
 import store from "../../store/store";
-import { ERROR_EVENT_KEY } from "../../constants/constants";
+import keys from "../../constants/constants";
 
 export const logoutAction = () => async (dispatch) => {
   sendLogout()
     .then(() => {
       dispatch({
-        type: LOGOUT,
+        type: types.LOGOUT,
         payload: { agentName: null, isLoggedOn: false },
+      });
+
+      dispatch({
+        type: types.NEW_SERVER_MESSAGE,
+        payload: {
+          message: `Logged out.`,
+          eventName: keys.AUTH_SUCCESS_EVENT_KEY,
+        },
       });
 
       let subscriptions =
@@ -26,7 +29,7 @@ export const logoutAction = () => async (dispatch) => {
       authSubscription.close();
 
       dispatch({
-        type: UNSUBSCRIBE_TO_CHANNEL,
+        type: types.UNSUBSCRIBE_TO_CHANNEL,
         payload: {
           channelSource: null,
           currentChannelID: null,
@@ -37,7 +40,7 @@ export const logoutAction = () => async (dispatch) => {
       store.getState().subscribeToFriendsReducer.friendSource.close();
 
       dispatch({
-        type: UNSUBSCRIBE_TO_FRIENDS,
+        type: types.UNSUBSCRIBE_TO_FRIENDS,
         payload: {
           friendSource: null,
           currentChannelID: null,
@@ -47,10 +50,10 @@ export const logoutAction = () => async (dispatch) => {
     })
     .catch((err) => {
       dispatch({
-        type: NEW_ERROR_MESSAGE,
+        type: types.NEW_ERROR_MESSAGE,
         payload: {
           message: "error: invalid credentials.",
-          eventName: ERROR_EVENT_KEY,
+          eventName: keys.ERROR_EVENT_KEY,
         },
       });
     });

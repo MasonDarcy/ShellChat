@@ -6,6 +6,7 @@ import {
   NEW_ERROR_MESSAGE,
   NEW_FRIEND_MESSAGE,
   NEW_SERVER_MESSAGE,
+  AGENT_ACTION_MESSAGE,
 } from "../actions/types";
 
 const initialState = {
@@ -21,6 +22,7 @@ export default function (state = initialState, action) {
     case NEW_CHANNEL_MESSAGE:
     case NEW_MESSAGE:
     case NEW_FRIEND_MESSAGE:
+    case AGENT_ACTION_MESSAGE:
       return {
         ...state,
         messageLog: [...state.messageLog, payload],

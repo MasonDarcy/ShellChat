@@ -14,10 +14,19 @@ function ChatMessage({ message, agent, eventName, channelID, keys }) {
         </div>
       );
     case keys.LEFT_CHANNEL_KEY:
-      return <div className={style}>{`<${agent}> has left the channel.`}</div>;
+      return (
+        <div className={style}>
+          {" "}
+          <span className="agentName">{`<${agent}>`}</span>
+          {` has left the channel.`}
+        </div>
+      );
     case keys.JOINED_CHANNEL_KEY:
       return (
-        <div className={style}>{`<${agent}> has joined the channel.`}</div>
+        <div className={style}>
+          <span className="agentName">{`<${agent}>`}</span>
+          {` has joiend the channel.`}
+        </div>
       );
     case keys.ERROR_EVENT_KEY:
       return <div className={style}>{`${message}`}</div>;
@@ -27,9 +36,19 @@ function ChatMessage({ message, agent, eventName, channelID, keys }) {
       return <div className={style}>{message}</div>;
     case keys.NEW_FRIEND_MESSAGE_EVENT_KEY:
       return <div className={style}>{message}</div>;
+    case keys.AUTH_SUCCESS_EVENT_KEY:
+      return <div className={style}>{message}</div>;
+    case keys.AGENT_ACTION_KEY:
+      return (
+        <div className={style}>
+          {agent}
+          {message}
+        </div>
+      );
     default:
       console.log("components/chatMessage/Logged default: null");
       console.log(`eventName: ${eventName}`);
+      console.log(`message: ${message}`);
 
       return null;
   }

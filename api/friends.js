@@ -133,7 +133,7 @@ router.post(
 );
 
 // @route   post api/friends/reject/:agent_id
-// @desc    Accept a friend request
+// @desc    Reject a friend request
 // @access  private, subscribed on logon
 router.post(
   "/reject/",

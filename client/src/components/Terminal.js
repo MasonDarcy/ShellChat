@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Channel from "./Channel";
 import ChannelModule from "./ChannelModule";
 import SplitPane from "react-split-pane";
+import ResizePanel from "react-resize-panel";
 
 function Terminal({ keys }) {
   const currentModule = useSelector(
@@ -20,13 +21,12 @@ function Terminal({ keys }) {
           split="vertical"
           minSize={300}
           maxSize={1000}
-          defaultSize={500}
+          defaultSize={300}
           style={{
             position: "relative",
             overflow: "hidden",
             borderBottom: "solid",
             borderBottomColor: "#2a5a80",
-            tabindex: "-1",
           }}
         >
           <div className="chan">

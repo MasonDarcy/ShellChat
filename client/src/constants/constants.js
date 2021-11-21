@@ -17,8 +17,13 @@ const HELP_EVENT_KEY = "HELP_EVENT";
 const FRIEND_REQUEST_EVENT_KEY = "FRIEND_REQUEST_EVENT";
 
 //Succesful server action
-
 const COMMAND_SUCCESS_EVENT_KEY = "COMMAND_SUCCESS_EVENT";
+
+//Succesful authentication action
+const AUTH_SUCCESS_EVENT_KEY = "AUTH_SUCCESS_EVENT";
+
+//Succesful authentication action
+const AGENT_ACTION_KEY = "AGENT_ACTION_KEY";
 
 //Friend request accepted event
 const FRIEND_REQUEST_ACCEPTED_EVENT_KEY = "FRIEND_REQUEST_ACCEPTED_EVENT";
@@ -38,6 +43,8 @@ const LOAD_MODULE_KEY = "LOAD_MODULE";
 
 /*----------------------------------------------------------------------*/
 module.exports = {
+  AGENT_ACTION_KEY,
+  AUTH_SUCCESS_EVENT_KEY,
   JOINED_CHANNEL_KEY,
   LEFT_CHANNEL_KEY,
   CHAT_EVENT_KEY,
@@ -48,7 +55,6 @@ module.exports = {
   FRIEND_HAS_LOGGED_ON_EVENT_KEY,
   FRIEND_HAS_LOGGED_OFF_EVENT_KEY,
   NEW_FRIEND_MESSAGE_EVENT_KEY,
-  COMMAND_SUCCESS_EVENT_KEY,
   COMMAND_SUCCESS_EVENT_KEY,
   LOAD_MODULE_KEY,
   CODE_MODULE_KEY,

@@ -1,21 +1,10 @@
 import store from "../../../store/store";
-import {
-  SUBSCRIBE_TO_CHANNEL,
-  NEW_MESSAGE,
-  LOAD_CHANNEL_MODULE,
-} from "../../types";
 import ReconnectingEventSource from "reconnecting-eventsource";
-import {
-  JOINED_CHANNEL_KEY,
-  LEFT_CHANNEL_KEY,
-  CHAT_EVENT_KEY,
-  CODE_MODULE_KEY,
-  LOAD_MODULE_KEY,
-} from "../../../constants/constants";
+import { types } from "../../types";
+import keys from "../../../constants/constants";
 import { channelMessageAction } from "../channelMessageAction";
 import { basicLoadAction } from "../basicLoadAction";
 import getChannelModuleRequest from "../../requestHelpers/getChannelModuleRequest";
-
 import {
   setSource,
   setSubscriberCallback,
@@ -35,26 +24,28 @@ export const subscribeAction =
     setSubscriberCallback(
       channelSource,
       getMessageCallback(store, {
-        newMessage: NEW_MESSAGE,
-        CHAT_EVENT_KEY,
+        newMessage: types.NEW_MESSAGE,
+        ...keys,
       }),
 
       getEventTupleArray(
         store,
         { channelMessageAction: channelMessageAction, basicLoadAction },
-        {
-          JOINED_CHANNEL_KEY,
-          LEFT_CHANNEL_KEY,
-          LOAD_MODULE_KEY,
-          CODE_MODULE_KEY,
-        }
+        { ...keys },
+        { ...types }
       )
     );
 
     let currentModule = await getChannelModuleRequest(channelID);
-
     dispatch({
-      type: SUBSCRIBE_TO_CHANNEL,
+      type: types.NEW_SERVER_MESSAGE,
+      payload: {
+        message: `Joined channel: ${channelID}`,
+        eventName: keys.COMMAND_SUCCESS_EVENT_KEY,
+      },
+    });
+    dispatch({
+      type: types.SUBSCRIBE_TO_CHANNEL,
       payload: { channelSource, channelID, channelPassword, currentModule },
     });
   };
