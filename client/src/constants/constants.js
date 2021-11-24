@@ -41,8 +41,12 @@ const NEW_FRIEND_MESSAGE_EVENT_KEY = "NEW_FRIEND_MESSAGE_EVENT";
 const CODE_MODULE_KEY = "CODE";
 const LOAD_MODULE_KEY = "LOAD_MODULE";
 
+//CODE OUTPUT
+const CODE_OUTPUT_KEY = "CODE_OUTPUT";
+
 /*----------------------------------------------------------------------*/
 module.exports = {
+  CODE_OUTPUT_KEY,
   AGENT_ACTION_KEY,
   AUTH_SUCCESS_EVENT_KEY,
   JOINED_CHANNEL_KEY,

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Auth from "./components/Auth";
 import Terminal from "./components/Terminal";
 import CodeEditor from "./components/prototypes/CodeMirrorEditor";
-import Proto from "./components/prototypes/Proto";
+import ResizablePane from "./components/prototypes/ResizablePane";
 
 import "./App.css";
 import keys from "./constants/constants";
@@ -22,7 +22,7 @@ const App = () => (
           path="/"
           render={(props) => <Terminal keys={keys} modules={CodeEditor} />}
         />
-        <Route exact path="/proto" render={(props) => <Proto />} />
+        <Route exact path="/proto" render={(props) => <ResizablePane />} />
       </Fragment>
     </Router>
   </Provider>

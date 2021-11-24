@@ -65,6 +65,21 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.loadChannelModuleAction(null, channelID, agentID));
       });
 
+    /*Run code in the code module.*/
+    program
+      .command("run")
+      .description("Runs the code in the code editor.")
+      .action(() => {
+        let agentID = getState().agentReducer.agentName;
+        let channelID = getState().subscribeToChannelReducer.currentChannelID;
+
+        //I need to try to access the script from the code editor
+        let codeEditorRef = getState().codeModuleReducer.codeEditorRef;
+        dispatch(
+          actions.runCodeAction(codeEditorRef.getValue(), agentID, channelID)
+        );
+      });
+
     /*Dispatch a friend request to another agent.*/
     program
       .command("add")

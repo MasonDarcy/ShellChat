@@ -27,6 +27,8 @@ const setupSSE = getSetupSSE(
   Channel
 );
 
+const fetch = require("node-fetch");
+
 // @route   post api/chat/:channel_id/:agent_id
 // @desc    chat subscription
 // @access  private
@@ -91,6 +93,47 @@ router.get("/modules/channel/:channel_id", auth, async (req, res) => {
       return res.status(200).json(null);
     }
   } catch (err) {
+    errorTool.error400(err, res);
+  }
+});
+
+// @route   get api/
+// @desc    mutate the current channel module
+// @access  private
+router.post("/jdoodle", auth, async (req, res) => {
+  try {
+    const { script, sourceAgentID, channelID } = req.body;
+
+    console.log(`script: ${script}`);
+    const url = "https://api.jdoodle.com/v1/execute/";
+
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        clientId: "5445b800d4e459aff14235ed804ac12a",
+        clientSecret:
+          "36dee1cb019e437bab9ff83f27e9f8f74e041cd95c429fbc538d52f9b945d825",
+        script: script,
+        language: "nodejs",
+        versionIndex: "0",
+      }),
+    };
+
+    let val = await fetch(url, config);
+    console.log(`val: ${val}`);
+    let result = await val.json();
+    console.log(`result: ${result}`);
+
+    //We also want to emit this data to all other people in the channel
+    chat.emit(`codeEvent-${channelID}`, [sourceAgentID, result]);
+
+    return res.status(200).json(result);
+  } catch (err) {
+    console.log(`We got an err !`);
+
     errorTool.error400(err, res);
   }
 });

@@ -67,5 +67,33 @@ export const getEventTupleArray = (store, actions, keys, types) => {
     },
   };
 
-  return [channelEntrancesAndExits, moduleEvent];
+  const codeCompilationEvent = {
+    eventName: "codeEvent",
+    callback: (e) => {
+      const { dispatch, getState } = store;
+      const { channelMessageAction } = actions;
+
+      let parsedData = JSON.parse(e.data);
+      //parsedData[0] = agentName
+      //parsedData[1] = script
+
+      if (parsedData[0] !== getState().agentReducer.agentName) {
+        dispatch({
+          type: types.NEW_CODE_EDITOR_OUTPUT,
+          payload: { data: parsedData[1] },
+        });
+
+        dispatch({
+          type: types.AGENT_ACTION_MESSAGE,
+          payload: {
+            message: ` has sent the code for evaluation.`,
+            agent: parsedData[0],
+            eventName: keys.AGENT_ACTION_KEY,
+          },
+        });
+      }
+    },
+  };
+
+  return [channelEntrancesAndExits, moduleEvent, codeCompilationEvent];
 };

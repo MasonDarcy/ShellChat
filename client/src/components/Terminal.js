@@ -3,14 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import Channel from "./Channel";
 import ChannelModule from "./ChannelModule";
 import SplitPane from "react-split-pane";
-import ResizePanel from "react-resize-panel";
 
 function Terminal({ keys }) {
   const currentModule = useSelector(
     (state) => state.subscribeToChannelReducer.currentModule
   );
 
-  const [commandState, setCommandState] = useState(false);
+  const [commandState, setCommandState] = useState(true);
 
   const dispatch = useDispatch();
 

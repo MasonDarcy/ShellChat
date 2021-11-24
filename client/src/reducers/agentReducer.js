@@ -9,7 +9,7 @@ import {
 const initialState = {
   agentName: null,
   isLoggedOn: false,
-  commandState: false,
+  commandState: true,
 };
 
 export default function (state = initialState, action) {

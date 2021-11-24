@@ -33,6 +33,16 @@ const listenerTuples = [
       res.write(sseFormattedResponse);
     },
   },
+  {
+    prefix: "codeEvent",
+    paramKey: "channel_id",
+    callback: (res) => (data) => {
+      const sseFormattedResponse = `event: codeEvent\ndata: ${JSON.stringify(
+        data
+      )}\n\n`;
+      res.write(sseFormattedResponse);
+    },
+  },
 ];
 
 /*

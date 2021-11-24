@@ -33,7 +33,9 @@ let {
 let {
   loadChannelModuleAction,
 } = require("./channelActions/authorizedChannelActions/loadChannelModuleAction");
+let { runCodeAction } = require("./channelActions/runCodeAction");
 module.exports = {
+  runCodeAction,
   loadChannelModuleAction,
   getFriendListAction,
   authorizedAction,

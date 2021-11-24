@@ -16,6 +16,7 @@ function ChannelModule({ keys, currentModule }) {
           <CodeEditor
             currentChannelID={currentChannelID}
             agentName={agentName}
+            keys={keys}
           />
         </div>
       );

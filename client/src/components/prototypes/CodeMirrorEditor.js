@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { types } from "../../actions/types";
 import * as Y from "yjs";
 import { WebrtcProvider } from "y-webrtc";
 import { CodemirrorBinding } from "y-codemirror";
@@ -6,10 +8,13 @@ import { UnControlled as CodeMirrorEditor } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/theme/dracula.css";
+import CodeOutput from "./CodeOutput";
 
-function CodeEditor({ currentChannelID, agentName }) {
+function CodeEditor({ currentChannelID, agentName, keys }) {
   const [EditorRef, setEditorRef] = useState(null);
   const [code, setCode] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleEditorDidMount = (editor) => {
     setEditorRef(editor);
@@ -35,6 +40,13 @@ function CodeEditor({ currentChannelID, agentName }) {
           color: "#000000",
         });
         const getBinding = new CodemirrorBinding(yText, EditorRef, awareness);
+
+        dispatch({
+          type: types.SET_EDITOR_REF,
+          payload: {
+            codeEditorRef: EditorRef,
+          },
+        });
       } catch (err) {
         alert(`Error:${err}`);
       }
@@ -64,6 +76,10 @@ function CodeEditor({ currentChannelID, agentName }) {
           editor.setSize("100vw", "100%");
         }}
       />
+
+      <div className="consoleBox">
+        <CodeOutput keys={keys} />
+      </div>
     </div>
   );
 }

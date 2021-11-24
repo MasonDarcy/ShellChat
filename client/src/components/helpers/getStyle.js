@@ -18,5 +18,7 @@ export const getStyle = (eventName, keys) => {
       return "authSuccess";
     case keys.AGENT_ACTION_KEY:
       return "agentAction";
+    case keys.CODE_OUTPUT_KEY:
+      return "codeOutput";
   }
 };

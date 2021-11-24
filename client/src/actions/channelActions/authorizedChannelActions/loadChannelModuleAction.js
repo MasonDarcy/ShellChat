@@ -18,6 +18,7 @@ export const loadChannelModuleAction =
             currentModule: moduleType,
           },
         });
+
         dispatch({
           type: types.AGENT_ACTION_MESSAGE,
           payload: {

@@ -11,19 +11,25 @@
   "author": "Mason D'Arcy",
   "license": "ISC",
   "dependencies": {
+    "abstract-syntax-tree": "^2.20.4",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "commander": "^8.3.0",
     "config": "^3.3.6",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
+    "escodegen": "^2.0.0",
+    "esprima": "^4.0.1",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "express-sse": "^0.5.3",
     "express-validator": "^6.13.0",
     "mongoose": "^6.0.12",
+    "node-fetch": "^2.6.6",
     "react-split-pane": "^0.1.92",
-    "reconnecting-eventsource": "^1.1.1"
+    "reconnecting-eventsource": "^1.1.1",
+    "uuid": "^8.3.2",
+    "vm2": "^3.9.5"
   },
   "devDependencies": {
     "concurrently": "^6.3.0",
