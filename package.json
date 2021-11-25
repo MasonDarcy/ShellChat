@@ -11,6 +11,7 @@
   "author": "Mason D'Arcy",
   "license": "ISC",
   "dependencies": {
+    "@react-hook/resize-observer": "^1.2.4",
     "abstract-syntax-tree": "^2.20.4",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",

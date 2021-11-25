@@ -4,6 +4,9 @@ import Auth from "./components/Auth";
 import Terminal from "./components/Terminal";
 import CodeEditor from "./components/prototypes/CodeMirrorEditor";
 import ResizablePane from "./components/prototypes/ResizablePane";
+import ProtoScrunch from "./components/prototypes/ProtoScrunch";
+import BetaScrunch from "./components/prototypes/BetaScrunch";
+import Embedded from "./components/prototypes/Embedded";
 
 import "./App.css";
 import keys from "./constants/constants";
@@ -22,7 +25,8 @@ const App = () => (
           path="/"
           render={(props) => <Terminal keys={keys} modules={CodeEditor} />}
         />
-        <Route exact path="/proto" render={(props) => <ResizablePane />} />
+        <Route exact path="/proto" render={(props) => <BetaScrunch />} />
+        <Route exact path="/proto2" render={(props) => <Embedded />} />
       </Fragment>
     </Router>
   </Provider>
