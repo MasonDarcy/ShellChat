@@ -30,7 +30,7 @@ function Channel({ keys, commandState, setCommandState }) {
 
   return (
     <>
-      <div className="chatBox">
+      <div>
         {" "}
         {chatMessages}
         <div className="chatInput">

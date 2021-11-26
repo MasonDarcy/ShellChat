@@ -28,7 +28,7 @@ function Terminal({ keys }) {
             borderBottomColor: "#2a5a80",
           }}
         >
-          <div className="chan">
+          <div className="p-5">
             <Channel
               keys={keys}
               commandState={commandState}

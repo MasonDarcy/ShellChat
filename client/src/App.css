@@ -15,7 +15,7 @@ div::-webkit-scrollbar {
   width: 12px; /* width of the entire scrollbar */
 }
 div::-webkit-scrollbar-track {
-  background: rgb(10, 128, 118); /* color of the tracking area */
+  background: rgb(41, 130, 182); /* color of the tracking area */
 }
 div::-webkit-scrollbar-thumb {
   background-color: rgb(29, 103, 163); /* color of the scroll thumb */
@@ -302,12 +302,12 @@ input:focus {
 .Block {
   position: absolute;
   border-style: solid;
-  border-color: rgb(112, 18, 84);
+  border-color: rgb(25, 135, 149);
   border-width: 1px;
-  width: 200px;
-  height: 200px;
+  width: 50%;
+  height: 100%;
   top: 400px;
-  overflow: scroll;
+  overflow-y: scroll;
   z-index: 5;
 }
 
@@ -331,7 +331,6 @@ justify-self: flex-end;
 
   cursor: col-resize;
   height: 1px;
-  width: 200px;
 }
 /* width: 10px;
 top: 380px;
@@ -340,7 +339,7 @@ left: 100px; */
   position: relative;
 
   border-style: solid;
-  border-color: rgb(3, 202, 169);
+  border-color: rgb(5, 47, 40);
   border-width: 1px;
 
   height: 500px;
@@ -367,7 +366,7 @@ left: 100px; */
 .editorWrapper {
   position: relative;
   border-style: solid;
-  border-color: rgb(3, 202, 169);
+  border-color: rgb(12, 92, 12);
   border-width: 1px;
 }
 
@@ -375,7 +374,7 @@ left: 100px; */
   position: relative;
 
   border-style: solid;
-  border-color: rgb(3, 202, 169);
+  border-color: rgb(9, 54, 47);
   border-width: 1px;
 
   height: 200px;

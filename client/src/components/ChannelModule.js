@@ -22,14 +22,6 @@ function ChannelModule({ keys, currentModule }) {
         }`
       );
       setOutputHeight(entries[0].target.getBoundingClientRect().height);
-
-      //lol
-      // scrunchyTopRef.current.box.style.top = `${
-      //   entries[0].target.getBoundingClientRect().height
-      // }px`;
-      //    scrunchyTopRef.current.box.style.top = `${entries[0].target.clientHeight}px`;
-
-      //   scrunchyTopRef.current.handle.style.top = `${entries[0].target.clientHeight}px`;
     });
     console.log(`editorSizeRef.current: ${typeof editorSizeRef.current}`);
     resizeObserver.observe(editorSizeRef.current);
