@@ -410,3 +410,7 @@ border-width: 1px; */
   max-height: 75vh;
   overflow-y: scroll;
 }
+
+div.altBG > :nth-of-type(odd) {
+  background: rgb(26, 18, 71);
+}

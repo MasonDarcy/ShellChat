@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { v4 } from "uuid";
 
 function ConsoleOutputBox({ codeOutput }) {
   /*REFS------------------------------------------------------------*/
@@ -59,21 +60,38 @@ function ConsoleOutputBox({ codeOutput }) {
     e.preventDefault();
   };
 
+  const codeOutputs = codeOutput.map((output, index) => {
+    return (
+      <div
+        className="text-green-600 text-justify font-mono p-1 text-base"
+        key={v4()}
+      >
+        {`${index} - ${new Date(Date.now()).toDateString()}: ${
+          output.data.output
+        }`}
+      </div>
+    );
+  });
+
   return (
     <>
       <div
         ref={handle}
         draggable={false}
         onMouseDown={initial}
-        className="fixed w-full h-0 bottom-1/4 border-solid border-2 border-white-100 z-10"
+        className="fixed w-full h-0 bottom-1/4 border-solid border-2 border-blue-300 z-10"
       >
         {" "}
       </div>
       <div
         draggable={false}
         ref={outputContainer}
-        className="fixed  w-full h-1/4 bottom-0 border-solid border-2 border-red-900 z-10"
-      ></div>
+        className="fixed w-full h-1/4 bottom-0 border-solid border-2 border-green-900 z-10 overflow-y-auto"
+      >
+        <div className="text-yellow-300 font-mono text-xs p-2">output</div>
+
+        <div className="altBG">{codeOutputs}</div>
+      </div>
     </>
   );
 }

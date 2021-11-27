@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Channel from "./Channel";
 import ChannelModule from "./ChannelModule";
 import ConsoleOutputBox from "./prototypes/ConsoleOutputBox";
@@ -8,6 +8,8 @@ function Terminal({ keys }) {
   const currentModule = useSelector(
     (state) => state.subscribeToChannelReducer.currentModule
   );
+
+  const outputLog = useSelector((state) => state.codeModuleReducer.outputLog);
 
   const [commandState, setCommandState] = useState(true);
 
@@ -33,7 +35,7 @@ function Terminal({ keys }) {
           </div>
         </div>
 
-        <ConsoleOutputBox />
+        <ConsoleOutputBox codeOutput={outputLog} />
       </>
     );
   } else {

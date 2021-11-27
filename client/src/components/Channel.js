@@ -10,15 +10,6 @@ function Channel({ keys, commandState, setCommandState }) {
     (state) => state.subscribeToChannelReducer.currentChannelID
   );
 
-  const [info, setInfo] = useState({
-    width: window.innerWidth / 2,
-    height: window.innerHeight / 2,
-    x: 0,
-    y: 8,
-  });
-
-  const { x, y, width, height } = info;
-
   const agentName = useSelector((state) => state.agentReducer.agentName);
   const messageLog = useSelector((state) => state.messageReducer.messageLog);
 
