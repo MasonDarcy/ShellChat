@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Channel from "./Channel";
 import ChannelModule from "./ChannelModule";
-import SplitPane from "react-split-pane";
+import ConsoleOutputBox from "./prototypes/ConsoleOutputBox";
 
 function Terminal({ keys }) {
   const currentModule = useSelector(
@@ -11,42 +11,38 @@ function Terminal({ keys }) {
 
   const [commandState, setCommandState] = useState(true);
 
-  const dispatch = useDispatch();
-
   if (currentModule) {
     return (
       <>
-        <SplitPane
-          split="vertical"
-          minSize={300}
-          maxSize={1000}
-          defaultSize={300}
-          style={{
-            position: "relative",
-            overflow: "hidden",
-            borderBottom: "solid",
-            borderBottomColor: "#2a5a80",
-          }}
-        >
-          <div className="p-5">
+        <div draggable={false} className="grid grid-cols-2">
+          <div className="columnItem border-solid border-2 border-green-900 p-3">
             <Channel
+              draggable={false}
+              className="border-solid border-2 border-green-900"
               keys={keys}
               commandState={commandState}
               setCommandState={setCommandState}
             />
           </div>
-          <div className="mod">
-            <ChannelModule keys={keys} currentModule={currentModule} />
+          <div className="columnItem border-solid border-2 border-green-900">
+            <ChannelModule
+              draggable={false}
+              keys={keys}
+              currentModule={currentModule}
+            />
           </div>
-        </SplitPane>
+        </div>
+
+        <ConsoleOutputBox />
       </>
     );
   } else {
     //Return just the terminal window
     return (
       <>
-        <div className="channelBox">
+        <div className="singleItem  border-solid border-2 border-green-900 p-3">
           <Channel
+            draggable={false}
             keys={keys}
             commandState={commandState}
             setCommandState={setCommandState}
@@ -58,3 +54,10 @@ function Terminal({ keys }) {
 }
 
 export default Terminal;
+//      <ChannelModule keys={keys} currentModule={currentModule} />
+
+/*
+
+    ;
+
+*/

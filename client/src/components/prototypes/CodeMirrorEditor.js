@@ -8,7 +8,6 @@ import { UnControlled as CodeMirrorEditor } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/theme/dracula.css";
-import CodeOutput from "./CodeOutput";
 
 const CodeEditor = React.forwardRef(
   ({ currentChannelID, agentName, keys }, ref) => {
@@ -20,6 +19,7 @@ const CodeEditor = React.forwardRef(
 
     const handleEditorDidMount = (editor) => {
       setEditorRef(editor);
+      editor.setSize("100%", "65%");
     };
 
     useEffect(() => {
@@ -62,7 +62,7 @@ const CodeEditor = React.forwardRef(
     }, [EditorRef]);
 
     return (
-      <div className="editorWrapper" ref={ref}>
+      <div ref={ref} className="p-6">
         <CodeMirrorEditor
           onChange={(editor, data, value) => {
             setCode(value);
@@ -75,7 +75,6 @@ const CodeEditor = React.forwardRef(
           }}
           editorDidMount={(editor) => {
             handleEditorDidMount(editor);
-            editor.setSize("100vw", "100%");
           }}
         ></CodeMirrorEditor>
       </div>
@@ -85,9 +84,3 @@ const CodeEditor = React.forwardRef(
 
 export default CodeEditor;
 // theme: "dracula", from options
-
-{
-  /* <div className="consoleBox">
-<CodeOutput keys={keys} />
-</div> */
-}
