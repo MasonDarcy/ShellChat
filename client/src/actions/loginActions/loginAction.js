@@ -10,7 +10,7 @@ export const loginAction = (agentName, agentPassword) => async (dispatch) => {
     dispatch({
       type: NEW_ERROR_MESSAGE,
       payload: {
-        message: "error: currently logged in. Please /logout first.",
+        message: "error: currently logged in. Please logout first.",
         eventName: "ERROR_EVENT",
       },
     });
@@ -58,24 +58,3 @@ export const loginAction = (agentName, agentPassword) => async (dispatch) => {
     }
   }
 };
-
-//   sendLogin(agentName, agentPassword)
-//     .then(() => {
-//       dispatch({
-//         type: LOGIN,
-//         payload: { agentName: agentName, isLoggedOn: true },
-//       });
-
-//       dispatch(subscribeToFriendsAction(agentName));
-//       dispatch(subscribeToAuthAction(agentName));
-//     })
-//     .catch((err) => {
-//       dispatch({
-//         type: NEW_ERROR_MESSAGE,
-//         payload: {
-//           message: "error: invalid credentials.",
-//           eventName: "ERROR_EVENT",
-//         },
-//       });
-//     });
-// }

@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
     case SWAP_COMMAND_STATE:
       return {
         ...state,
-        commandState: payload.commandState,
+        commandState: !state.commandState,
       };
     default:
       return state;

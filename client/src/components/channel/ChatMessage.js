@@ -1,5 +1,5 @@
 import React from "react";
-import { getStyle } from "./helpers/getStyle";
+import { getStyle } from "../helpers/getStyle";
 
 function ChatMessage({ message, agent, eventName, channelID, keys }) {
   let style = getStyle(eventName, keys);

@@ -1,36 +1,31 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ROOT_CONSOLE_VAL } from "../resources/Strings";
-import dispatchCommand from "./helpers/commandParser/dispatchCommand";
-import actions from "../actions";
-import sendChat from "./helpers/sendChat";
+import { ROOT_CONSOLE_VAL } from "../../resources/Strings";
+import dispatchCommand from "../helpers/commandParser/dispatchCommand";
+import actions from "../../actions";
+import sendChat from "../helpers/sendChat";
+import { useSelector } from "react-redux";
 
-function ChatInput({
-  cid,
-  agentName,
-  store,
-  keys,
-  commandState,
-  setCommandState,
-}) {
+function ChatInput({ cid, agentName, store, keys }) {
   const [command, setCommand] = useState({ contents: "" });
   let { contents } = command;
+  const commandState = useSelector((state) => state.agentReducer.commandState);
 
   let prefix;
   let agentPrefix;
   agentName ? (agentPrefix = agentName) : (agentPrefix = "unknown");
   cid ? (prefix = cid) : (prefix = ROOT_CONSOLE_VAL);
 
-  const commandSwap = (e) => {
-    if (e.code == "ArrowDown") {
-      setCommandState((prevCheck) => !prevCheck);
-    }
-  };
+  // const commandSwap = (e) => {
+  //   if (e.code == "ArrowDown") {
+  //     setCommandState((prevCheck) => !prevCheck);
+  //   }
+  // };
 
   /*Conditional JSX for the command line----------------------------*/
   let chatJsx = (
     <>
       {<span className="focusAgentName">{`${agentName}`}</span>}
-      {`<${prefix}>`}
+      {`<${prefix}> `}
     </>
   );
 
@@ -51,10 +46,11 @@ function ChatInput({
   useEffect(() => {
     inputEl.current.focus();
   });
-
+  //<div onKeyUp={commandSwap}>
+  //<form
   return (
     <>
-      <div onKeyUp={commandSwap}>
+      <div>
         <form
           onSubmit={(e) => {
             e.preventDefault();

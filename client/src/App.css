@@ -24,77 +24,39 @@ div::-webkit-scrollbar-thumb {
 }
 /*SCROLLBAR STUFF-----------------------------------------------------------------------*/
 
+/*Styling for the yjs code-mirror awareness.--------------------------------------------*/
+.remote-caret {
+  position: absolute;
+  border-left: black;
+  border-left-style: solid;
+  border-left-width: 2px;
+  height: 1em;
+}
+.remote-caret > div {
+  position: relative;
+  top: -0.4em;
+  font-size: 10px;
+  background-color: rgb(56, 9, 54);
+  font-family: serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  user-select: none;
+  color: rgb(255, 220, 220);
+  padding-left: 3px;
+  padding-right: 3px;
+  z-index: 3;
+}
+/*-----------------------------------------------------------------------------------------*/
+
 * {
   background-color: #121a18;
-}
-
-.mainRow {
-  display: flex;
-}
-
-.moduleColumn {
-  padding: 10px;
-  flex-direction: column;
-  height: 100vh;
-  width: 45vw;
-}
-
-.channelColumn {
-  display: flex;
-  padding: 10px;
-  height: 100vh;
-  width: 55vw;
-  flex-direction: column;
-  flex-wrap: wrap;
-  word-break: break-all;
-}
-
-.tester {
-  border-style: solid;
-  width: 50vw;
-  height: 50vh;
-  border-color: rgb(11, 116, 143);
-  border-width: 1px;
-  overflow-y: auto;
-}
-
-.channelBox {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  height: 50vh;
-  width: 50vw;
-  word-break: break-all;
-}
-
-.chatBox {
-  /*
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  */
-  /*  border: 1px solid #00a4bd;*/
-}
-
-.consoleBox {
-  padding-top: 10px;
-  padding-left: 10px;
-}
-.module {
 }
 
 .chatInput {
   color: #fbad2e;
   font-family: monospace;
   text-align: left;
-}
-
-.codeOutputMessage {
-  color: #b0afc0;
-  font-family: monospace;
-  text-align: left;
-  padding: 2px;
-  white-space: pre-wrap;
 }
 
 .chatMessage {
@@ -121,22 +83,37 @@ div::-webkit-scrollbar-thumb {
   text-align: left;
 }
 
+.textBreak {
+  color: #616466;
+}
+
 .help {
   color: #228b41;
   font-family: monospace;
   text-align: left;
 }
 
-.command {
-  color: #9ebe2a;
+.module {
+  color: #810c71;
 }
 
+.command {
+  color: #76cadf;
+}
+
+.keyHint {
+  color: #b459af;
+}
+
+.chat {
+  color: #fbad2e;
+}
 .option {
   color: #ca42b3;
 }
 
 .argument {
-  color: #a01023;
+  color: #e4d127;
 }
 
 .commandSuccess {
@@ -163,10 +140,6 @@ div::-webkit-scrollbar-thumb {
   text-align: left;
 }
 
-.terminalBox {
-  color: blue;
-}
-
 .helpDescription {
   color: #bd9d35;
 }
@@ -181,38 +154,6 @@ input:focus {
   outline: none;
 }
 
-/*Styling for the yjs code-mirror awareness.*/
-.remote-caret {
-  position: absolute;
-  border-left: black;
-  border-left-style: solid;
-  border-left-width: 2px;
-  height: 1em;
-}
-.remote-caret > div {
-  position: relative;
-  top: -0.4em;
-  font-size: 10px;
-  background-color: rgb(56, 9, 54);
-  font-family: serif;
-  font-style: normal;
-  font-weight: normal;
-  line-height: normal;
-  user-select: none;
-  color: rgb(255, 220, 220);
-  padding-left: 3px;
-  padding-right: 3px;
-  z-index: 3;
-}
-
-.mod {
-  margin: 10px 10px 10px 10px;
-}
-
-.chan {
-  margin: 10px 10px 10px 10px;
-}
-
 .agentName {
   color: #648de4;
 }
@@ -221,196 +162,26 @@ input:focus {
   color: #46f327;
 }
 
-/*Styling for the split pane.*/
-.Resizer {
-  background: rgb(212, 208, 208);
-  opacity: 0.2;
-  z-index: 1;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding;
-  background-clip: padding-box;
-}
-
-.Resizer:hover {
-  -webkit-transition: all 2s ease;
-  transition: all 2s ease;
-}
-
-.SplitPane.vertical {
-  overflow-y: scroll;
-}
-
-.Resizer.horizontal {
-  height: 11px;
-  margin: -5px 0;
-  border-top: 5px solid rgba(255, 255, 255, 0);
-  border-bottom: 5px solid rgba(255, 255, 255, 0);
-  cursor: row-resize;
-  width: 100%;
-}
-
-.Resizer.horizontal:hover {
-  border-top: 5px solid rgba(0, 0, 0, 0.5);
-  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
-}
-
-.Resizer.vertical {
-  width: 5px;
-  margin: 0 -5px;
-  border-left: 5px solid #188dfa;
-  border-right: 5px solid #188dfa;
-  cursor: col-resize;
-}
-
-/* .Resizer.vertical:hover {
-  border-left: 5px solid rgba(255, 51, 51, 0.664);
-  border-right: 5px solid rgba(255, 51, 51, 0.664);
-} */
-.Resizer.disabled {
-  cursor: not-allowed;
-}
-.Resizer.disabled:hover {
-  border-color: transparent;
-}
-
-.resize {
-  border: 1px solid black;
-  overflow: auto;
-}
-.resize.horizontal {
-  resize: horizontal;
-}
-.resize.vertical {
-  resize: vertical;
-}
-.resize.both {
-  resize: both;
-}
-.wrap {
-  max-width: 100%;
-}
-
-.above {
-  position: relative;
-
-  border-style: solid;
-  border-color: rgb(124, 11, 71);
-
-  height: 400px;
-  width: 400px;
-}
-
-/*
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-*/
-.Block {
-  position: absolute;
-  border-style: solid;
-  border-color: rgb(25, 135, 149);
-  border-width: 1px;
-  width: 50%;
-  height: 100%;
-  top: 400px;
-  overflow-y: scroll;
-  z-index: 5;
-}
-
-/*
-justify-self: flex-end;
-*/
-#Resizable {
-  border: 1px solid rgb(238, 232, 232);
-  height: 300px;
-  width: 300px;
-  z-index: 5;
-}
-#Draggable {
-  position: absolute;
-  z-index: 10;
-  background: rgba(1, 1, 1, 0.2);
-  border-top: 1px solid rgb(94, 170, 214);
-  border-right: 1px solid rgb(94, 170, 214);
-  border-left: 1px solid rgb(94, 170, 214);
-  border-bottom: 1px solid rgb(94, 170, 214);
-
-  cursor: col-resize;
-  height: 1px;
-}
-/* width: 10px;
-top: 380px;
-left: 100px; */
-.relativeLad {
-  position: relative;
-
-  border-style: solid;
-  border-color: rgb(5, 47, 40);
-  border-width: 1px;
-
-  height: 500px;
-  width: 400px;
-  z-index: 0;
-}
-
-.moduleWrapper {
-  position: relative;
-}
-
-.huh {
-  position: absolute;
-  z-index: 10;
-  color: brown;
-  top: 0px;
-}
-
-.plz {
-  position: relative !important;
-  background-color: red;
-}
-
-.editorWrapper {
-  position: relative;
-  border-style: solid;
-  border-color: rgb(12, 92, 12);
-  border-width: 1px;
-}
-
-.big {
-  position: relative;
-
-  border-style: solid;
-  border-color: rgb(9, 54, 47);
-  border-width: 1px;
-
-  height: 200px;
-  width: 200px;
-}
-
-.consoleWindowWrapper {
-}
-/* position: relative;
-border-style: solid;
-border-color: rgb(168, 12, 12);
-border-width: 1px; */
-
+/*Channel module organization.--------------------------------------------------------------*/
 .singleItem {
-  height: 50%;
-  width: 50%;
-  max-height: 50vh;
+  height: 100%;
+  width: 75%;
+  min-height: 80vh;
+  max-height: 80vh;
   overflow-y: scroll;
 }
 
 .columnItem {
   height: 100%;
   width: 100%;
+  min-height: 75vh;
   max-height: 75vh;
   overflow-y: scroll;
 }
+/*-------------------------------------------------------------------------------------*/
 
+/*Alternating backgrounds for code module output lines.--------------------------------*/
 div.altBG > :nth-of-type(odd) {
   background: rgb(26, 18, 71);
 }
+/*-------------------------------------------------------------------------------------*/

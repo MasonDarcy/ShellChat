@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import { useSelector } from "react-redux";
-import CodeEditor from "./prototypes/CodeMirrorEditor";
+import CodeEditor from "../codemodule/CodeMirrorEditor";
 
 function ChannelModule({ keys, currentModule }) {
   const currentChannelID = useSelector(

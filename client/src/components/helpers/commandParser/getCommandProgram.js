@@ -1,6 +1,7 @@
 import {
   getAllHelp,
   getBasicHelp,
+  getQuickStartHelp,
   getSingleCommandHelp,
 } from "./helpers/getHelpJsx";
 const program = require("commander");
@@ -28,7 +29,63 @@ export const getCommandProgram = (store, actions, keys) => {
       },
     });
 
-    /*Join another channel. TODO Must unsubscribe from previous channel.*/
+    /*Help command. Displays commands.*/
+    program
+      .command("help")
+      .option("-a, --all", "list all commands.")
+      .option("-q, --quickstart", "describes basic actions more generally.")
+      .description("Displays different help information.")
+      .argument("[commandName]", "The name of the command to query help about.")
+      .action((commandName, options) => {
+        console.log(`commandName: ${commandName}`);
+        console.log(`options.all: ${options.all}`);
+        console.log(`options.quickstart: ${options.quickstart}`);
+
+        if (!commandName && !options.all && !options.quickstart) {
+          dispatch(
+            actions.helpMessageAction(getBasicHelp(), keys.HELP_EVENT_KEY)
+          );
+        } else if (options.all) {
+          dispatch(
+            actions.helpMessageAction(
+              getAllHelp(program.commands),
+              keys.HELP_EVENT_KEY
+            )
+          );
+
+          //This is kind of strange, but options.all seems to stay true even after the command is executed.
+          options.all = false;
+        } else if (commandName && !options.all) {
+          dispatch(
+            actions.helpMessageAction(
+              getSingleCommandHelp(
+                program.commands.find((command) => {
+                  return command._name == commandName;
+                })
+              ),
+              keys.HELP_EVENT_KEY
+            )
+          );
+        } else {
+          dispatch(
+            actions.helpMessageAction(getQuickStartHelp(), keys.HELP_EVENT_KEY)
+          );
+          options.quickstart = false;
+        }
+      });
+
+    /*Logs the user in.*/
+    program
+      .command("signup")
+      .argument("agentName", "Name of your account. Required.")
+      .argument("agentPassword", "Password to your account. Required.")
+      .description("Signs the agent up with the system, logs them in.")
+      .action((agentName, agentPassword) => {
+        console.log(`${agentName}, ${agentPassword}`);
+        dispatch(actions.signupAction(agentName, agentPassword));
+      });
+
+    /*Logs the user in.*/
     program
       .command("login")
       .argument("agentName", "Name of your account. Required.")
@@ -39,19 +96,75 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.loginAction(agentName, agentPassword));
       });
 
+    /*Logout command, destroys the user's session if it exists.*/
+    program
+      .command("logout")
+      .description("Logout from the service.")
+      .action(() => {
+        dispatch(actions.logoutAction());
+      });
+
+    /*Join another channel. TODO Must unsubscribe from previous channel.*/
+    program
+      .command("join")
+      .argument("channelID", "The name of the channel to join. Required.")
+      .option("-p, --password <String>", "specify a channel password")
+      .description("Join a channel, unsubscribes from previous channel.")
+      .action((channelID, options, command) => {
+        if (getState().subscribeToChannelReducer.isSubscribed) {
+          dispatch(actions.unsubscribeAction());
+        }
+
+        if (options.password) {
+          dispatch(
+            authorizedAction(
+              actions.subscribeAction(
+                store.getState().agentReducer.agentName,
+                channelID,
+                options.password
+              )
+            )
+          );
+        } else {
+          dispatch(authorizedAction(actions.subscribeAction, [channelID]));
+        }
+      });
+
     /*Load a module in a channel.*/
     program
       .command("load")
       .argument("moduleType", "Type of the module to load.")
-      .description("Loads a channel module.")
+      .description(
+        "Loads a channel module. Must be inside a channel to use. Current moduleTypes that can be loaded are: CODE (case sensitive)"
+      )
       .action((moduleType) => {
         console.log(`commandProgram/load/arg1: ${moduleType}`);
         let agentID = getState().agentReducer.agentName;
         let channelID = getState().subscribeToChannelReducer.currentChannelID;
+        let isSubscribed = getState().subscribeToChannelReducer.isSubscribed;
 
         dispatch(
-          actions.loadChannelModuleAction(moduleType, channelID, agentID)
+          actions.loadChannelModuleAction(
+            moduleType,
+            channelID,
+            agentID,
+            isSubscribed
+          )
         );
+      });
+
+    /*Run code in the code module.*/
+    program
+      .command("run")
+      .description("Runs the code in the code editor.")
+      .action(() => {
+        let agentID = getState().agentReducer.agentName;
+        let channelID = getState().subscribeToChannelReducer.currentChannelID;
+
+        //I need to try to access the script from the code editor
+        let module = getState().codeModuleReducer.codeEditorRef;
+        let code = module?.getValue();
+        dispatch(actions.runCodeAction(code, agentID, channelID, module));
       });
 
     /*Close a module in a channel.*/
@@ -65,19 +178,12 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.loadChannelModuleAction(null, channelID, agentID));
       });
 
-    /*Run code in the code module.*/
+    /*Leave command, leaves the current channel.*/
     program
-      .command("run")
-      .description("Runs the code in the code editor.")
+      .command("leave")
+      .description("Unsubscribes the agent from the current channel.")
       .action(() => {
-        let agentID = getState().agentReducer.agentName;
-        let channelID = getState().subscribeToChannelReducer.currentChannelID;
-
-        //I need to try to access the script from the code editor
-        let codeEditorRef = getState().codeModuleReducer.codeEditorRef;
-        dispatch(
-          actions.runCodeAction(codeEditorRef.getValue(), agentID, channelID)
-        );
+        dispatch(actions.unsubscribeAction());
       });
 
     /*Dispatch a friend request to another agent.*/
@@ -98,7 +204,7 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.acceptFriendRequestAction(agentName));
       });
 
-    /*Accept a friend request from another agent.*/
+    /*reject a friend request from another agent.*/
     program
       .command("reject")
       .argument("agentName", "Name of the agent to reject.")
@@ -134,48 +240,6 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.getFriendListAction());
       });
 
-    /*Join another channel. TODO Must unsubscribe from previous channel.*/
-    program
-      .command("join")
-      .argument("channelID", "The name of the channel to join. Required.")
-      .option("-p, --password <String>", "specify a channel password")
-      .description("Join a channel, unsubscribes from previous channel.")
-      .action((channelID, options, command) => {
-        if (getState().subscribeToChannelReducer.isSubscribed) {
-          dispatch(actions.unsubscribeAction());
-        }
-
-        if (options.password) {
-          dispatch(
-            authorizedAction(
-              actions.subscribeAction(
-                store.getState().agentReducer.agentName,
-                channelID,
-                options.password
-              )
-            )
-          );
-        } else {
-          dispatch(authorizedAction(actions.subscribeAction, [channelID]));
-        }
-      });
-
-    /*Logout command, destroys the user'ss session if it exists.*/
-    program
-      .command("logout")
-      .description("Logout from the service.")
-      .action(() => {
-        dispatch(actions.logoutAction());
-      });
-
-    /*Leave command, leaves the current channel.*/
-    program
-      .command("leave")
-      .description("Unsubscribes the agent from the current channel.")
-      .action(() => {
-        dispatch(actions.unsubscribeAction());
-      });
-
     /*Clear command, deletes the agent message log from redux store.*/
     program
       .command("clear")
@@ -183,44 +247,6 @@ export const getCommandProgram = (store, actions, keys) => {
       .action(() => {
         dispatch(actions.clearMessagesAction());
         console.log(`Program commands: ${program.commands}`);
-      });
-
-    /*Help command. Displays commands.*/
-    program
-      .command("help")
-      .option("-a, --all", "list all commands.")
-      .description("Displays a list of all commands")
-      .argument("[commandName]", "The name of the command to query help about.")
-      .action((commandName, options) => {
-        console.log(`commandName: ${commandName}`);
-        console.log(`options.all: ${options.all}`);
-
-        if (!commandName && !options.all) {
-          dispatch(
-            actions.helpMessageAction(getBasicHelp(), keys.HELP_EVENT_KEY)
-          );
-        } else if (options.all) {
-          dispatch(
-            actions.helpMessageAction(
-              getAllHelp(program.commands),
-              keys.HELP_EVENT_KEY
-            )
-          );
-
-          //This is kind of strange, but options.all seems to stay true even after the command is executed.
-          options.all = false;
-        } else if (commandName && !options.all) {
-          dispatch(
-            actions.helpMessageAction(
-              getSingleCommandHelp(
-                program.commands.find((command) => {
-                  return command._name == commandName;
-                })
-              ),
-              keys.HELP_EVENT_KEY
-            )
-          );
-        }
       });
 
     return program;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Channel from "./Channel";
-import ChannelModule from "./ChannelModule";
-import ConsoleOutputBox from "./prototypes/ConsoleOutputBox";
+import Channel from "./channel/Channel";
+import ChannelModule from "./channel/ChannelModule";
+import ConsoleOutputBox from "./codemodule/ConsoleOutputBox";
 
 function Terminal({ keys }) {
   const currentModule = useSelector(
@@ -10,8 +10,6 @@ function Terminal({ keys }) {
   );
 
   const outputLog = useSelector((state) => state.codeModuleReducer.outputLog);
-
-  const [commandState, setCommandState] = useState(true);
 
   if (currentModule) {
     return (
@@ -22,8 +20,6 @@ function Terminal({ keys }) {
               draggable={false}
               className="border-solid border-2 border-green-900"
               keys={keys}
-              commandState={commandState}
-              setCommandState={setCommandState}
             />
           </div>
           <div className="columnItem border-solid border-2 border-green-900">
@@ -43,12 +39,7 @@ function Terminal({ keys }) {
     return (
       <>
         <div className="singleItem  border-solid border-2 border-green-900 p-3">
-          <Channel
-            draggable={false}
-            keys={keys}
-            commandState={commandState}
-            setCommandState={setCommandState}
-          />
+          <Channel draggable={false} keys={keys} />
         </div>
       </>
     );

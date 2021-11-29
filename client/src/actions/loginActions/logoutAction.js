@@ -47,6 +47,13 @@ export const logoutAction = () => async (dispatch) => {
           isSubscribed: false,
         },
       });
+
+      dispatch({
+        type: types.UNLOAD_CHANNEL_MODULE,
+        payload: {
+          currentModule: null,
+        },
+      });
     })
     .catch((err) => {
       dispatch({

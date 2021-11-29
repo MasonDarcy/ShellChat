@@ -36,7 +36,7 @@ export const getFriendListAction = () => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: "You have no friends. Try /add friendName",
+          message: "You have no friends. Try the add friendName command.",
           eventName: "ERROR_EVENT",
         },
       });
