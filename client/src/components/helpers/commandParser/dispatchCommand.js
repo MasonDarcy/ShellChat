@@ -10,7 +10,6 @@ const dispatchCommand = (
   commandState
 ) => {
   let program = getCommandProgram(store, actions, keys);
-
   let { messageAction } = actions;
   console.log(`commandState inside dispatchCommand: ${commandState}`);
   if (commandState) {
@@ -21,6 +20,7 @@ const dispatchCommand = (
     /*Have to catch a possible error here.*/
     try {
       program.parse(commandArray);
+      //add command to the command list if there's no error
     } catch (err) {
       console.log(`Error: ${err}`);
       console.log(err);

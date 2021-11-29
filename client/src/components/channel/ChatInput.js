@@ -6,20 +6,45 @@ import sendChat from "../helpers/sendChat";
 import { useSelector } from "react-redux";
 
 function ChatInput({ cid, agentName, store, keys }) {
+  const MAX_HISTORY = 10;
   const [command, setCommand] = useState({ contents: "" });
-  let { contents } = command;
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(0);
+  const inputEl = useRef(null);
   const commandState = useSelector((state) => state.agentReducer.commandState);
+  let { contents } = command;
+
+  const browseHistory = (e) => {
+    if (history.length != 0) {
+      if (e.key === "ArrowDown" && !e.ctrlKey) {
+        if (historyIndex - 2 < 0) {
+          setCommand({ contents: "" });
+          setHistoryIndex(0);
+        } else {
+          setCommand({ contents: history[historyIndex - 2] });
+          setHistoryIndex((hi) => {
+            return hi - 1;
+          });
+        }
+      }
+      if (e.key === "ArrowUp" && !e.ctrlKey) {
+        if (historyIndex == history.length) {
+          setCommand({ contents: history[0] });
+          setHistoryIndex(1);
+        } else {
+          setCommand({ contents: history[historyIndex] });
+          setHistoryIndex((hi) => {
+            return hi + 1;
+          });
+        }
+      }
+    }
+  };
 
   let prefix;
   let agentPrefix;
   agentName ? (agentPrefix = agentName) : (agentPrefix = "unknown");
   cid ? (prefix = cid) : (prefix = ROOT_CONSOLE_VAL);
-
-  // const commandSwap = (e) => {
-  //   if (e.code == "ArrowDown") {
-  //     setCommandState((prevCheck) => !prevCheck);
-  //   }
-  // };
 
   /*Conditional JSX for the command line----------------------------*/
   let chatJsx = (
@@ -41,8 +66,6 @@ function ChatInput({ cid, agentName, store, keys }) {
 
   commandState ? (output = commandJsx) : (output = chatJsx);
 
-  const inputEl = useRef(null);
-
   useEffect(() => {
     inputEl.current.focus();
   });
@@ -50,7 +73,7 @@ function ChatInput({ cid, agentName, store, keys }) {
   //<form
   return (
     <>
-      <div>
+      <div onKeyDown={browseHistory}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -63,6 +86,15 @@ function ChatInput({ cid, agentName, store, keys }) {
               keys,
               commandState
             );
+            if (commandState) {
+              setHistory((history) => {
+                let newArray = history.slice();
+                newArray.unshift(contents);
+                if (history.length == MAX_HISTORY) newArray.pop();
+                return [...newArray];
+              });
+              setHistoryIndex(0);
+            }
             setCommand({ contents: "" });
           }}
         >
@@ -86,3 +118,39 @@ function ChatInput({ cid, agentName, store, keys }) {
 }
 
 export default ChatInput;
+// if(history.length == MAX_HISTORY) {
+//   return [...history.unshift(contents).pop()]
+// } else {
+//   [...history.unshift(contents)]
+// }
+
+// const browseHistory = (e) => {
+//   if (history.length != 0) {
+//     if (e.key === "ArrowDown" && !e.ctrlKey) {
+//       console.log(`historyIndex: ${historyIndex}`);
+//       if (Math.abs(historyIndex) % history.length == 1) {
+//         setCommand({
+//           contents: " ",
+//         });
+//         setHistoryIndex(-1);
+//       } else {
+//         setCommand({
+//           contents: history[Math.abs(historyIndex - 2) % history.length],
+//         });
+//         setHistoryIndex((hi) => {
+//           return hi - 1;
+//         });
+//       }
+//     }
+//     if (e.key === "ArrowUp" && !e.ctrlKey) {
+//       console.log(`historyIndex: ${historyIndex}`);
+
+//       setCommand({
+//         contents: history[Math.abs(historyIndex) % history.length],
+//       });
+//       setHistoryIndex((hi) => {
+//         return hi + 1;
+//       });
+//     }
+//   }
+// };
