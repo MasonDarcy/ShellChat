@@ -9,36 +9,28 @@ function ChatInput({ cid, agentName, store, keys }) {
   const MAX_HISTORY = 10;
   const [command, setCommand] = useState({ contents: "" });
   const [history, setHistory] = useState([]);
-  const [historyIndex, setHistoryIndex] = useState(0);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+
   const inputEl = useRef(null);
   const commandState = useSelector((state) => state.agentReducer.commandState);
   let { contents } = command;
 
+  useEffect(() => {
+    inputEl.current.focus();
+  });
+  useEffect(() => {
+    historyIndex == -1
+      ? setCommand({ contents: "" })
+      : setCommand({ contents: history[historyIndex] });
+  }, [historyIndex]);
+
   const browseHistory = (e) => {
-    if (history.length != 0) {
-      if (e.key === "ArrowDown" && !e.ctrlKey) {
-        if (historyIndex - 2 < 0) {
-          setCommand({ contents: "" });
-          setHistoryIndex(0);
-        } else {
-          setCommand({ contents: history[historyIndex - 2] });
-          setHistoryIndex((hi) => {
-            return hi - 1;
-          });
-        }
-      }
-      if (e.key === "ArrowUp" && !e.ctrlKey) {
-        if (historyIndex == history.length) {
-          setCommand({ contents: history[0] });
-          setHistoryIndex(1);
-        } else {
-          setCommand({ contents: history[historyIndex] });
-          setHistoryIndex((hi) => {
-            return hi + 1;
-          });
-        }
-      }
-    }
+    if (e.key === "ArrowUp" && !e.ctrlKey)
+      setHistoryIndex((i) =>
+        i + 1 == MAX_HISTORY || i + 1 == history.length ? 0 : i + 1
+      );
+    if (e.key === "ArrowDown" && !e.ctrlKey)
+      setHistoryIndex((i) => (i > -1 ? i - 1 : i));
   };
 
   let prefix;
@@ -66,11 +58,6 @@ function ChatInput({ cid, agentName, store, keys }) {
 
   commandState ? (output = commandJsx) : (output = chatJsx);
 
-  useEffect(() => {
-    inputEl.current.focus();
-  });
-  //<div onKeyUp={commandSwap}>
-  //<form
   return (
     <>
       <div onKeyDown={browseHistory}>
@@ -91,9 +78,10 @@ function ChatInput({ cid, agentName, store, keys }) {
                 let newArray = history.slice();
                 newArray.unshift(contents);
                 if (history.length == MAX_HISTORY) newArray.pop();
+                console.log(newArray);
                 return [...newArray];
               });
-              setHistoryIndex(0);
+              setHistoryIndex(-1);
             }
             setCommand({ contents: "" });
           }}
@@ -104,9 +92,9 @@ function ChatInput({ cid, agentName, store, keys }) {
             className="commandInput"
             id="commandInput"
             name="command"
+            value={contents}
             type="text"
             autoFocus={true}
-            value={contents}
             onChange={(e) => {
               setCommand({ contents: e.target.value });
             }}
@@ -118,39 +106,3 @@ function ChatInput({ cid, agentName, store, keys }) {
 }
 
 export default ChatInput;
-// if(history.length == MAX_HISTORY) {
-//   return [...history.unshift(contents).pop()]
-// } else {
-//   [...history.unshift(contents)]
-// }
-
-// const browseHistory = (e) => {
-//   if (history.length != 0) {
-//     if (e.key === "ArrowDown" && !e.ctrlKey) {
-//       console.log(`historyIndex: ${historyIndex}`);
-//       if (Math.abs(historyIndex) % history.length == 1) {
-//         setCommand({
-//           contents: " ",
-//         });
-//         setHistoryIndex(-1);
-//       } else {
-//         setCommand({
-//           contents: history[Math.abs(historyIndex - 2) % history.length],
-//         });
-//         setHistoryIndex((hi) => {
-//           return hi - 1;
-//         });
-//       }
-//     }
-//     if (e.key === "ArrowUp" && !e.ctrlKey) {
-//       console.log(`historyIndex: ${historyIndex}`);
-
-//       setCommand({
-//         contents: history[Math.abs(historyIndex) % history.length],
-//       });
-//       setHistoryIndex((hi) => {
-//         return hi + 1;
-//       });
-//     }
-//   }
-// };
