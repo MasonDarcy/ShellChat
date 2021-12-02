@@ -24,6 +24,8 @@ const Channel = React.forwardRef((props, ref) => {
         channelID={msgData.channelID}
         keys={keys}
         embedded={msgData.embedded}
+        embedded2={msgData.embedded2}
+
         // {...msgData}
       />
     );

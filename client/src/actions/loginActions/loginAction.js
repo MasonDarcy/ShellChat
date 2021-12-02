@@ -26,8 +26,9 @@ export const loginAction = (agentName, agentPassword) => async (dispatch) => {
         dispatch({
           type: NEW_SERVER_MESSAGE,
           payload: {
-            message: `Logged on as ${agentName}.`,
+            message: `Logged on as `,
             eventName: types.AUTH_SUCCESS_EVENT_KEY,
+            embedded: agentName,
           },
         });
         dispatch(subscribeToFriendsAction(agentName));

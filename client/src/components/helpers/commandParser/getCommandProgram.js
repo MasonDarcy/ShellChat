@@ -109,7 +109,9 @@ export const getCommandProgram = (store, actions, keys) => {
       .command("logout")
       .description("Logout from the service.")
       .action(() => {
-        dispatch(actions.logoutAction());
+        let agentID = getState().agentReducer.agentName;
+
+        dispatch(actions.logoutAction(agentID));
       });
 
     /*Join another channel. TODO Must unsubscribe from previous channel.*/

@@ -1,6 +1,6 @@
 import { NEW_ERROR_MESSAGE, NEW_SERVER_MESSAGE } from "../../types";
 import getFriendListRequest from "../../requestHelpers/getFriendListRequest";
-import { COMMAND_SUCCESS_EVENT_KEY } from "../../../constants/constants";
+import { FRIEND_LIST_ITEM_EVENT_KEY } from "../../../constants/constants";
 export const getFriendListAction = () => async (dispatch) => {
   let res = await getFriendListRequest();
   // console.log(`res: ${res.friendTupleArray}`);
@@ -15,10 +15,10 @@ export const getFriendListAction = () => async (dispatch) => {
         dispatch({
           type: NEW_SERVER_MESSAGE,
           payload: {
-            message: `${friend.agentName}: ${
-              friend.agentStatus ? "is online" : "is offline."
-            }`,
-            eventName: COMMAND_SUCCESS_EVENT_KEY,
+            message: `is `,
+            embedded: friend.agentName,
+            embedded2: `${friend.agentStatus ? "online" : "offline."}`,
+            eventName: FRIEND_LIST_ITEM_EVENT_KEY,
           },
         });
       });

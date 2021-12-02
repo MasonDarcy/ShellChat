@@ -1,10 +1,18 @@
 import React from "react";
 import { getStyle } from "../helpers/getStyle";
 
-function ChatMessage({ message, agent, eventName, embedded, channelID, keys }) {
+function ChatMessage({
+  message,
+  agent,
+  eventName,
+  embedded,
+  embedded2,
+  channelID,
+  keys,
+}) {
   let style = getStyle(eventName, keys);
   let channelPrefix = channelID ? channelID : `root`;
-
+  console.log(`eventName: ${eventName}`);
   switch (eventName) {
     case keys.CHAT_EVENT_KEY:
       return (
@@ -39,8 +47,15 @@ function ChatMessage({ message, agent, eventName, embedded, channelID, keys }) {
     case keys.FRIEND_HAS_ACCEPTED_KEY:
       return (
         <div className={style}>
-          <span className="agentName">{`<${embedded}>`}</span>
+          <span className="agentName">{`${embedded} `}</span>
           {message}
+        </div>
+      );
+    case keys.SENT_FRIEND_REQUEST_KEY:
+      return (
+        <div className={style}>
+          {message}
+          <span className="agentName">{`${embedded}`}</span>
         </div>
       );
     case keys.NEW_FRIEND_MESSAGE_EVENT_KEY:
@@ -50,10 +65,33 @@ function ChatMessage({ message, agent, eventName, embedded, channelID, keys }) {
           <span className={style}> {message}</span>
         </div>
       );
+    case keys.FRIEND_LIST_ITEM_EVENT_KEY:
+      if (embedded2 == "online") {
+        return (
+          <div className={style}>
+            <span className="agentName">{`${embedded}`}</span>
+            <span className={style}> {message}</span>
+            <span className="text-green-300"> {embedded2}</span>
+          </div>
+        );
+      } else {
+        return (
+          <div className={style}>
+            <span className="agentName">{`${embedded}`}</span>
+            <span className={style}> {message}</span>
+            <span className="text-red-300"> {embedded2}</span>
+          </div>
+        );
+      }
     case keys.CODE_OUTPUT_KEY:
       return <div className={style}>{message}</div>;
     case keys.AUTH_SUCCESS_EVENT_KEY:
-      return <div className={style}>{message}</div>;
+      return (
+        <div className={style}>
+          <span className={style}> {message}</span>
+          <span className="agentName">{`${embedded}`}</span>.
+        </div>
+      );
     case keys.AGENT_ACTION_KEY:
       return (
         <div className={style}>

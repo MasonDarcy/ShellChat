@@ -181,7 +181,7 @@ router.post(
     const { targetAgentID, message } = req.body;
     try {
       //Emit event
-
+      console.log(`Message in friend message api: ${message}`);
       let sourceAgent = await Agent.findById(req.session.userID).select(
         "-password"
       );

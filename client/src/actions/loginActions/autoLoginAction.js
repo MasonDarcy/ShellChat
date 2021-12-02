@@ -24,8 +24,9 @@ export const autoLoginAction = () => async (dispatch) => {
     dispatch({
       type: NEW_SERVER_MESSAGE,
       payload: {
-        message: `Resumed session as ${agentName}.`,
+        message: `Resumed session as `,
         eventName: keys.AUTH_SUCCESS_EVENT_KEY,
+        embedded: agentName,
       },
     });
     dispatch(subscribeToFriendsAction(agentName));

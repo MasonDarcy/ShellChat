@@ -3,7 +3,7 @@ import sendLogout from "../../authentication/sendLogout";
 import store from "../../store/store";
 import keys from "../../constants/constants";
 
-export const logoutAction = () => async (dispatch) => {
+export const logoutAction = (agentID) => async (dispatch) => {
   sendLogout()
     .then(() => {
       dispatch({
@@ -14,8 +14,9 @@ export const logoutAction = () => async (dispatch) => {
       dispatch({
         type: types.NEW_SERVER_MESSAGE,
         payload: {
-          message: `Logged out.`,
+          message: `Logged out from `,
           eventName: keys.AUTH_SUCCESS_EVENT_KEY,
+          embedded: agentID,
         },
       });
 

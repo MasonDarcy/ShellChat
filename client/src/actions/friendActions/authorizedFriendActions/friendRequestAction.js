@@ -1,6 +1,9 @@
 import { NEW_ERROR_MESSAGE, NEW_SERVER_MESSAGE } from "../../types";
 import sendFriendRequest from "../../requestHelpers/sendFriendRequest";
-import { COMMAND_SUCCESS_EVENT_KEY } from "../../../constants/constants";
+import {
+  COMMAND_SUCCESS_EVENT_KEY,
+  SENT_FRIEND_REQUEST_KEY,
+} from "../../../constants/constants";
 export const friendRequestAction = (targetAgentID) => async (dispatch) => {
   let res = await sendFriendRequest(targetAgentID);
 
@@ -9,8 +12,9 @@ export const friendRequestAction = (targetAgentID) => async (dispatch) => {
       dispatch({
         type: NEW_SERVER_MESSAGE,
         payload: {
-          message: `Sent friend request to ${targetAgentID}`,
-          eventName: COMMAND_SUCCESS_EVENT_KEY,
+          message: `Sent friend request to `,
+          embedded: targetAgentID,
+          eventName: SENT_FRIEND_REQUEST_KEY,
         },
       });
       break;
