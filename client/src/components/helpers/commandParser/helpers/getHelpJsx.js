@@ -102,8 +102,8 @@ export const getQuickStartHelp = () => {
       <span className="command">commands</span>, while in{" "}
       <span className="command">command-mode</span>. <br />
       <span className="chat">Chat messages</span> can be sent by toggling into{" "}
-      <span className="chat">chat-mode</span> with the{" "}
-      <span className="keyHint">down-arrow key</span>. <br />
+      <span className="chat">chat-mode</span> with{" "}
+      <span className="keyHint">ctrl + down-arrow </span>keys together. <br />
       <span className="textBreak">----------Example----------</span> <br />
       <span className="argument">Marty2000</span> signs up by entering{" "}
       <span className="command">signup</span>{" "}

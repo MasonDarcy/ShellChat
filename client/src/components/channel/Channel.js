@@ -5,7 +5,8 @@ import ChatInput from "./ChatInput";
 import { v4 } from "uuid";
 import store from "../../store/store";
 
-function Channel({ keys }) {
+const Channel = React.forwardRef((props, ref) => {
+  const { keys } = props;
   const channelID = useSelector(
     (state) => state.subscribeToChannelReducer.currentChannelID
   );
@@ -26,7 +27,7 @@ function Channel({ keys }) {
       />
     );
   });
-
+  console.log(`Channel agent name: ${agentName} `);
   return (
     <>
       <div className="pl-5 pt-5">
@@ -38,11 +39,12 @@ function Channel({ keys }) {
             agentName={agentName}
             store={store}
             keys={keys}
+            ref={ref}
           />
         </div>
       </div>
     </>
   );
-}
+});
 
 export default Channel;

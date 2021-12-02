@@ -5,19 +5,28 @@ import actions from "../../actions";
 import sendChat from "../helpers/sendChat";
 import { useSelector } from "react-redux";
 
-function ChatInput({ cid, agentName, store, keys }) {
+const ChatInput = React.forwardRef((props, ref) => {
+  const { cid, agentName, store, keys } = props;
+
+  const demoMode = useSelector((state) => state.agentReducer.demoMode);
+
   const MAX_HISTORY = 10;
   const [command, setCommand] = useState({ contents: "" });
   const [history, setHistory] = useState([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
 
-  const inputEl = useRef(null);
+  /*
+  The historyIndex -1 semantically represents the empty string, so
+  users can "erase" the input field by pressing down arrow enough times.
+  Similar behaviour to BASH
+  */
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const commandState = useSelector((state) => state.agentReducer.commandState);
   let { contents } = command;
 
   useEffect(() => {
-    inputEl.current.focus();
+    ref.current.focus();
   });
+
   useEffect(() => {
     historyIndex == -1
       ? setCommand({ contents: "" })
@@ -25,11 +34,11 @@ function ChatInput({ cid, agentName, store, keys }) {
   }, [historyIndex]);
 
   const browseHistory = (e) => {
-    if (e.key === "ArrowUp" && !e.ctrlKey)
+    if (e.key === "ArrowUp" && !e.ctrlKey && !demoMode)
       setHistoryIndex((i) =>
         i + 1 == MAX_HISTORY || i + 1 == history.length ? 0 : i + 1
       );
-    if (e.key === "ArrowDown" && !e.ctrlKey)
+    if (e.key === "ArrowDown" && !e.ctrlKey && !demoMode)
       setHistoryIndex((i) => (i > -1 ? i - 1 : i));
   };
 
@@ -54,6 +63,7 @@ function ChatInput({ cid, agentName, store, keys }) {
   );
   /*-----------------------------------------------------------------*/
 
+  console.log(`Agent name: ${agentName}`);
   let output;
 
   commandState ? (output = commandJsx) : (output = chatJsx);
@@ -74,6 +84,7 @@ function ChatInput({ cid, agentName, store, keys }) {
               commandState
             );
             if (commandState) {
+              /*If in command mode, save the command in the history.*/
               setHistory((history) => {
                 let newArray = history.slice();
                 newArray.unshift(contents);
@@ -88,7 +99,7 @@ function ChatInput({ cid, agentName, store, keys }) {
         >
           <label htmlFor="commandInput">{output}</label>
           <input
-            ref={inputEl}
+            ref={ref}
             className="commandInput"
             id="commandInput"
             name="command"
@@ -103,6 +114,6 @@ function ChatInput({ cid, agentName, store, keys }) {
       </div>
     </>
   );
-}
+});
 
 export default ChatInput;

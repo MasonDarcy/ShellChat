@@ -1,26 +1,36 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Auth from "./components/utility/Auth";
 import Terminal from "./components/Terminal";
 import CodeEditor from "./components/codemodule/CodeMirrorEditor";
 import "./App.css";
 import keys from "./constants/constants";
-//redux
+import DemoWidget from "./components/Widgets/DemoWidget";
 import { Provider } from "react-redux";
 import store from "./store/store";
-
 const App = () => {
+  const inputElement = useRef(null);
+
   const cmdToggle = (e) => {
-    if (e.ctrlKey && e.key === "ArrowDown") {
-      //dispatch an action
+    let demoMode = store.getState().agentReducer.demoMode;
+
+    if (e.ctrlKey && e.key === "ArrowDown" && !demoMode) {
       store.dispatch({
         type: "SWAP_COMMAND_STATE",
+      });
+    }
+
+    if (e.key === "x" && demoMode) {
+      console.log("Fired cancel");
+      store.dispatch({
+        type: "AGENT_CANCELLED_DEMO",
       });
     }
   };
 
   useEffect(() => {
     document.addEventListener("keydown", cmdToggle);
+
     return () => {
       document.removeEventListener("keydown", cmdToggle);
     };
@@ -34,7 +44,12 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={(props) => <Terminal keys={keys} modules={CodeEditor} />}
+            render={(props) => (
+              <>
+                <Terminal ref={inputElement} keys={keys} modules={CodeEditor} />
+                <DemoWidget inputElement={inputElement} />
+              </>
+            )}
           />
           <Route exact path="/proto" render={(props) => <div />} />
         </Fragment>

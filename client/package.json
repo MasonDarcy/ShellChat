@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.8.3",
     "codemirror": "^5.63.3",
     "commander": "^8.3.0",
+    "p-iteration": "^1.1.8",
     "react": "^17.0.2",
     "react-codemirror2": "^7.2.1",
     "react-dom": "^17.0.2",

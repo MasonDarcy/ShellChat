@@ -4,7 +4,8 @@ import Channel from "./channel/Channel";
 import ChannelModule from "./channel/ChannelModule";
 import ConsoleOutputBox from "./codemodule/ConsoleOutputBox";
 
-function Terminal({ keys }) {
+const Terminal = React.forwardRef((props, ref) => {
+  const { keys } = props;
   const currentModule = useSelector(
     (state) => state.subscribeToChannelReducer.currentModule
   );
@@ -17,6 +18,7 @@ function Terminal({ keys }) {
         <div draggable={false} className="grid grid-cols-2">
           <div className="columnItem border-solid border-2 border-green-900 p-3">
             <Channel
+              ref={ref}
               draggable={false}
               className="border-solid border-2 border-green-900"
               keys={keys}
@@ -39,12 +41,12 @@ function Terminal({ keys }) {
     return (
       <>
         <div className="singleItem  border-solid border-2 border-green-900 p-3">
-          <Channel draggable={false} keys={keys} />
+          <Channel ref={ref} draggable={false} keys={keys} />
         </div>
       </>
     );
   }
-}
+});
 
 export default Terminal;
 //      <ChannelModule keys={keys} currentModule={currentModule} />

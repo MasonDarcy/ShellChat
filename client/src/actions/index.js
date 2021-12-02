@@ -5,7 +5,6 @@ let { messageAction } = require("./messageActions/messageAction");
 let { helpMessageAction } = require("./messageActions/helpMessageAction");
 let { loginAction } = require("./loginActions/loginAction");
 let { logoutAction } = require("./loginActions/logoutAction");
-let { setAgentNameAction } = require("./setAgentNameAction");
 let { unsubscribeAction } = require("./channelActions/unsubscribeAction");
 let { clearMessagesAction } = require("./messageActions/clearMessagesAction");
 let { channelMessageAction } = require("./channelActions/channelMessageAction");
@@ -35,7 +34,9 @@ let {
 } = require("./channelActions/authorizedChannelActions/loadChannelModuleAction");
 let { runCodeAction } = require("./channelActions/runCodeAction");
 let { signupAction } = require("./loginActions/signupAction");
+let { runDemoAction } = require("./runDemoAction");
 module.exports = {
+  runDemoAction,
   signupAction,
   runCodeAction,
   loadChannelModuleAction,
@@ -46,7 +47,6 @@ module.exports = {
   subscribeToFriendsAction,
   friendRequestAction,
   messageAction,
-  setAgentNameAction,
   clearMessagesAction,
   channelMessageAction,
   helpMessageAction,

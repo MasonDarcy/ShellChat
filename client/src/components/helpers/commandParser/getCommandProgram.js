@@ -74,6 +74,14 @@ export const getCommandProgram = (store, actions, keys) => {
         }
       });
 
+    /*Runs the Shellchat demo.*/
+    program
+      .command("demo")
+      .description("Runs a Shellchat demo.")
+      .action(() => {
+        dispatch(actions.runDemoAction());
+      });
+
     /*Logs the user in.*/
     program
       .command("signup")
@@ -175,7 +183,17 @@ export const getCommandProgram = (store, actions, keys) => {
         let agentID = getState().agentReducer.agentName;
         let channelID = getState().subscribeToChannelReducer.currentChannelID;
         // dispatch(actions.closeChannelModuleAction(null, channelID, agentID));
-        dispatch(actions.loadChannelModuleAction(null, channelID, agentID));
+        console.log(`currentChannelID: ${channelID}`);
+        let isSubscribed = getState().subscribeToChannelReducer.isSubscribed;
+
+        dispatch(
+          actions.loadChannelModuleAction(
+            null,
+            channelID,
+            agentID,
+            isSubscribed
+          )
+        );
       });
 
     /*Leave command, leaves the current channel.*/

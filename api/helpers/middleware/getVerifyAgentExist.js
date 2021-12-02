@@ -3,7 +3,7 @@ const getVerifyAgentExists = (Agent) => async (req, res, next) => {
     console.log("Got here");
 
     const { targetAgentID } = req.body;
-    console.log(targetAgentID);
+    console.log(`targetAgentID: ${targetAgentID}`);
     const targetAgent = await Agent.findOne({
       agentName: targetAgentID,
     }).select("-password");
