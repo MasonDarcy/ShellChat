@@ -35,7 +35,9 @@ let {
 let { runCodeAction } = require("./channelActions/runCodeAction");
 let { signupAction } = require("./loginActions/signupAction");
 let { runDemoAction } = require("./runDemoAction");
+let { serverMessageAction } = require("./messageActions/serverMessageAction");
 module.exports = {
+  serverMessageAction,
   runDemoAction,
   signupAction,
   runCodeAction,

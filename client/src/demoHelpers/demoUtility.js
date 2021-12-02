@@ -15,6 +15,6 @@ export const writeWord = (ref, word, letterSpeed) => {
   });
 };
 
-function sleep(ms) {
+export const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
+};

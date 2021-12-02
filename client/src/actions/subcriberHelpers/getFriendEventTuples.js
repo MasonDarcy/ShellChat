@@ -19,11 +19,27 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
       let parsedData = JSON.parse(e.data);
 
       dispatch(
-        actions.serverMessageAction(
-          `${parsedData[0]} has accepted your friend request.`,
-          keys.COMMAND_SUCCESS_EVENT_KEY
+        actions.specialServerMessageAction(
+          `has accepted your friend request.`,
+          parsedData[0],
+          keys.FRIEND_HAS_ACCEPTED_KEY
         )
       );
+      // dispatch(
+      //   actions.serverMessageAction(
+      //     `${parsedData[0]} has accepted your friend request.`,
+      //     keys.COMMAND_SUCCESS_EVENT_KEY
+      //   )
+      // );
+
+      // dispatch({
+      //   type: "NEW_FRIEND_MESSAGE",
+      //   payload: {
+      //     message: `has accepted your friend request.`,
+      //     agent: parsedData[0],
+      //     eventName: keys.FRIEND_HAS_ACCEPTED_KEY,
+      //   },
+      // });
     },
   };
 
@@ -33,12 +49,14 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
       const { dispatch } = store;
       let parsedData = JSON.parse(e.data);
 
-      dispatch(
-        actions.serverMessageAction(
-          `<${parsedData[0]}>: ${parsedData[1]}`,
-          keys.NEW_FRIEND_MESSAGE_EVENT_KEY
-        )
-      );
+      dispatch({
+        type: "NEW_FRIEND_MESSAGE",
+        payload: {
+          message: parsedData[1],
+          agent: parsedData[0],
+          eventName: keys.NEW_FRIEND_MESSAGE_EVENT_KEY,
+        },
+      });
     },
   };
 

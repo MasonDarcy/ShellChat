@@ -11,6 +11,7 @@ export const getStyle = (eventName, keys) => {
     case keys.HELP_EVENT_KEY:
       return "help";
     case keys.COMMAND_SUCCESS_EVENT_KEY:
+    case keys.FRIEND_HAS_ACCEPTED_KEY:
       return "commandSuccess";
     case keys.NEW_FRIEND_MESSAGE_EVENT_KEY:
       return "friend";

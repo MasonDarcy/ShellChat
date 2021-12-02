@@ -1,7 +1,7 @@
 import React from "react";
 import { getStyle } from "../helpers/getStyle";
 
-function ChatMessage({ message, agent, eventName, channelID, keys }) {
+function ChatMessage({ message, agent, eventName, embedded, channelID, keys }) {
   let style = getStyle(eventName, keys);
   let channelPrefix = channelID ? channelID : `root`;
 
@@ -34,8 +34,22 @@ function ChatMessage({ message, agent, eventName, channelID, keys }) {
       return <div>{message}</div>;
     case keys.COMMAND_SUCCESS_EVENT_KEY:
       return <div className={style}>{message}</div>;
-    case keys.NEW_FRIEND_MESSAGE_EVENT_KEY:
+    case keys.COMMAND_SUCCESS_EVENT_KEY:
       return <div className={style}>{message}</div>;
+    case keys.FRIEND_HAS_ACCEPTED_KEY:
+      return (
+        <div className={style}>
+          <span className="agentName">{`<${embedded}>`}</span>
+          {message}
+        </div>
+      );
+    case keys.NEW_FRIEND_MESSAGE_EVENT_KEY:
+      return (
+        <div className={style}>
+          <span className="agentName">{`<${agent}>`}</span>
+          <span className={style}> {message}</span>
+        </div>
+      );
     case keys.CODE_OUTPUT_KEY:
       return <div className={style}>{message}</div>;
     case keys.AUTH_SUCCESS_EVENT_KEY:

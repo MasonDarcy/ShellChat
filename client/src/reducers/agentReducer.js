@@ -49,6 +49,11 @@ export default function (state = initialState, action) {
         ...state,
         agentCanceledDemo: false,
       };
+    case types.DEMO_CHANGE_NAME:
+      return {
+        ...state,
+        agentName: payload.agentName,
+      };
     default:
       return state;
   }

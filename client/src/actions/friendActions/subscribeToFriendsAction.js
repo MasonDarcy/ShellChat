@@ -8,7 +8,10 @@ import {
 } from "../subcriberHelpers/setSubscriberListeners";
 import { getFriendEventTupleArray } from "../subcriberHelpers/getFriendEventTuples";
 import { friendRequestReceivedAction } from "./friendRequestReceivedAction";
+import { friendMessageAction } from "./authorizedFriendActions/friendMessageAction";
 import { serverMessageAction } from "../messageActions/serverMessageAction";
+import { specialServerMessageAction } from "../messageActions/specialServerMessageAction";
+
 import { logoutAction } from "../loginActions/logoutAction";
 
 export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
@@ -25,7 +28,13 @@ export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
     null,
     getFriendEventTupleArray(
       store,
-      { friendRequestReceivedAction, serverMessageAction, logoutAction },
+      {
+        friendRequestReceivedAction,
+        serverMessageAction,
+        logoutAction,
+        friendMessageAction,
+        specialServerMessageAction,
+      },
       keys
     )
   );

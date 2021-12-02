@@ -1,4 +1,8 @@
-import { NEW_SERVER_MESSAGE, NEW_ERROR_MESSAGE } from "../../types";
+import {
+  NEW_SERVER_MESSAGE,
+  NEW_ERROR_MESSAGE,
+  NEW_FRIEND_MESSAGE,
+} from "../../types";
 import { NEW_FRIEND_MESSAGE_EVENT_KEY } from "../../../constants/constants";
 import { sendFriendMessage } from "../../requestHelpers/sendFriendMessage";
 export const friendMessageAction =
@@ -8,9 +12,10 @@ export const friendMessageAction =
     switch (res.status) {
       case 201:
         dispatch({
-          type: NEW_SERVER_MESSAGE,
+          type: NEW_FRIEND_MESSAGE,
           payload: {
-            message: `<${yourName}>${message}`,
+            message: `${message}`,
+            agent: yourName,
             eventName: NEW_FRIEND_MESSAGE_EVENT_KEY,
           },
         });

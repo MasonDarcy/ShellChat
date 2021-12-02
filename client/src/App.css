@@ -148,6 +148,7 @@ div::-webkit-scrollbar-thumb {
   font-family: monospace;
   border: none;
   box-shadow: none;
+  width: 50%;
 }
 
 input:focus {

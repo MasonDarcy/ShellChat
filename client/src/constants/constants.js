@@ -44,8 +44,13 @@ const LOAD_MODULE_KEY = "LOAD_MODULE";
 //CODE OUTPUT
 const CODE_OUTPUT_KEY = "CODE_OUTPUT";
 
+//Friend event keys
+const FRIEND_HAS_ACCEPTED_KEY = "FRIEND_HAS_ACCEPTED";
+
 /*----------------------------------------------------------------------*/
 module.exports = {
+  FRIEND_HAS_ACCEPTED_KEY,
+
   CODE_OUTPUT_KEY,
   AGENT_ACTION_KEY,
   AUTH_SUCCESS_EVENT_KEY,
