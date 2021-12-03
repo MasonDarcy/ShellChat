@@ -24,8 +24,9 @@ export const unsubscribeAction = () => (dispatch) => {
   dispatch({
     type: types.NEW_SERVER_MESSAGE,
     payload: {
-      message: `Exited channel: ${oldChannel}`,
-      eventName: keys.COMMAND_SUCCESS_EVENT_KEY,
+      message: `Exited channel:`,
+      embedded: oldChannel,
+      eventName: keys.EMBEDDED_COMMAND_SUCCESS_EVENT_KEY,
     },
   });
 };

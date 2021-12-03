@@ -74,27 +74,29 @@ const ChatInput = React.forwardRef((props, ref) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            dispatchCommand(
-              contents,
-              cid,
-              store,
-              actions,
-              sendChat,
-              keys,
-              commandState
-            );
-            if (commandState) {
-              /*If in command mode, save the command in the history.*/
-              setHistory((history) => {
-                let newArray = history.slice();
-                newArray.unshift(contents);
-                if (history.length == MAX_HISTORY) newArray.pop();
-                console.log(newArray);
-                return [...newArray];
-              });
-              setHistoryIndex(-1);
+            if (!demoMode) {
+              dispatchCommand(
+                contents,
+                cid,
+                store,
+                actions,
+                sendChat,
+                keys,
+                commandState
+              );
+              if (commandState) {
+                /*If in command mode, save the command in the history.*/
+                setHistory((history) => {
+                  let newArray = history.slice();
+                  newArray.unshift(contents);
+                  if (history.length == MAX_HISTORY) newArray.pop();
+                  console.log(newArray);
+                  return [...newArray];
+                });
+                setHistoryIndex(-1);
+              }
+              setCommand({ contents: "" });
             }
-            setCommand({ contents: "" });
           }}
         >
           <label htmlFor="commandInput">{output}</label>

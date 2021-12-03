@@ -73,8 +73,9 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
 
       if (parsedData[1] == keys.FRIEND_HAS_LOGGED_OFF_EVENT_KEY) {
         dispatch(
-          actions.serverMessageAction(
-            `${parsedData[0]} has logged off.`,
+          actions.specialServerMessageAction(
+            ` has logged off.`,
+            parsedData[0],
             keys.NEW_FRIEND_MESSAGE_EVENT_KEY
           )
         );
@@ -82,8 +83,9 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
 
       if (parsedData[1] == keys.FRIEND_HAS_LOGGED_ON_EVENT_KEY) {
         dispatch(
-          actions.serverMessageAction(
-            `${parsedData[0]} has logged on.`,
+          actions.specialServerMessageAction(
+            ` has logged on.`,
+            parsedData[0],
             keys.NEW_FRIEND_MESSAGE_EVENT_KEY
           )
         );

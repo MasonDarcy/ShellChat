@@ -3,6 +3,7 @@ import {
   UNSUBSCRIBE_TO_CHANNEL,
   LOAD_CHANNEL_MODULE,
   UNLOAD_CHANNEL_MODULE,
+  DEMO_CHANNEL_SET,
 } from "../actions/types";
 
 const initialState = {
@@ -37,6 +38,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         currentModule: payload.currentModule,
+      };
+    case DEMO_CHANNEL_SET:
+      return {
+        ...state,
+        currentChannelID: payload.channelID,
       };
     default:
       return state;

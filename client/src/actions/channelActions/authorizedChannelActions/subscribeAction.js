@@ -40,8 +40,9 @@ export const subscribeAction =
     dispatch({
       type: types.NEW_SERVER_MESSAGE,
       payload: {
-        message: `Joined channel: ${channelID}`,
-        eventName: keys.COMMAND_SUCCESS_EVENT_KEY,
+        message: `Joined channel:`,
+        embedded: channelID,
+        eventName: keys.EMBEDDED_COMMAND_SUCCESS_EVENT_KEY,
       },
     });
     dispatch({

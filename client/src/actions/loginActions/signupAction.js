@@ -22,8 +22,8 @@ export const signupAction = (agentName, agentPassword) => async (dispatch) => {
         dispatch({
           type: types.NEW_SERVER_MESSAGE,
           payload: {
-            message: `Account ${agentName} successfully created.`,
-            eventName: keys.AUTH_SUCCESS_EVENT_KEY,
+            message: `Account successfully created.`,
+            eventName: keys.COMMAND_SUCCESS_EVENT_KEY,
           },
         });
         dispatch(loginAction(agentName, agentPassword));

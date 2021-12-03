@@ -13,12 +13,15 @@ function ChatMessage({
   let style = getStyle(eventName, keys);
   let channelPrefix = channelID ? channelID : `root`;
   console.log(`eventName: ${eventName}`);
+  console.log(`eventName: ${keys.EMBEDDED_COMMAND_SUCCESS_EVENT_KEY}`);
+
   switch (eventName) {
     case keys.CHAT_EVENT_KEY:
       return (
         <div className={style}>
           {<span className="agentName">{`${agent}`}</span>}
-          {`<${channelPrefix}> ${message}`}
+          <span className="channelColor">{`<${channelPrefix}>`}</span>{" "}
+          {`${message}`}
         </div>
       );
     case keys.LEFT_CHANNEL_KEY:
@@ -38,12 +41,19 @@ function ChatMessage({
       );
     case keys.ERROR_EVENT_KEY:
       return <div className={style}>{`${message}`}</div>;
+    case keys.PURE_JSX_EVENT_KEY:
+      return message;
     case keys.HELP_EVENT_KEY:
       return <div>{message}</div>;
     case keys.COMMAND_SUCCESS_EVENT_KEY:
       return <div className={style}>{message}</div>;
-    case keys.COMMAND_SUCCESS_EVENT_KEY:
-      return <div className={style}>{message}</div>;
+    case keys.EMBEDDED_COMMAND_SUCCESS_EVENT_KEY:
+      return (
+        <div className={style}>
+          {message}
+          <span className="channelColor">{` ${embedded} `}</span>
+        </div>
+      );
     case keys.FRIEND_HAS_ACCEPTED_KEY:
       return (
         <div className={style}>
@@ -62,7 +72,7 @@ function ChatMessage({
       return (
         <div className={style}>
           <span className="agentName">{`<${agent}>`}</span>
-          <span className={style}> {message}</span>
+          <span className={style}>{message}</span>
         </div>
       );
     case keys.FRIEND_LIST_ITEM_EVENT_KEY:

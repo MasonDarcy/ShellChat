@@ -12,6 +12,7 @@ export default function DemoWidget({ inputElement }) {
   const WRITE_TIME = 100;
   const DEMO_USER_NAME = "Mason";
   const DEMO_USER_FRIEND = "Kathryn";
+  const CHANNEL_NAME = "Hangout";
 
   const cancel = (e) => {
     if (e.key === "x" && demoMode) {
@@ -31,6 +32,18 @@ export default function DemoWidget({ inputElement }) {
         agentName: null,
       },
     });
+    dispatch({
+      type: types.DEMO_CHANNEL_SET,
+      payload: {
+        channelID: null,
+      },
+    });
+    dispatch({
+      type: types.LOAD_CHANNEL_MODULE,
+      payload: {
+        currentModule: null,
+      },
+    });
     actions.serverMessageAction(
       "Demo cancelled.",
       keys.COMMAND_SUCCESS_EVENT_KEY
@@ -41,6 +54,7 @@ export default function DemoWidget({ inputElement }) {
       actions.serverMessageAction(message, keys.COMMAND_SUCCESS_EVENT_KEY)
     );
   };
+
   const errorDispatch = (message) => {
     dispatch(actions.errorMessageAction(message, keys.ERROR_EVENT_KEY));
   };
@@ -56,6 +70,16 @@ export default function DemoWidget({ inputElement }) {
     });
   };
 
+  const jsxDispatch = (message) => {
+    dispatch({
+      type: types.JSX_MESSAGE,
+      payload: {
+        message: message,
+        eventName: keys.PURE_JSX_EVENT_KEY,
+      },
+    });
+  };
+
   const chatDispatch = (message, name) => {
     dispatch({
       type: types.NEW_MESSAGE,
@@ -63,7 +87,7 @@ export default function DemoWidget({ inputElement }) {
         message: message,
         agent: name,
         eventName: keys.CHAT_EVENT_KEY,
-        channelID: "LetsCode",
+        channelID: CHANNEL_NAME,
       },
     });
   };
@@ -105,9 +129,17 @@ export default function DemoWidget({ inputElement }) {
         }
 
         /*4.Login messages.--------------------------*/
-        serverDispatch(`Account ${DEMO_USER_NAME} successfully created.`);
+        serverDispatch(`Account successfully created.`);
         await sleep(100);
-        serverDispatch(`Logged on as ${DEMO_USER_NAME}.`);
+        // serverDispatch(`Logged on as ${DEMO_USER_NAME}.`);
+        dispatch({
+          type: types.NEW_SERVER_MESSAGE,
+          payload: {
+            message: `Logged on as `,
+            eventName: keys.AUTH_SUCCESS_EVENT_KEY,
+            embedded: DEMO_USER_NAME,
+          },
+        });
         dispatch({
           type: types.DEMO_CHANGE_NAME,
           payload: {
@@ -155,7 +187,14 @@ export default function DemoWidget({ inputElement }) {
         await writeWord(inputElement, `add ${DEMO_USER_FRIEND}`, WRITE_TIME);
 
         /*8. Dispatch notification of request---*/
-        serverDispatch(`Sent friend request to ${DEMO_USER_FRIEND}`);
+        dispatch({
+          type: types.NEW_SERVER_MESSAGE,
+          payload: {
+            message: `Sent friend request to `,
+            embedded: DEMO_USER_FRIEND,
+            eventName: keys.SENT_FRIEND_REQUEST_KEY,
+          },
+        });
         //cancel check
         if (agentCancelled) {
           cleanUp();
@@ -173,7 +212,13 @@ export default function DemoWidget({ inputElement }) {
         }
 
         /*9. Dispatch notification of acceptance---*/
-        serverDispatch(`${DEMO_USER_FRIEND} has accepted your friend request.`);
+        dispatch(
+          actions.specialServerMessageAction(
+            `has accepted your friend request.`,
+            DEMO_USER_FRIEND,
+            keys.FRIEND_HAS_ACCEPTED_KEY
+          )
+        );
 
         /*--------------------------------------*/
         await sleep(SLEEP_TIME);
@@ -185,7 +230,15 @@ export default function DemoWidget({ inputElement }) {
 
         /*9.5 Write friends command.----------*/
         await writeWord(inputElement, `friends`, WRITE_TIME);
-        serverDispatch(`${DEMO_USER_FRIEND}: is online.`);
+        dispatch({
+          type: types.NEW_SERVER_MESSAGE,
+          payload: {
+            message: `is `,
+            embedded: DEMO_USER_FRIEND,
+            embedded2: `online`,
+            eventName: keys.FRIEND_LIST_ITEM_EVENT_KEY,
+          },
+        });
 
         /*--------------------------------------*/
         await sleep(SLEEP_TIME);
@@ -196,15 +249,9 @@ export default function DemoWidget({ inputElement }) {
         /*--------------------------------------*/
 
         /*10 Write friends command.----------*/
-        // dispatch({
-        //   type: types.NEW_SERVER_MESSAGE,
-        //   payload: {
-        //     message: `<${DEMO_USER_FRIEND}> Hey! Come join me in the channel LetsCode`,
-        //     eventName: keys.NEW_FRIEND_MESSAGE_EVENT_KEY,
-        //   },
-        // });
+
         friendDispatch(
-          "Hey! Come join me in the channel LetsCode",
+          ` Hey! Come join me in the channel ${CHANNEL_NAME}`,
           DEMO_USER_FRIEND
         );
 
@@ -223,7 +270,7 @@ export default function DemoWidget({ inputElement }) {
           WRITE_TIME
         );
 
-        friendDispatch("Alright, one sec", DEMO_USER_NAME);
+        friendDispatch(" Alright, one sec", DEMO_USER_NAME);
 
         /*--------------------------------------*/
         await sleep(SLEEP_TIME);
@@ -234,8 +281,22 @@ export default function DemoWidget({ inputElement }) {
         /*--------------------------------------*/
 
         /*12 Join channel----------*/
-        await writeWord(inputElement, `join LetsCode`, WRITE_TIME);
-        serverDispatch(`Joined Channel: LetsCode`);
+        await writeWord(inputElement, `join ${CHANNEL_NAME}`, WRITE_TIME);
+        dispatch({
+          type: types.NEW_SERVER_MESSAGE,
+          payload: {
+            message: `Joined channel:`,
+            embedded: CHANNEL_NAME,
+            eventName: keys.EMBEDDED_COMMAND_SUCCESS_EVENT_KEY,
+          },
+        });
+
+        dispatch({
+          type: types.DEMO_CHANNEL_SET,
+          payload: {
+            channelID: CHANNEL_NAME,
+          },
+        });
 
         /*--------------------------------------*/
         await sleep(SLEEP_TIME);
@@ -245,7 +306,15 @@ export default function DemoWidget({ inputElement }) {
         }
         /*--------------------------------------*/
         /*12. Friend joins the channel.----------*/
-        serverDispatch(`<${DEMO_USER_FRIEND}> has joined the channel.`);
+        //
+        dispatch({
+          type: types.NEW_CHANNEL_MESSAGE,
+          payload: {
+            agent: DEMO_USER_FRIEND,
+            eventName: keys.JOINED_CHANNEL_KEY,
+          },
+        });
+        // serverDispatch(`<${DEMO_USER_FRIEND}> has joined the channel.`);
         /*--------------------------------------*/
         await sleep(SLEEP_TIME);
         if (agentCancelled) {
@@ -254,9 +323,136 @@ export default function DemoWidget({ inputElement }) {
         }
         /*--------------------------------------*/
         chatDispatch(
-          "Hey. You can switch to chat mode with ctrl+uparrow.",
+          "Hey. You can switch to chat mode with ctrl + down-arrow-key.",
           DEMO_USER_FRIEND
         );
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
+        await writeWord(inputElement, `Hmm.. What do you mean?`, WRITE_TIME);
+
+        dispatch({
+          type: types.NEW_ERROR_MESSAGE,
+          payload: {
+            message: `error: unknown command'Hmm..'`,
+            eventName: keys.ERROR_EVENT_KEY,
+          },
+        });
+
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
+
+        dispatch({
+          type: "SWAP_COMMAND_STATE",
+        });
+
+        await sleep(300);
+
+        dispatch({
+          type: "SWAP_COMMAND_STATE",
+        });
+
+        await sleep(300);
+
+        dispatch({
+          type: "SWAP_COMMAND_STATE",
+        });
+
+        await sleep(300);
+
+        await writeWord(
+          inputElement,
+          `Oh I get it now, command mode is for commands only.`,
+          WRITE_TIME
+        );
+
+        chatDispatch(
+          `Oh I get it now, command mode is for commands only.`,
+          DEMO_USER_NAME
+        );
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
+        chatDispatch(
+          "Yeah. Switch back to command mode and load the code module for us.",
+          DEMO_USER_FRIEND
+        );
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
+        await writeWord(inputElement, `Alright, hold on.`, WRITE_TIME);
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
+        dispatch({
+          type: "SWAP_COMMAND_STATE",
+        });
+
+        await sleep(300);
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
+
+        await writeWord(inputElement, `load CODE`, WRITE_TIME);
+
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
+        dispatch({
+          type: types.LOAD_CHANNEL_MODULE,
+          payload: {
+            currentModule: "CODE",
+          },
+        });
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
+
+        chatDispatch(
+          "I'll write some code and we can run it.",
+          DEMO_USER_FRIEND
+        );
+
+        /*--------------------------------------*/
+        await sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
+        /*--------------------------------------*/
 
         /*The end-------------------------------*/
         cleanUp();
