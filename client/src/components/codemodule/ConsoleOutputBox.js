@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { v4 } from "uuid";
+import { ROOT_CONSOLE_VAL } from "../../resources/Strings";
 
 function ConsoleOutputBox({ codeOutput }) {
   /*REFS------------------------------------------------------------*/
@@ -11,7 +12,7 @@ function ConsoleOutputBox({ codeOutput }) {
   /*POSITIONING-----------------------------------------------------*/
   /*The BOTTOM has to go up, and the HEIGHT has to go up equally.---*/
   const [initialPos, setInitialPos] = useState(null);
-  const [initialSize, setInitialSize] = useState(null);
+  // const [initialSize, setInitialSize] = useState(null);
   const [offsetVal, setoffSet] = useState(null);
   /*----------------------------------------------------------------*/
 
@@ -36,19 +37,23 @@ function ConsoleOutputBox({ codeOutput }) {
     console.log(`bottom calculation: ${bottom}`);
     setInitialPos(bottom);
     //set the size? hmm lol
-    setInitialSize(bottom);
+    // setInitialSize(bottom);
     handleY.current = e.pageY;
   };
 
   const resize = (e) => {
     //new bottom?
     //  resizeBox.current.style.top = `${parseInt(e.pageY)}px`;
-    if (!handleY.current) {
-      return;
+    try {
+      if (!handleY.current) {
+        return;
+      }
+      let height = window.innerHeight - e.pageY;
+      handle.current.style.bottom = `${parseInt(height)}px`;
+      outputContainer.current.style.height = `${parseInt(height)}px`;
+    } catch (err) {
+      console.log(err);
     }
-    let height = window.innerHeight - e.pageY;
-    handle.current.style.bottom = `${parseInt(height)}px`;
-    outputContainer.current.style.height = `${parseInt(height)}px`;
   };
 
   const release = (e) => {
@@ -66,9 +71,7 @@ function ConsoleOutputBox({ codeOutput }) {
         className="text-green-600 text-justify font-mono p-1 text-base"
         key={v4()}
       >
-        {`${index} - ${new Date(Date.now()).toDateString()}: ${
-          output.data.output
-        }`}
+        {`${index} - ${new Date().toLocaleTimeString()}: ${output.data.output}`}
       </div>
     );
   });

@@ -79,7 +79,17 @@ export const getCommandProgram = (store, actions, keys) => {
       .command("demo")
       .description("Runs a Shellchat demo.")
       .action(() => {
-        dispatch(actions.runDemoAction());
+        let agentName = getState().agentReducer.agentName;
+        if (!agentName) {
+          dispatch(actions.runDemoAction());
+        } else {
+          dispatch(
+            actions.errorMessageAction(
+              "error: demo only available to guests. Please logout.",
+              keys.ERROR_EVENT_KEY
+            )
+          );
+        }
       });
 
     /*Logs the user in.*/
@@ -121,22 +131,31 @@ export const getCommandProgram = (store, actions, keys) => {
       .option("-p, --password <String>", "specify a channel password")
       .description("Join a channel, unsubscribes from previous channel.")
       .action((channelID, options, command) => {
-        if (getState().subscribeToChannelReducer.isSubscribed) {
-          dispatch(actions.unsubscribeAction());
-        }
+        if (channelID.length < 13) {
+          if (getState().subscribeToChannelReducer.isSubscribed) {
+            dispatch(actions.unsubscribeAction());
+          }
 
-        if (options.password) {
-          dispatch(
-            authorizedAction(
-              actions.subscribeAction(
-                store.getState().agentReducer.agentName,
-                channelID,
-                options.password
+          if (options.password) {
+            dispatch(
+              authorizedAction(
+                actions.subscribeAction(
+                  store.getState().agentReducer.agentName,
+                  channelID,
+                  options.password
+                )
               )
+            );
+          } else {
+            dispatch(authorizedAction(actions.subscribeAction, [channelID]));
+          }
+        } else {
+          dispatch(
+            actions.errorMessageAction(
+              "error: channel names must be 12 characters or less.",
+              keys.ERROR_EVENT_KEY
             )
           );
-        } else {
-          dispatch(authorizedAction(actions.subscribeAction, [channelID]));
         }
       });
 
@@ -145,22 +164,30 @@ export const getCommandProgram = (store, actions, keys) => {
       .command("load")
       .argument("moduleType", "Type of the module to load.")
       .description(
-        "Loads a channel module. Must be inside a channel to use. Current moduleTypes that can be loaded are: CODE (case sensitive)"
+        "Loads a channel module. Must be inside a channel to use. Current moduleTypes that can be loaded are: CODE (case sensitive)."
       )
       .action((moduleType) => {
         console.log(`commandProgram/load/arg1: ${moduleType}`);
         let agentID = getState().agentReducer.agentName;
         let channelID = getState().subscribeToChannelReducer.currentChannelID;
         let isSubscribed = getState().subscribeToChannelReducer.isSubscribed;
-
-        dispatch(
-          actions.loadChannelModuleAction(
-            moduleType,
-            channelID,
-            agentID,
-            isSubscribed
-          )
-        );
+        if (moduleType == "CODE") {
+          dispatch(
+            actions.loadChannelModuleAction(
+              moduleType,
+              channelID,
+              agentID,
+              isSubscribed
+            )
+          );
+        } else {
+          dispatch(
+            actions.errorMessageAction(
+              "error: invalid module type.",
+              keys.ERROR_EVENT_KEY
+            )
+          );
+        }
       });
 
     /*Run code in the code module.*/
@@ -171,9 +198,13 @@ export const getCommandProgram = (store, actions, keys) => {
         let agentID = getState().agentReducer.agentName;
         let channelID = getState().subscribeToChannelReducer.currentChannelID;
 
-        //I need to try to access the script from the code editor
         let module = getState().codeModuleReducer.codeEditorRef;
         let code = module?.getValue();
+        console.log(`code: ${code}`);
+        console.log(`agentID: ${agentID}`);
+        console.log(`channelID: ${channelID}`);
+        console.log(`module: ${module}`);
+
         dispatch(actions.runCodeAction(code, agentID, channelID, module));
       });
 
@@ -233,6 +264,13 @@ export const getCommandProgram = (store, actions, keys) => {
         dispatch(actions.rejectFriendRequestAction(agentName));
       });
 
+    /*reject a friend request from another agent.*/
+    program
+      .command("requests")
+      .description("Lists your pending friend requests.")
+      .action(() => {
+        dispatch(actions.getRequestsAction());
+      });
     /*Accept a friend request from another agent.*/
     program
       .command("m")

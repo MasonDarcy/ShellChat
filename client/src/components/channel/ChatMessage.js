@@ -61,17 +61,35 @@ function ChatMessage({
           {message}
         </div>
       );
+    case keys.ACCEPTED_FRIEND_REQUEST_EVENT_KEY:
+    case keys.REJECT_FRIEND_REQUEST_EVENT_KEY:
+      return (
+        <div className={style}>
+          {message}
+          <span className="agentName">{` ${embedded}`}</span>.
+        </div>
+      );
     case keys.SENT_FRIEND_REQUEST_KEY:
       return (
         <div className={style}>
           {message}
-          <span className="agentName">{`${embedded}`}</span>
+          <span className="agentName">{`${embedded}`}</span>.
         </div>
       );
     case keys.NEW_FRIEND_MESSAGE_EVENT_KEY:
+    case keys.AGENT_ACTION_KEY:
       return (
         <div className={style}>
           <span className="agentName">{`<${agent}>`}</span>
+          <span className={style}>{message}</span>
+        </div>
+      );
+    case keys.FRIEND_HAS_LOGGED_OFF_EVENT_KEY:
+    case keys.FRIEND_HAS_LOGGED_ON_EVENT_KEY:
+    case keys.REQUEST_LIST_ITEM_EVENT_KEY:
+      return (
+        <div className={style}>
+          <span className="agentName">{`<${embedded}> `}</span>
           <span className={style}>{message}</span>
         </div>
       );
@@ -81,7 +99,7 @@ function ChatMessage({
           <div className={style}>
             <span className="agentName">{`${embedded}`}</span>
             <span className={style}> {message}</span>
-            <span className="text-green-300"> {embedded2}</span>
+            <span className="text-green-300"> {embedded2}</span>.
           </div>
         );
       } else {
@@ -100,13 +118,6 @@ function ChatMessage({
         <div className={style}>
           <span className={style}> {message}</span>
           <span className="agentName">{`${embedded}`}</span>.
-        </div>
-      );
-    case keys.AGENT_ACTION_KEY:
-      return (
-        <div className={style}>
-          {agent}
-          {message}
         </div>
       );
     default:

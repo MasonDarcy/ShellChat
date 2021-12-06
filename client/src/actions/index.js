@@ -39,8 +39,9 @@ let { serverMessageAction } = require("./messageActions/serverMessageAction");
 let {
   specialServerMessageAction,
 } = require("./messageActions/specialServerMessageAction");
-
+let { getRequestsAction } = require("./friendActions/getRequestsAction");
 module.exports = {
+  getRequestsAction,
   specialServerMessageAction,
   serverMessageAction,
   runDemoAction,

@@ -1,11 +1,12 @@
 import { types } from "../actions/types";
 
 const initialState = {
-  agentName: null,
+  agentName: "Guest",
   isLoggedOn: false,
   commandState: true,
   demoMode: false,
   agentCanceledDemo: false,
+  memoizedName: null,
 };
 
 export default function (state = initialState, action) {
@@ -53,6 +54,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         agentName: payload.agentName,
+      };
+    case types.SET_MEMOIZED_NAME:
+      return {
+        ...state,
+        memoizedName: payload.agentName,
       };
     default:
       return state;

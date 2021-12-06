@@ -231,4 +231,35 @@ router.get("/info/list", auth, async (req, res) => {
   }
 });
 
+// @route   get api/friends/info/requests
+// @desc    Retrieve list of all pending friend requests
+// @access  private, subscribed on logon
+router.get("/info/requests", auth, async (req, res) => {
+  try {
+    let currentAgent = await Agent.findById(req.session.userID).select(
+      "-password"
+    );
+
+    let requests = currentAgent.requests;
+
+    const requestData = await Promise.all(
+      requests.map(async (request) => {
+        let currentRequest = await Agent.findById(request);
+        let agentName = currentRequest.agentName;
+        return {
+          agentName: agentName,
+        };
+      })
+    );
+
+    if (requests.length > 0) {
+      return res.status(200).json(requestData);
+    } else {
+      return res.status(404).json({ msg: "No requests." });
+    }
+  } catch (err) {
+    errorTool.error400(err, res);
+  }
+});
+
 module.exports = router;

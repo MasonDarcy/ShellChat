@@ -14,9 +14,14 @@ export const getStyle = (eventName, keys) => {
     case keys.EMBEDDED_COMMAND_SUCCESS_EVENT_KEY:
     case keys.FRIEND_HAS_ACCEPTED_KEY:
     case keys.SENT_FRIEND_REQUEST_KEY:
+    case keys.ACCEPTED_FRIEND_REQUEST_EVENT_KEY:
+    case keys.REJECT_FRIEND_REQUEST_EVENT_KEY:
       return "commandSuccess";
     case keys.NEW_FRIEND_MESSAGE_EVENT_KEY:
     case keys.FRIEND_LIST_ITEM_EVENT_KEY:
+    case keys.FRIEND_HAS_LOGGED_ON_EVENT_KEY:
+    case keys.FRIEND_HAS_LOGGED_OFF_EVENT_KEY:
+    case keys.REQUEST_LIST_ITEM_EVENT_KEY:
       return "friend";
     case keys.AUTH_SUCCESS_EVENT_KEY:
       return "authSuccess";

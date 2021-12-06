@@ -133,7 +133,7 @@ div::-webkit-scrollbar-thumb {
 }
 
 .agentAction {
-  color: rgb(187, 5, 178);
+  color: rgb(16, 161, 106);
   font-family: monospace;
   text-align: left;
 }
@@ -152,7 +152,7 @@ div::-webkit-scrollbar-thumb {
   font-family: monospace;
   border: none;
   box-shadow: none;
-  width: 50%;
+  width: 75%;
 }
 
 input:focus {

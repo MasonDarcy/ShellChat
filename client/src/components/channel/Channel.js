@@ -45,6 +45,7 @@ const Channel = React.forwardRef((props, ref) => {
             ref={ref}
           />
         </div>
+        <div ref={ref.scroll}></div>
       </div>
     </>
   );

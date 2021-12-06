@@ -1,5 +1,5 @@
 import { NEW_SERVER_MESSAGE, NEW_ERROR_MESSAGE } from "../../types";
-import { COMMAND_SUCCESS_EVENT_KEY } from "../../../constants/constants";
+import keys from "../../../constants/constants";
 import rejectFriendRequest from "../../requestHelpers/rejectFriendRequest";
 export const rejectFriendRequestAction =
   (targetAgentID) => async (dispatch) => {
@@ -10,8 +10,9 @@ export const rejectFriendRequestAction =
         dispatch({
           type: NEW_SERVER_MESSAGE,
           payload: {
-            message: `Rejected friend request from ${targetAgentID}`,
-            eventName: COMMAND_SUCCESS_EVENT_KEY,
+            message: `Rejected friend request from`,
+            embedded: targetAgentID,
+            eventName: keys.REJECT_FRIEND_REQUEST_EVENT_KEY,
           },
         });
         break;

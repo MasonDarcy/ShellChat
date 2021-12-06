@@ -37,6 +37,16 @@ export const signupAction = (agentName, agentPassword) => async (dispatch) => {
             eventName: keys.ERROR_EVENT_KEY,
           },
         });
+      case 418:
+        let errors = await res.json();
+        console.log(`Errors:${errors}`);
+        dispatch({
+          type: types.NEW_ERROR_MESSAGE,
+          payload: {
+            message: `error: ${errors.errs[0].msg}`,
+            eventName: keys.ERROR_EVENT_KEY,
+          },
+        });
         break;
       default:
         console.log("Should be unreachable");

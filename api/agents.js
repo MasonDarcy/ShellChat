@@ -35,13 +35,21 @@ router.post(
   "/",
   [
     check("agentName", "Name is required.").not().isEmpty(),
+    check("agentName", "User name exceeds maximum of 8 characters.").isArray({
+      max: 8,
+    }),
     check("password", "Password is required.").not().isEmpty(),
   ],
   async (req, res, next) => {
     console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errs: errors.array() });
+      console.log(
+        `Errors: ${errors.array().forEach((error, index) => {
+          console.log(`${index}: ${error.msg}`);
+        })}`
+      );
+      return res.status(418).json({ errs: errors.array() });
     }
 
     try {

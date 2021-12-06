@@ -11,10 +11,10 @@ import "codemirror/theme/dracula.css";
 
 const CodeEditor = React.forwardRef(
   ({ currentChannelID, agentName, keys }, ref) => {
+    //const [EditorRef, setEditorRef] = useState(null);
     const [EditorRef, setEditorRef] = useState(null);
     const [code, setCode] = useState("");
 
-    const big = useRef(null);
     const dispatch = useDispatch();
 
     const handleEditorDidMount = (editor) => {
@@ -22,10 +22,26 @@ const CodeEditor = React.forwardRef(
       editor.setSize("100%", "65%");
     };
 
+    // const setRef = (editor) => {
+    //   ref.editor = editor;
+    // };
+
     useEffect(() => {
+      // if (EditorRef) {
+      console.log("UseEffect");
+      // console.log(`ref.editor: ${ref.editor.current}`);
+
       if (EditorRef) {
+        console.log("Did run");
+        dispatch({
+          type: types.SET_EDITOR_REF,
+          payload: {
+            codeEditorRef: EditorRef,
+          },
+        });
         const ydoc = new Y.Doc(); //create a ydoc
         let provider = null;
+
         try {
           console.log(`ChannelID in code component:${currentChannelID} `);
           provider = new WebrtcProvider(currentChannelID, ydoc);
@@ -42,13 +58,6 @@ const CodeEditor = React.forwardRef(
             color: "#000000",
           });
           const getBinding = new CodemirrorBinding(yText, EditorRef, awareness);
-
-          dispatch({
-            type: types.SET_EDITOR_REF,
-            payload: {
-              codeEditorRef: EditorRef,
-            },
-          });
         } catch (err) {
           alert(`Error:${err}`);
         }
@@ -57,12 +66,19 @@ const CodeEditor = React.forwardRef(
             provider.disconnect();
             ydoc.destroy();
           }
+          dispatch({
+            type: types.SET_EDITOR_REF,
+            payload: {
+              codeEditorRef: null,
+            },
+          });
         };
       }
     }, [EditorRef]);
 
     return (
-      <div ref={ref} className="p-6">
+      //  <div ref={ref} className="p-6">
+      <div className="p-6">
         <CodeMirrorEditor
           onChange={(editor, data, value) => {
             setCode(value);
@@ -75,6 +91,7 @@ const CodeEditor = React.forwardRef(
           }}
           editorDidMount={(editor) => {
             handleEditorDidMount(editor);
+            ref.editor = editor;
           }}
         ></CodeMirrorEditor>
       </div>
@@ -83,4 +100,3 @@ const CodeEditor = React.forwardRef(
 );
 
 export default CodeEditor;
-// theme: "dracula", from options

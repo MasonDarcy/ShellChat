@@ -26,6 +26,7 @@ const Terminal = React.forwardRef((props, ref) => {
           </div>
           <div className="columnItem border-solid border-2 border-green-900">
             <ChannelModule
+              ref={ref}
               draggable={false}
               keys={keys}
               currentModule={currentModule}

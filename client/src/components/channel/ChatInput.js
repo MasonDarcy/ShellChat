@@ -24,7 +24,7 @@ const ChatInput = React.forwardRef((props, ref) => {
   let { contents } = command;
 
   useEffect(() => {
-    ref.current.focus();
+    ref.input.current.focus();
   });
 
   useEffect(() => {
@@ -42,28 +42,29 @@ const ChatInput = React.forwardRef((props, ref) => {
       setHistoryIndex((i) => (i > -1 ? i - 1 : i));
   };
 
+  let userName;
+  agentName ? (userName = agentName) : (userName = "Guest");
+
   let prefix;
-  let agentPrefix;
-  agentName ? (agentPrefix = agentName) : (agentPrefix = "unknown");
   cid ? (prefix = cid) : (prefix = ROOT_CONSOLE_VAL);
 
   /*Conditional JSX for the command line----------------------------*/
   let chatJsx = (
     <>
-      {<span className="focusAgentName">{`${agentName}`}</span>}
+      {<span className="focusAgentName">{`${userName}`}</span>}
       {`<${prefix}> `}
     </>
   );
 
   let commandJsx = (
     <>
-      {<span className="focusAgentName">{`${agentName}`}</span>}
+      {<span className="focusAgentName">{`${userName}`}</span>}
       <span className="command">{`<command> `}</span>
     </>
   );
   /*-----------------------------------------------------------------*/
 
-  console.log(`Agent name: ${agentName}`);
+  console.log(`Agent name: ${userName}`);
   let output;
 
   commandState ? (output = commandJsx) : (output = chatJsx);
@@ -101,7 +102,7 @@ const ChatInput = React.forwardRef((props, ref) => {
         >
           <label htmlFor="commandInput">{output}</label>
           <input
-            ref={ref}
+            ref={ref.input}
             className="commandInput"
             id="commandInput"
             name="command"
@@ -119,3 +120,9 @@ const ChatInput = React.forwardRef((props, ref) => {
 });
 
 export default ChatInput;
+
+// let agentPrefix;
+// agentName ? (agentPrefix = agentName) : (agentPrefix = "unknown");
+
+// let name;
+// agentName ? (name = agentName) : (name = "Guest");

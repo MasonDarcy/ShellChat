@@ -6,8 +6,6 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
 
       console.log(`getFriendEventTuples/friendRequestEvent: Fired`);
       let parsedData = JSON.parse(e.data);
-      //parsedData[0] = agentName of the sender
-      //parsedData[1] = event type ?? do i need to send this, I don't think so
       dispatch(actions.friendRequestReceivedAction(parsedData[0]));
     },
   };
@@ -76,7 +74,7 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
           actions.specialServerMessageAction(
             ` has logged off.`,
             parsedData[0],
-            keys.NEW_FRIEND_MESSAGE_EVENT_KEY
+            keys.FRIEND_HAS_LOGGED_OFF_EVENT_KEY
           )
         );
       }
@@ -86,7 +84,7 @@ export const getFriendEventTupleArray = (store, actions, keys) => {
           actions.specialServerMessageAction(
             ` has logged on.`,
             parsedData[0],
-            keys.NEW_FRIEND_MESSAGE_EVENT_KEY
+            keys.FRIEND_HAS_LOGGED_ON_EVENT_KEY
           )
         );
       }

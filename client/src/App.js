@@ -9,7 +9,11 @@ import DemoWidget from "./components/Widgets/DemoWidget";
 import { Provider } from "react-redux";
 import store from "./store/store";
 const App = () => {
-  const inputElement = useRef(null);
+  const demoRef = {
+    input: useRef(null),
+    editor: useRef(null),
+    scroll: useRef(null),
+  };
 
   const cmdToggle = (e) => {
     let demoMode = store.getState().agentReducer.demoMode;
@@ -46,8 +50,8 @@ const App = () => {
             path="/"
             render={(props) => (
               <>
-                <Terminal ref={inputElement} keys={keys} modules={CodeEditor} />
-                <DemoWidget inputElement={inputElement} />
+                <Terminal ref={demoRef} keys={keys} modules={CodeEditor} />
+                <DemoWidget store={store} inputElement={demoRef} />
               </>
             )}
           />
