@@ -121,6 +121,8 @@ router.post("/jdoodle", auth, async (req, res) => {
         versionIndex: "0",
       }),
     };
+    // clientId: process.env.DOODLE_CLIENT_ID,
+    // clientSecret: process.env.DOODLE_CLIENT_SECRET,
 
     let val = await fetch(url, config);
     console.log(`val: ${val}`);

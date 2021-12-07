@@ -104,6 +104,8 @@ export const getQuickStartHelp = () => {
       <span className="chat">Chat messages</span> can be sent by toggling into{" "}
       <span className="chat">chat-mode</span> with{" "}
       <span className="keyHint">ctrl + down-arrow </span>keys together. <br />
+      Scroll through your command history with the{" "}
+      <span className="keyHint">up-arrow</span> key. <br />
       <span className="textBreak">----------Example----------</span> <br />
       <span className="argument">Marty2000</span> signs up by entering{" "}
       <span className="command">signup</span>{" "}

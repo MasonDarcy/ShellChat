@@ -39,7 +39,7 @@ export const loginAction = (agentName, agentPassword) => async (dispatch) => {
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Agent does not exist.",
+            message: "error: user does not exist.",
             eventName: "ERROR_EVENT",
           },
         });
@@ -49,7 +49,7 @@ export const loginAction = (agentName, agentPassword) => async (dispatch) => {
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Invalid credentials.",
+            message: "error: invalid credentials.",
             eventName: "ERROR_EVENT",
           },
         });

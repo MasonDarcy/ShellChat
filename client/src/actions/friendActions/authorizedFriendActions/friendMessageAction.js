@@ -24,7 +24,7 @@ export const friendMessageAction =
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Target agent does not exist.",
+            message: "error: target user does not exist.",
             eventName: "ERROR_EVENT",
           },
         });
@@ -33,7 +33,7 @@ export const friendMessageAction =
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Target agent is not your friend.",
+            message: "error: target user is not your friend.",
             eventName: "ERROR_EVENT",
           },
         });
@@ -42,7 +42,7 @@ export const friendMessageAction =
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Unauthorized action. Please login.",
+            message: "error: unauthorized action. Please login.",
             eventName: "ERROR_EVENT",
           },
         });
@@ -51,7 +51,7 @@ export const friendMessageAction =
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Agent is offline.",
+            message: "error: user is offline.",
             eventName: "ERROR_EVENT",
           },
         });

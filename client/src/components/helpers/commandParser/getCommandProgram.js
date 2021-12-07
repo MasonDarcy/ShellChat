@@ -130,8 +130,11 @@ export const getCommandProgram = (store, actions, keys) => {
     /*Join another channel. TODO Must unsubscribe from previous channel.*/
     program
       .command("join")
-      .argument("channelID", "The name of the channel to join. Required.")
-      .option("-p, --password <String>", "specify a channel password")
+      .argument(
+        "channelID",
+        "The name of the channel to join. Required. Case sensitive."
+      )
+      //  .option("-p, --password <String>", "specify a channel password")
       .description("Join a channel, unsubscribes from previous channel.")
       .action((channelID, options, command) => {
         if (channelID.length < 13) {
@@ -216,15 +219,25 @@ export const getCommandProgram = (store, actions, keys) => {
         // dispatch(actions.closeChannelModuleAction(null, channelID, agentID));
 
         let isSubscribed = getState().subscribeToChannelReducer.isSubscribed;
+        let module = getState().subscribeToChannelReducer.currentModule;
 
-        dispatch(
-          actions.loadChannelModuleAction(
-            null,
-            channelID,
-            agentID,
-            isSubscribed
-          )
-        );
+        if (module == null) {
+          dispatch(
+            actions.errorMessageAction(
+              "error: no module open.",
+              keys.ERROR_EVENT_KEY
+            )
+          );
+        } else {
+          dispatch(
+            actions.loadChannelModuleAction(
+              null,
+              channelID,
+              agentID,
+              isSubscribed
+            )
+          );
+        }
       });
 
     /*Leave command, leaves the current channel.*/
@@ -241,7 +254,17 @@ export const getCommandProgram = (store, actions, keys) => {
       .argument("agentName", "The request target agent.")
       .description("Sends a request to another agent to be friends.")
       .action((agentTarget) => {
-        dispatch(actions.friendRequestAction(agentTarget));
+        let agentName = getState().agentReducer.agentName;
+        if (agentName == agentTarget) {
+          dispatch(
+            actions.errorMessageAction(
+              "error: trying to be friends with yourself!",
+              keys.ERROR_EVENT_KEY
+            )
+          );
+        } else {
+          dispatch(actions.friendRequestAction(agentTarget));
+        }
       });
 
     /*Accept a friend request from another agent.*/
@@ -283,9 +306,18 @@ export const getCommandProgram = (store, actions, keys) => {
           agentMessage += ` ${word}`;
         });
         let yourName = getState().agentReducer.agentName;
-        dispatch(
-          actions.friendMessageAction(agentName, agentMessage, yourName)
-        );
+        if (yourName == agentName) {
+          dispatch(
+            actions.errorMessageAction(
+              "error: stop messaging yourself.",
+              keys.ERROR_EVENT_KEY
+            )
+          );
+        } else {
+          dispatch(
+            actions.friendMessageAction(agentName, agentMessage, yourName)
+          );
+        }
       });
 
     /*Accept a friend request from another agent.*/

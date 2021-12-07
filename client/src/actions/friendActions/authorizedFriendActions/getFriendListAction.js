@@ -7,8 +7,6 @@ export const getFriendListAction = () => async (dispatch) => {
 
   switch (res.status) {
     case 200:
-      // console.log(`friendTupleArray: ${res.friendTupleArray}`);
-      // console.log(`friendTupleArray type: ${typeof res.friendTupleArray}`);
       let friendTupleArray = await res.json();
 
       friendTupleArray.forEach((friend) => {
@@ -27,7 +25,7 @@ export const getFriendListAction = () => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: "Unauthorized action. Please login.",
+          message: "error: unauthorized action. Please login.",
           eventName: "ERROR_EVENT",
         },
       });
@@ -36,7 +34,8 @@ export const getFriendListAction = () => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: "You have no friends. Try the add friendName command.",
+          message:
+            "error: you have no friends. Try the add friendName command.",
           eventName: "ERROR_EVENT",
         },
       });

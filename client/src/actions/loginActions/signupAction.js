@@ -33,7 +33,7 @@ export const signupAction = (agentName, agentPassword) => async (dispatch) => {
           type: types.NEW_ERROR_MESSAGE,
           payload: {
             message:
-              "Agent name already exists, please select a new user name.",
+              "error: username already exists, please select a new name.",
             eventName: keys.ERROR_EVENT_KEY,
           },
         });

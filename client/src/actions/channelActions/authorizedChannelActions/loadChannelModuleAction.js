@@ -37,7 +37,7 @@ export const loadChannelModuleAction =
           dispatch({
             type: types.NEW_ERROR_MESSAGE,
             payload: {
-              message: "Unauthorized action. Please login.",
+              message: "error: unauthorized action. Please login.",
               eventName: keys.ERROR_EVENT_KEY,
             },
           });

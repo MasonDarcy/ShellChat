@@ -50,7 +50,7 @@ div::-webkit-scrollbar-thumb {
 /*-----------------------------------------------------------------------------------------*/
 
 * {
-  background-color: #121a18;
+  background-color: #1b1114;
 }
 
 .chatInput {
@@ -94,7 +94,7 @@ div::-webkit-scrollbar-thumb {
 }
 
 .module {
-  color: #810c71;
+  color: #0086af;
 }
 
 .command {
@@ -110,14 +110,14 @@ div::-webkit-scrollbar-thumb {
 }
 
 .channelColor {
-  color: #b9e444;
+  color: #a027b6;
 }
 .option {
   color: #ca42b3;
 }
 
 .argument {
-  color: #e4d127;
+  color: #b8180a;
 }
 
 .commandSuccess {

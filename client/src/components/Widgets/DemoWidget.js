@@ -121,6 +121,10 @@ export default function DemoWidget({ inputElement, store }) {
         inputElement.scroll.current.scrollIntoView();
         /*--------------------------------------*/
         sleep(SLEEP_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         /*--------------------------------------*/
 
         /*3. Dispatch message about the demo.*/
@@ -139,8 +143,15 @@ export default function DemoWidget({ inputElement, store }) {
         /*4.Login messages.--------------------------*/
         serverDispatch(`Account successfully created.`);
         inputElement.scroll.current.scrollIntoView();
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(100);
-
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         dispatch({
           type: types.NEW_SERVER_MESSAGE,
           payload: {
@@ -164,9 +175,17 @@ export default function DemoWidget({ inputElement, store }) {
           return;
         }
         await sleep(VIEWER_DELAY_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         /*5. Write friends.--------------------------*/
         await writeWord(inputElement.input, "friends", WRITE_TIME);
         inputElement.scroll.current.scrollIntoView();
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         /*6. Dispatch friend error.-----------------*/
         errorDispatch("You have no friends. Try the add friendName command.");
         inputElement.scroll.current.scrollIntoView();
@@ -190,6 +209,7 @@ export default function DemoWidget({ inputElement, store }) {
           `add ${DEMO_USER_FRIEND}`,
           WRITE_TIME
         );
+
         inputElement.scroll.current.scrollIntoView();
         /*8. Dispatch notification of request---*/
         dispatch({
@@ -239,13 +259,17 @@ export default function DemoWidget({ inputElement, store }) {
         });
         inputElement.scroll.current.scrollIntoView();
         /*--------------------------------------*/
-        await sleep(SLEEP_TIME);
+
         if (agentCancelled) {
           cleanUp();
           return;
         }
+        await sleep(SLEEP_TIME);
         /*--------------------------------------*/
-
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         /*10 Write friends command.----------*/
         await sleep(VIEWER_DELAY_TIME);
         friendDispatch(
@@ -254,6 +278,11 @@ export default function DemoWidget({ inputElement, store }) {
         );
 
         /*--------------------------------------*/
+
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(SLEEP_TIME);
         if (agentCancelled) {
           cleanUp();
@@ -273,13 +302,17 @@ export default function DemoWidget({ inputElement, store }) {
         inputElement.scroll.current.scrollIntoView();
 
         /*--------------------------------------*/
-        await sleep(VIEWER_DELAY_TIME);
+
         if (agentCancelled) {
           cleanUp();
           return;
         }
+        await sleep(VIEWER_DELAY_TIME);
         /*--------------------------------------*/
-
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         /*12 Join channel----------*/
         await writeWord(inputElement.input, `join ${CHANNEL_NAME}`, WRITE_TIME);
         inputElement.scroll.current.scrollIntoView();
@@ -302,6 +335,11 @@ export default function DemoWidget({ inputElement, store }) {
         inputElement.input.current.readOnly = "readOnly";
 
         /*--------------------------------------*/
+
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(SLEEP_TIME);
         if (agentCancelled) {
           cleanUp();
@@ -311,6 +349,10 @@ export default function DemoWidget({ inputElement, store }) {
         /*12. Friend joins the channel.----------*/
         //
         await sleep(VIEWER_DELAY_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         dispatch({
           type: types.NEW_CHANNEL_MESSAGE,
           payload: {
@@ -321,12 +363,20 @@ export default function DemoWidget({ inputElement, store }) {
         inputElement.scroll.current.scrollIntoView();
         // serverDispatch(`<${DEMO_USER_FRIEND}> has joined the channel.`);
         /*--------------------------------------*/
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(SLEEP_TIME);
         if (agentCancelled) {
           cleanUp();
           return;
         }
         await sleep(VIEWER_DELAY_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         /*--------------------------------------*/
         chatDispatch(
           "Hey. You can switch to chat mode with ctrl + down-arrow-key.",
@@ -334,6 +384,10 @@ export default function DemoWidget({ inputElement, store }) {
         );
         inputElement.scroll.current.scrollIntoView();
         /*--------------------------------------*/
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(SLEEP_TIME);
         if (agentCancelled) {
           cleanUp();
@@ -341,12 +395,17 @@ export default function DemoWidget({ inputElement, store }) {
         }
         /*--------------------------------------*/
         await sleep(VIEWER_DELAY_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await writeWord(
           inputElement.input,
           `Hmm.. What do you mean?`,
           WRITE_TIME
         );
         inputElement.scroll.current.scrollIntoView();
+
         dispatch({
           type: types.NEW_ERROR_MESSAGE,
           payload: {
@@ -356,6 +415,10 @@ export default function DemoWidget({ inputElement, store }) {
         });
         inputElement.scroll.current.scrollIntoView();
         /*--------------------------------------*/
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(SLEEP_TIME);
         if (agentCancelled) {
           cleanUp();
@@ -367,34 +430,68 @@ export default function DemoWidget({ inputElement, store }) {
           type: "SWAP_COMMAND_STATE",
         });
         inputElement.scroll.current.scrollIntoView();
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(VIEWER_DELAY_TIME / 2);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
 
         dispatch({
           type: "SWAP_COMMAND_STATE",
         });
         inputElement.scroll.current.scrollIntoView();
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(VIEWER_DELAY_TIME / 2);
-
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         dispatch({
           type: "SWAP_COMMAND_STATE",
         });
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         inputElement.scroll.current.scrollIntoView();
         await sleep(VIEWER_DELAY_TIME / 2);
-
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await writeWord(
           inputElement.input,
           `Ah, command mode is for commands only, not channel chat.`,
           WRITE_TIME
         );
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         inputElement.scroll.current.scrollIntoView();
         chatDispatch(
           `Ah, command mode is for commands only, not channel chat.`,
           DEMO_USER_NAME
         );
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(VIEWER_DELAY_TIME);
-
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         inputElement.scroll.current.scrollIntoView();
         /*--------------------------------------*/
+
         await sleep(VIEWER_DELAY_TIME);
         if (agentCancelled) {
           cleanUp();
@@ -414,7 +511,10 @@ export default function DemoWidget({ inputElement, store }) {
         }
         await sleep(VIEWER_DELAY_TIME * 2);
         /*--------------------------------------*/
-
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         chatDispatch(
           "Try switching back to command mode and load the code module for us.",
           DEMO_USER_FRIEND
@@ -434,6 +534,10 @@ export default function DemoWidget({ inputElement, store }) {
         inputElement.scroll.current.scrollIntoView();
 
         /*--------------------------------------*/
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(VIEWER_DELAY_TIME);
         if (agentCancelled) {
           cleanUp();
@@ -496,6 +600,10 @@ export default function DemoWidget({ inputElement, store }) {
         );
         inputElement.scroll.current.scrollIntoView();
         /*--------------------------------------*/
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(VIEWER_DELAY_TIME);
         if (agentCancelled) {
           cleanUp();
@@ -528,6 +636,10 @@ export default function DemoWidget({ inputElement, store }) {
           return;
         }
         await sleep(VIEWER_DELAY_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         /*--------------------------------------*/
         await writeWord(inputElement.input, `run`, WRITE_TIME);
         /*--------------------------------------*/
@@ -545,6 +657,10 @@ export default function DemoWidget({ inputElement, store }) {
         });
         inputElement.scroll.current.scrollIntoView();
         /*--------------------------------------*/
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         await sleep(VIEWER_DELAY_TIME * 3);
         if (agentCancelled) {
           cleanUp();
@@ -564,11 +680,18 @@ export default function DemoWidget({ inputElement, store }) {
         }
         await sleep(VIEWER_DELAY_TIME);
         /*--------------------------------------*/
-
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         dispatch({
           type: "SWAP_COMMAND_STATE",
         });
         await sleep(VIEWER_DELAY_TIME);
+        if (agentCancelled) {
+          cleanUp();
+          return;
+        }
         inputElement.scroll.current.scrollIntoView();
         await writeWord(
           inputElement.input,
@@ -643,7 +766,7 @@ export default function DemoWidget({ inputElement, store }) {
         await writeWord(inputElement.input, `close`, WRITE_TIME);
 
         /*--------------------------------------*/
-        await sleep(SLEEP_TIME);
+
         if (agentCancelled) {
           cleanUp();
           return;

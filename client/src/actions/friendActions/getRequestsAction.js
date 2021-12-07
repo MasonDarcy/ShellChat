@@ -23,7 +23,7 @@ export const getRequestsAction = () => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: "Unauthorized action. Please login.",
+          message: "error: unauthorized action. Please login.",
           eventName: "ERROR_EVENT",
         },
       });
@@ -32,7 +32,7 @@ export const getRequestsAction = () => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: "You pending requests.",
+          message: "error: no pending requests.",
           eventName: "ERROR_EVENT",
         },
       });

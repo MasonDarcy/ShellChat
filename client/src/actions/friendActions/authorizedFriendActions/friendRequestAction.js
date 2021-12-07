@@ -22,7 +22,7 @@ export const friendRequestAction = (targetAgentID) => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: "Target agent does not exist.",
+          message: "error: target agent does not exist.",
           eventName: "ERROR_EVENT",
         },
       });
@@ -31,7 +31,7 @@ export const friendRequestAction = (targetAgentID) => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: "Authentication error. Please login.",
+          message: "error: please login.",
           eventName: "ERROR_EVENT",
         },
       });
@@ -40,7 +40,7 @@ export const friendRequestAction = (targetAgentID) => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: `${targetAgentID} is already your friend.`,
+          message: `error: ${targetAgentID} is already your friend.`,
           eventName: "ERROR_EVENT",
         },
       });
@@ -49,7 +49,7 @@ export const friendRequestAction = (targetAgentID) => async (dispatch) => {
       dispatch({
         type: NEW_ERROR_MESSAGE,
         payload: {
-          message: `You've already sent a request to ${targetAgentID}. `,
+          message: `error: you've already sent a request to ${targetAgentID}. `,
           eventName: "ERROR_EVENT",
         },
       });

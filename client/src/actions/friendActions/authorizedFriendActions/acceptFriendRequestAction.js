@@ -20,7 +20,7 @@ export const acceptFriendRequestAction =
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Target agent does not exist.",
+            message: "error: target user does not exist.",
             eventName: "ERROR_EVENT",
           },
         });
@@ -29,7 +29,7 @@ export const acceptFriendRequestAction =
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Authentication error, please login.",
+            message: "error: unauthorized action. Please login.",
             eventName: "ERROR_EVENT",
           },
         });
@@ -38,7 +38,7 @@ export const acceptFriendRequestAction =
         dispatch({
           type: NEW_ERROR_MESSAGE,
           payload: {
-            message: "Target agent does not want to be your friend yet.",
+            message: "error: target user does not want to be your friend yet.",
             eventName: "ERROR_EVENT",
           },
         });
