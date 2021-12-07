@@ -35,21 +35,16 @@ router.post(
   "/",
   [
     check("agentName", "Name is required.").not().isEmpty(),
-    check("agentName", "User name exceeds maximum of 8 characters.").isArray({
+    check("agentName", "User name exceeds maximum of 8 characters.").isLength({
       max: 8,
     }),
     check("password", "Password is required.").not().isEmpty(),
   ],
   async (req, res, next) => {
-    console.log(req.body);
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
-      console.log(
-        `Errors: ${errors.array().forEach((error, index) => {
-          console.log(`${index}: ${error.msg}`);
-        })}`
-      );
-      return res.status(418).json({ errs: errors.array() });
+      return res.status(418).json({ errors: errors.array() });
     }
 
     try {
@@ -98,9 +93,8 @@ router.post(
     check("password", "Password is required.").not().isEmpty(),
   ],
   async (req, res, next) => {
-    console.log(req.body);
     const errors = validationResult(req);
-    console.log(errors);
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errs: errors.array() });
     }
@@ -119,7 +113,7 @@ router.post(
 
       if (isMatch) {
         res.locals.agentID = fetchedAgent.id;
-        console.log(`Inside login: ${res.locals.agentID}`);
+
         next();
       } else {
         return res.status(401).json({ msg: "Incorrect credentials." });
@@ -142,7 +136,6 @@ router.delete("/logout", async (req, res) => {
 
     res.status(200).json({ msg: "Session ended, successfully logged out." });
   } catch (err) {
-    console.log("Got here");
     errorTool.error400(err, res);
   }
 });
@@ -165,7 +158,6 @@ router.get("/:agent_name", async (req, res) => {
 
     res.status(200).json({ fetchedAgent });
   } catch (err) {
-    console.log("Got here");
     errorTool.error400(err, res);
   }
 });
@@ -177,12 +169,11 @@ router.get("/:agent_name", async (req, res) => {
 router.get("/check/login", auth, async (req, res) => {
   try {
     let userID = req.session.userID;
-    console.log(`userID: ${userID}`);
+
     let agent = await Agent.findById(userID).select("-password");
 
     res.status(200).json({ agentName: agent.agentName });
   } catch (err) {
-    console.log("Got here");
     errorTool.error400(err, res);
   }
 });

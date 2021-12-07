@@ -64,7 +64,6 @@ const ChatInput = React.forwardRef((props, ref) => {
   );
   /*-----------------------------------------------------------------*/
 
-  console.log(`Agent name: ${userName}`);
   let output;
 
   commandState ? (output = commandJsx) : (output = chatJsx);

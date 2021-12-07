@@ -17,9 +17,6 @@ export default function (state = initialState, action) {
     case types.LOGIN:
     case types.AUTO_LOGIN:
     case types.LOGOUT:
-      console.log(
-        `Inside reducer: ${types.LOGIN}: payload: ${payload.agentName}`
-      );
       return {
         ...state,
         agentName: payload.agentName,

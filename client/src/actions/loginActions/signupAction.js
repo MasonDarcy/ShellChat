@@ -37,13 +37,14 @@ export const signupAction = (agentName, agentPassword) => async (dispatch) => {
             eventName: keys.ERROR_EVENT_KEY,
           },
         });
+        break;
       case 418:
         let errors = await res.json();
         console.log(`Errors:${errors}`);
         dispatch({
           type: types.NEW_ERROR_MESSAGE,
           payload: {
-            message: `error: ${errors.errs[0].msg}`,
+            message: `error: ${errors.err}`,
             eventName: keys.ERROR_EVENT_KEY,
           },
         });

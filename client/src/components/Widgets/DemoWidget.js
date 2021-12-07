@@ -31,7 +31,7 @@ export default function DemoWidget({ inputElement, store }) {
     dispatch({
       type: types.DEMO_CHANGE_NAME,
       payload: {
-        agentName: "Guest",
+        agentName: null,
       },
     });
 
@@ -48,7 +48,25 @@ export default function DemoWidget({ inputElement, store }) {
       },
     });
     serverDispatch(`Demo ended.`);
+
+    dispatch({
+      type: "NEW_MESSAGE",
+      payload: {
+        message: (
+          <div>
+            <span className="commandSuccess">
+              Hint: type
+              <span className="command"> demo</span> and hit enter to run the
+              demo again, or type
+              <span className="command"> help</span> to get some instructions.
+            </span>
+          </div>
+        ),
+        eventName: "PURE_JSX_EVENT",
+      },
+    });
   };
+
   const serverDispatch = (message) => {
     dispatch(
       actions.serverMessageAction(message, keys.COMMAND_SUCCESS_EVENT_KEY)
@@ -252,7 +270,6 @@ export default function DemoWidget({ inputElement, store }) {
 
         friendDispatch(" Alright, one sec", DEMO_USER_NAME);
 
-        console.log(`SCROLL: ${inputElement.scroll}`);
         inputElement.scroll.current.scrollIntoView();
 
         /*--------------------------------------*/
@@ -451,6 +468,16 @@ export default function DemoWidget({ inputElement, store }) {
             currentModule: "CODE",
           },
         });
+
+        dispatch({
+          type: types.AGENT_ACTION_MESSAGE,
+          payload: {
+            message: "CODE" ? ` is loading CODE.` : ` has closed the module.`,
+            eventName: keys.AGENT_ACTION_KEY,
+            agent: DEMO_USER_NAME,
+          },
+        });
+
         inputElement.scroll.current.scrollIntoView();
         inputElement.input.current.readOnly = "readOnly";
 

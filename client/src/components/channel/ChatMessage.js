@@ -12,8 +12,6 @@ function ChatMessage({
 }) {
   let style = getStyle(eventName, keys);
   let channelPrefix = channelID ? channelID : `root`;
-  console.log(`eventName: ${eventName}`);
-  console.log(`eventName: ${keys.EMBEDDED_COMMAND_SUCCESS_EVENT_KEY}`);
 
   switch (eventName) {
     case keys.CHAT_EVENT_KEY:

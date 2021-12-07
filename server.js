@@ -25,16 +25,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Use this after the variable declaration
 
-// app.use("/", (req, res, next) => {
-//   console.log("Request HTTP Version: ", req.httpVersion);
-// });
-
 app.use(
   session({
     secret: config.get("sessionSecret"),
     name: "sid",
     cookie: { maxAge: 100000000, httpOnly: true },
-    // cookie: { httpOnly: true },
 
     resave: true,
     store: MongoStore.create({ mongoUrl: config.get("mongoURI") }),
@@ -47,10 +42,6 @@ app.listen(PORT, () => {
 });
 
 app.use(express.json());
-
-// app.use((req, res) => {
-//   console.log(req.session.userID);
-// });
 
 app.get("/", (req, res) => {
   res.status(200).json({

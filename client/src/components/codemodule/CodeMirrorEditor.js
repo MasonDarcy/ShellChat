@@ -22,15 +22,7 @@ const CodeEditor = React.forwardRef(
       editor.setSize("100%", "65%");
     };
 
-    // const setRef = (editor) => {
-    //   ref.editor = editor;
-    // };
-
     useEffect(() => {
-      // if (EditorRef) {
-      console.log("UseEffect");
-      // console.log(`ref.editor: ${ref.editor.current}`);
-
       if (EditorRef) {
         console.log("Did run");
         dispatch({
@@ -43,7 +35,6 @@ const CodeEditor = React.forwardRef(
         let provider = null;
 
         try {
-          console.log(`ChannelID in code component:${currentChannelID} `);
           provider = new WebrtcProvider(currentChannelID, ydoc);
           const yText = ydoc.getText("codemirror");
           const awareness = provider.awareness;

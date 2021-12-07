@@ -37,10 +37,6 @@ export const getCommandProgram = (store, actions, keys) => {
       .description("Displays different help information.")
       .argument("[commandName]", "The name of the command to query help about.")
       .action((commandName, options) => {
-        console.log(`commandName: ${commandName}`);
-        console.log(`options.all: ${options.all}`);
-        console.log(`options.quickstart: ${options.quickstart}`);
-
         if (!commandName && !options.all && !options.quickstart) {
           dispatch(
             actions.helpMessageAction(getBasicHelp(), keys.HELP_EVENT_KEY)
@@ -99,8 +95,16 @@ export const getCommandProgram = (store, actions, keys) => {
       .argument("agentPassword", "Password to your account. Required.")
       .description("Signs the agent up with the system, logs them in.")
       .action((agentName, agentPassword) => {
-        console.log(`${agentName}, ${agentPassword}`);
-        dispatch(actions.signupAction(agentName, agentPassword));
+        if (agentName.length <= 12) {
+          dispatch(actions.signupAction(agentName, agentPassword));
+        } else {
+          dispatch(
+            actions.errorMessageAction(
+              "error: user name must not exceed 12 characters.",
+              keys.ERROR_EVENT_KEY
+            )
+          );
+        }
       });
 
     /*Logs the user in.*/
@@ -110,7 +114,6 @@ export const getCommandProgram = (store, actions, keys) => {
       .argument("agentPassword", "Password to your account. Required.")
       .description("Logs the agent into the system.")
       .action((agentName, agentPassword) => {
-        console.log(`${agentName}, ${agentPassword}`);
         dispatch(actions.loginAction(agentName, agentPassword));
       });
 
@@ -167,7 +170,6 @@ export const getCommandProgram = (store, actions, keys) => {
         "Loads a channel module. Must be inside a channel to use. Current moduleTypes that can be loaded are: CODE (case sensitive)."
       )
       .action((moduleType) => {
-        console.log(`commandProgram/load/arg1: ${moduleType}`);
         let agentID = getState().agentReducer.agentName;
         let channelID = getState().subscribeToChannelReducer.currentChannelID;
         let isSubscribed = getState().subscribeToChannelReducer.isSubscribed;
@@ -200,10 +202,6 @@ export const getCommandProgram = (store, actions, keys) => {
 
         let module = getState().codeModuleReducer.codeEditorRef;
         let code = module?.getValue();
-        console.log(`code: ${code}`);
-        console.log(`agentID: ${agentID}`);
-        console.log(`channelID: ${channelID}`);
-        console.log(`module: ${module}`);
 
         dispatch(actions.runCodeAction(code, agentID, channelID, module));
       });
@@ -216,7 +214,7 @@ export const getCommandProgram = (store, actions, keys) => {
         let agentID = getState().agentReducer.agentName;
         let channelID = getState().subscribeToChannelReducer.currentChannelID;
         // dispatch(actions.closeChannelModuleAction(null, channelID, agentID));
-        console.log(`currentChannelID: ${channelID}`);
+
         let isSubscribed = getState().subscribeToChannelReducer.isSubscribed;
 
         dispatch(
@@ -304,7 +302,6 @@ export const getCommandProgram = (store, actions, keys) => {
       .description("Clears the client-side messsage log.")
       .action(() => {
         dispatch(actions.clearMessagesAction());
-        console.log(`Program commands: ${program.commands}`);
       });
 
     return program;

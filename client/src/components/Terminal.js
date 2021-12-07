@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Channel from "./channel/Channel";
 import ChannelModule from "./channel/ChannelModule";
 import ConsoleOutputBox from "./codemodule/ConsoleOutputBox";
@@ -11,6 +11,28 @@ const Terminal = React.forwardRef((props, ref) => {
   );
 
   const outputLog = useSelector((state) => state.codeModuleReducer.outputLog);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: "NEW_MESSAGE",
+      payload: {
+        message: (
+          <div>
+            <span className="commandSuccess">
+              Hint: type
+              <span className="command"> demo</span> and hit enter to run a
+              demo, or type
+              <span className="command"> help</span> or to get some
+              instructions.
+            </span>
+          </div>
+        ),
+        eventName: "PURE_JSX_EVENT",
+      },
+    });
+  }, []);
 
   if (currentModule) {
     return (
