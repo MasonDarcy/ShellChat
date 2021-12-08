@@ -4,7 +4,8 @@ const getRequests = async () => {
     credentials: "include",
   };
   let res = await fetch(
-    "http://localhost:5000/api/friends/info/requests",
+    //   "http://localhost:5000/api/friends/info/requests",
+    "/api/friends/info/requests",
     config
   );
 
