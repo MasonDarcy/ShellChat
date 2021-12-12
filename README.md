@@ -43,37 +43,45 @@ __signup__: signs the agent up with the system, logs them in.
 	* agentName: name of the account to be. Required.
 	* agentPassword: password of the account to be. Required.
 
-* login: logs the agent into the system.
+__login__: logs the agent into the system.
+* args
 	* agentName: Name of your account. Required.
 	* agentPassword: Password of your account. Required.
 
-* logout: Logs you out of the service.
+__logout__: Logs you out of the service.
 
-* join: Join a channel. Unsubscribes from the previous channel.
+__join__: Join a channel. Unsubscribes from the previous channel.
+* args
 	*channelID: the name of the channel to join. Required. Case sensitive.
 
-* load: Loads a channel module. Must be subscribed to a channel to use. Current module types that can be loaded are: CODE (case sensitive).
+__load__: Loads a channel module. Must be subscribed to a channel to use. Current module types that can be loaded are: CODE (case sensitive).
+* args	
 	* moduleType: type of the module to load.
-	
-* run: runs the code in the code editor. 
 
-* close: Publically closes the currently loaded channel module.
+__run__: runs the code in the code editor. 
 
-* leave : Unsubscribes from the current channel.
+__close__: Publically closes the currently loaded channel module.
 
-* add: Sends a request to another agent to the be friends.
+__leave__: Unsubscribes from the current channel.
+
+__add__: Sends a request to another agent to the be friends.
+* args
 	* agentName: name of the friend to add.
 
-* accept: Accepts a freind request from an agent.
+__accept__: Accepts a freind request from an agent.
+* args	
 	* agentName: name of the agent to accept as a friend.
 
-* reject: Rejects a friend request from an agent.
+__reject__: Rejects a friend request from an agent.
+* args
 	* agentName: name of the agent to reject.
 
-* request: Lists your pending friend requests.
+__request__: Lists your pending friend requests.
 
-* m: Direct message a friend.
+
+__m__: Direct message a friend.
+* args
 	* agentName: target friend.
 	* message: the message to send.
 
-* friends: Lists your friends and their current status (online, offline).
+__friends__: Lists your friends and their current status (online, offline).
