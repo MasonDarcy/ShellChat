@@ -48,40 +48,41 @@ __login__: logs the agent into the system.
 	* agentName: Name of your account. Required.
 	* agentPassword: Password of your account. Required.
 
-__logout__: Logs you out of the service.
+__logout__: logs you out of the service.
 
-__join__: Join a channel. Unsubscribes from the previous channel.
+__join__: join a channel. Unsubscribes from the previous channel.
 * args
 	*channelID: the name of the channel to join. Required. Case sensitive.
 
-__load__: Loads a channel module. Must be subscribed to a channel to use. Current module types that can be loaded are: CODE (case sensitive).
+__load__: loads a channel module. Must be subscribed to a channel to use. Current module types that can be loaded are: CODE (case sensitive).
 * args	
 	* moduleType: type of the module to load.
 
 __run__: runs the code in the code editor. 
 
-__close__: Publically closes the currently loaded channel module.
+__close__: publically closes the currently loaded channel module.
 
-__leave__: Unsubscribes from the current channel.
+__leave__: unsubscribes from the current channel.
 
-__add__: Sends a request to another agent to the be friends.
+__add__: sends a request to another agent to the be friends.
 * args
 	* agentName: name of the friend to add.
 
-__accept__: Accepts a freind request from an agent.
+__accept__: accepts a freind request from an agent.
 * args	
 	* agentName: name of the agent to accept as a friend.
 
-__reject__: Rejects a friend request from an agent.
+__reject__: rejects a friend request from an agent.
 * args
 	* agentName: name of the agent to reject.
 
-__requests__: Lists your pending friend requests.
+__requests__: lists your pending friend requests.
 
 
-__m__: Direct message a friend.
+__m__: direct message a friend.
 * args
 	* agentName: target friend.
 	* message: the message to send.
 
-__friends__: Lists your friends and their current status (online, offline).
+__friends__: lists your friends and their current status (online, offline).
+
