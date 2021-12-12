@@ -19,3 +19,12 @@ in real time, and to run the code and view the result together.
 
 ![alt text](https://github.com/MasonDarcy/ShellChat/blob/main/animated_module.gif "Code editor screenshot")
 
+## Command list
+
+Shellchat has the following list of commands.
+
+Example: commandName argumentOne argumentTwo -option
+
+* help: displays different help information.
+	*test
+	
