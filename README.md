@@ -11,3 +11,4 @@ It includes some basic web service features.
 * Chat and channel joining 
 * Adding friends, direct messaging
 * Launching channel activities
+
