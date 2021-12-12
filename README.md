@@ -31,8 +31,7 @@ Shellchat has the following list of commands.
 
 Example: commandName argumentOne argumentTwo -option
 
- __help__ 
-* displays different help information.
+ __help__ : displays different help information.
 * args
 	* commandName [optional]: outputs information about a specific command.
 * options
