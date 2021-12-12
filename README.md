@@ -2,6 +2,8 @@
 
 ## Live prototype
 
+* Works in Chrome, Safari, Mozilla
+
 http://shellchat.mdarcy.ca/
 
 ## What is ShellChat?
