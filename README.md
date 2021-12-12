@@ -119,6 +119,8 @@ __friends__: lists your friends and their current status (online, offline).
 ## Implementation
 
 ShellChat is implemented in Javascript. React front-end and Express.js running in Node, MongoDB, deployed on Heroku.
+Many of ShellChat's features are implemented through server-sent-events, and the code-editing module is supported by 
+the code-mirror library and YJS for synchronizing and resolving the collaborative editing.
 
 Other dependencies
 * code-mirror
