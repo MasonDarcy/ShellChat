@@ -26,5 +26,6 @@ Shellchat has the following list of commands.
 Example: commandName argumentOne argumentTwo -option
 
 * help: displays different help information.
-	* test
-	
+	* commandName [optional]: outputs information about a specific command.
+	* -a, --all: lists all commands.
+
