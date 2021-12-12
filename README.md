@@ -31,9 +31,10 @@ Shellchat has the following list of commands.
 
 Example: commandName argumentOne argumentTwo -option
 
-* help: displays different help information.
-	* commandName [optional]: outputs information about a specific command.
-	* -a, --all: lists all commands.
+* __help__ 
+	*displays different help information.
+		* commandName [optional]: outputs information about a specific command.
+		* -a, --all: lists all commands.
 
 * __demo__: runs a demo of the program. Can be run in guest-mode (not logged in).
 	
