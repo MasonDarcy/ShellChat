@@ -118,7 +118,15 @@ __friends__: lists your friends and their current status (online, offline).
 
 ## Implementation
 
-ShellChat is implemented in Javascript. React front-end, Express.js and MongoDB back-end.
+## Implementation
+
+ShellChat is implemented in Javascript. React front-end and Express.js running in Node, with MongoDB.
+
+Other dependencies
+* code-mirror
+* yjs 
+* commander
+
 
 Other dependencies
 * code-mirror
