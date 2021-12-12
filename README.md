@@ -76,7 +76,7 @@ __reject__: Rejects a friend request from an agent.
 * args
 	* agentName: name of the agent to reject.
 
-__request__: Lists your pending friend requests.
+__requests__: Lists your pending friend requests.
 
 
 __m__: Direct message a friend.
