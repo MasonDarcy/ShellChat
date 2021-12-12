@@ -1,3 +1,3 @@
 # ShellChat
 
-Shell
+Shellchat
