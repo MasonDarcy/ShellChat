@@ -126,7 +126,7 @@ the code-mirror library and YJS for synchronizing and resolving the collaborativ
 jdoodle API.
 
 ## Notes
-
+<p align="justfiy">
 Shellchat started out as just a prototype to implement basic chat. I learned a lot and went through several growing pains building it,
 and I feel a lot more comfortable now working with a collection of different web development technologies. Before beginning implementation,
 I didn't have an effective software development process or design -- but I had done a great deal of preparation studying javascript, React, HTTP, 
@@ -141,3 +141,4 @@ scale with multiple back-end servers, there would be an issue propagating events
 it emits the event to every other open server-sent-event HTTP connection. However, if there were multiple servers, that event would only propagate locally. Another issue was adopting a more formal approach to testing. Largely, the software process I ended up using was code-and-fix -- but I think moving forward, now that I'm 
 more comfortable with a lot of the technologies, I can focus more on the overall design an architecture of the product. This project was primarily my first try at a web-app, and
 was intended to showcase that I could bring together a collection of technologies into a functioning prototype.
+</p>
