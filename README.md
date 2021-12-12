@@ -29,3 +29,20 @@ Example: commandName argumentOne argumentTwo -option
 	* commandName [optional]: outputs information about a specific command.
 	* -a, --all: lists all commands.
 
+* demo: runs a demo of the program. Can be run in guest-mode (not logged in).
+	
+* signup: signs the agent up with the system, logs them in.
+	* agentName: name of the account to be. Required.
+	* agentPassword: password of the account to be. Required.
+
+* login: logs the agent into the system.
+	* agentName: Name of your account. Required.
+	* agentPassword: Password of your account. Required.
+
+* logout: Logs you out of the service.
+
+* join: Join a channel. Unsubscribes from the previous channel.
+	*channelID: the name of the channel to join. Required. Case sensitive.
+
+* load: Loads a channel module. Must be subscribed to a channel to use. Current module types that can be loaded are: CODE (case sensitive).
+	* moduleType: type of the module to load.
