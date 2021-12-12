@@ -130,15 +130,14 @@ jdoodle API.
 Shellchat started out as just a prototype to implement basic chat. I learned a lot and went through several growing pains building it,
 and I feel a lot more comfortable now working with a collection of different web development technologies. Before beginning implementation,
 I didn't have an effective software development process or design -- but I had done a great deal of preparation studying javascript, React, HTTP, 
-git, CSS, react-redux, Mongo, built-in Web APIs, the DOM,  and node.js. I feel as though I gained a lot of experience, especially with the dangers of "technical debt." 
+git, CSS, react-redux, Mongo, built-in Web APIs, the DOM,  and node.js. I feel that I gained a lot of experience, especially with the dangers of "technical debt." 
 I spent a large amount of time refactoring code, adhering to the open-close principle where possible, 
-and abstracting and decoupling code with dependency injection. I'm pleased with several areas of the project, notably some code that automatically took care of setting up 
+and abstracting and decoupling code with dependency injection. I'm pleased with several areas of the project, notably some code that automatically takes care of setting up 
 event-listeners and server-sent-events. Instead of manually programming in details about new events as I wanted to add them, I created a basic data file that I could inject, which eventually saved me a lot of time.
 
 
 There are a few issues present now, for example if the project were to
 scale with multiple back-end servers, there would be an issue propagating events between them. For example, when a user initiates an event in the server with an HTTP request,
-it emits the event to every other open server-sent-event HTTP connection. However, if there were multiple servers, that event would only propagate locally. Another issue
-that I didn't address was adopting a more formal approach to testing. Largely, the software process I ended up using was code-and-fix -- but I think moving forward, now that I'm 
+it emits the event to every other open server-sent-event HTTP connection. However, if there were multiple servers, that event would only propagate locally. Another issue was adopting a more formal approach to testing. Largely, the software process I ended up using was code-and-fix -- but I think moving forward, now that I'm 
 more comfortable with a lot of the technologies, I can focus more on the overall design an architecture of the product. This project was primarily my first try at a web-app, and
 was intended to showcase that I could bring together a collection of technologies into a functioning prototype.
