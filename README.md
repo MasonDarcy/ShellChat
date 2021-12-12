@@ -35,7 +35,7 @@ Example: commandName argumentOne argumentTwo -option
 	* commandName [optional]: outputs information about a specific command.
 	* -a, --all: lists all commands.
 
-* demo: runs a demo of the program. Can be run in guest-mode (not logged in).
+* __demo__: runs a demo of the program. Can be run in guest-mode (not logged in).
 	
 * signup: signs the agent up with the system, logs them in.
 	* agentName: name of the account to be. Required.
