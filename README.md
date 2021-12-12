@@ -1,5 +1,9 @@
 # ShellChat
 
+## Live prototype
+
+http://shellchat.mdarcy.ca/
+
 ## What is ShellChat?
 
 Shellchat is a prototype collaboration tool. It is meant to act similarly to a computer terminal shell, with users using 
@@ -10,6 +14,7 @@ It includes some basic web service features.
 * Session-based login and logout
 * Chat and channel joining 
 * Adding friends, direct messaging
+* Friend status updates (log-on and log-off events)
 * Launching channel activities
 * Cycling through command history with up-arrow
 
