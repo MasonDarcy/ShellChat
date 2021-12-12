@@ -124,5 +124,6 @@ Other dependencies
 * code-mirror
 * yjs 
 * commander
+* jdoodle API for compilation
 
 
