@@ -11,6 +11,7 @@ It includes some basic web service features.
 * Chat and channel joining 
 * Adding friends, direct messaging
 * Launching channel activities
+* Cycling through command history with up-arrow
 
 ## Channel activities
 
@@ -46,3 +47,26 @@ Example: commandName argumentOne argumentTwo -option
 
 * load: Loads a channel module. Must be subscribed to a channel to use. Current module types that can be loaded are: CODE (case sensitive).
 	* moduleType: type of the module to load.
+	
+* run: runs the code in the code editor. 
+
+* close: Publically closes the currently loaded channel module.
+
+* leave : Unsubscribes from the current channel.
+
+* add: Sends a request to another agent to the be friends.
+	* agentName: name of the friend to add.
+
+* accept: Accepts a freind request from an agent.
+	* agentName: name of the agent to accept as a friend.
+
+* reject: Rejects a friend request from an agent.
+	* agentName: name of the agent to reject.
+
+* request: Lists your pending friend requests.
+
+* m: Direct message a friend.
+	* agentName: target friend.
+	* message: the message to send.
+
+* friends: Lists your friends and their current status (online, offline).
