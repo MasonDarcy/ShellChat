@@ -29,18 +29,17 @@ in real time, and to run the code and view the result together.
 
 Shellchat has the following list of commands.
 
-Example: commandName argumentOne argumentTwo -option
-
  __help__ : displays different help information.
 * args
 	* commandName [optional]: outputs information about a specific command.
 * options
 	* -a, --all: lists all commands.
 	
-
-* __demo__: runs a demo of the program. Can be run in guest-mode (not logged in).
 	
-* signup: signs the agent up with the system, logs them in.
+__demo__: runs a demo of the program. Can be run in guest-mode (not logged in).
+	
+__signup__: signs the agent up with the system, logs them in.
+* args
 	* agentName: name of the account to be. Required.
 	* agentPassword: password of the account to be. Required.
 
