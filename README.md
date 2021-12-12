@@ -1,6 +1,6 @@
 # ShellChat
 
-## What is ShellChat??
+## What is ShellChat?
 
 Shellchat is a prototype collaboration tool. It is meant to act similarly to a computer terminal shell, with users using 
 text-based commands to interact with the service, as opposed to graphical artifacts like buttons. 
@@ -12,3 +12,9 @@ It includes some basic web service features.
 * Adding friends, direct messaging
 * Launching channel activities
 
+## Channel activities
+
+Currently, one channel activity is implemented. It allows multiple users in a channel to collaborate and edit Javascript code together
+in real time, and to run the code and view the result together. 
+
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
