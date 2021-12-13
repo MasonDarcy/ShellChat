@@ -113,9 +113,11 @@ router.post("/jdoodle", auth, async (req, res) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        clientId: "5445b800d4e459aff14235ed804ac12a",
-        clientSecret:
-          "36dee1cb019e437bab9ff83f27e9f8f74e041cd95c429fbc538d52f9b945d825",
+        // clientId: "5445b800d4e459aff14235ed804ac12a",
+        // clientSecret:
+        //   "36dee1cb019e437bab9ff83f27e9f8f74e041cd95c429fbc538d52f9b945d825",
+        clientId: process.env.clientId,
+        clientSecret: process.env.clientSecret,
         script: script,
         language: "nodejs",
         versionIndex: "0",
@@ -123,7 +125,8 @@ router.post("/jdoodle", auth, async (req, res) => {
     };
     // clientId: process.env.DOODLE_CLIENT_ID,
     // clientSecret: process.env.DOODLE_CLIENT_SECRET,
-
+    // clientId: process.env.clientId,
+    // clientSecret: process.env.clientSecret,
     let val = await fetch(url, config);
     console.log(`val: ${val}`);
     let result = await val.json();
