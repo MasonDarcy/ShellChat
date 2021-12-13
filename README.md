@@ -4,7 +4,7 @@
 
 * Works in Chrome, Safari, Mozilla
 
-http://shellchat.mdarcy.ca/
+https://shellchat-mdar.herokuapp.com/
 
 ## What is ShellChat?
 
