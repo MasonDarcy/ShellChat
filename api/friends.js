@@ -198,8 +198,10 @@ router.get("/info/list", auth, async (req, res) => {
       "-password"
     );
 
-    console.log(`Friends: ${friends}`);
     let friends = currentAgent.friends;
+
+    console.log(`Friends: ${friends}`);
+    console.log(`currentAgent: ${currentAgent}`);
 
     const friendData = await Promise.all(
       friends.map(async (friend) => {

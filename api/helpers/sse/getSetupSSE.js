@@ -13,8 +13,6 @@ const getSetupSSE =
     /*Maintains connection.---------------------*/
     const pump = () => {
       res.write("\n");
-      console.log("Is heartbeat firing??");
-      //  res.write("data: " + 1 + "\n\n");
     };
     const hbt = setInterval(pump, 3000);
 
