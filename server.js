@@ -26,7 +26,7 @@ const app = express();
 
 app.use(
   session({
-    secret: config.get(process.env.sessionSecret),
+    secret: process.env.sessionSecret,
     name: "sid",
     cookie: { maxAge: 100000000, httpOnly: true },
 
