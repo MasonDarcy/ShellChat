@@ -1,3 +1,2 @@
 node_modules/
-config
-api/chat
+config/default.json
