@@ -26,12 +26,12 @@ const app = express();
 
 app.use(
   session({
-    secret: config.get("sessionSecret"),
+    secret: config.get(process.env.sessionSecret),
     name: "sid",
     cookie: { maxAge: 100000000, httpOnly: true },
 
     resave: true,
-    store: MongoStore.create({ mongoUrl: config.get("mongoURI") }),
+    store: MongoStore.create({ mongoUrl: process.env.mongoURI }),
     saveUninitialized: false,
   })
 );
