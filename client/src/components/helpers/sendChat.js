@@ -14,8 +14,6 @@ const sendChat = async (contents, cid, agentID) => {
     }),
   };
 
-  console.log(`AgentID: ${agentID}`);
-
   let res = fetch("/api/chat/sendMessage/", config);
 
   return res;

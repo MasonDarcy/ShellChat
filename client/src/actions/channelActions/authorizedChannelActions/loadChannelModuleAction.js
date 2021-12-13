@@ -12,7 +12,7 @@ export const loadChannelModuleAction =
         targetChannelID,
         sourceAgentID
       );
-      console.log(`res.status: ${res.status}`);
+
       switch (res.status) {
         case 201:
           dispatch({
@@ -43,7 +43,6 @@ export const loadChannelModuleAction =
           });
           break;
         default:
-          console.log(`Res status: ${res.status}`);
       }
     } else {
       dispatch({

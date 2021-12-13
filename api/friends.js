@@ -63,7 +63,6 @@ router.post(
   isNotFriend,
   async (req, res) => {
     try {
-      console.log("friends/request/Fired terminalware.");
       const { targetAgentID } = req.body;
       //Each agent subscribes to incoming requests, named after them
 
@@ -79,7 +78,6 @@ router.post(
       } else {
         target.requests.unshift(req.session.userID);
         target.save();
-        console.log("added request");
       }
 
       chat.emit(`friendRequestEvent-${targetAgentID}`, [source.agentName]);
@@ -112,16 +110,12 @@ router.post(
       let stringID = target.id.toString();
 
       source.requests = source.requests.filter((request) => {
-        console.log(
-          `request.toString(): ${request.toString()} -- stringID: ${stringID}`
-        );
         return request.toString() !== stringID;
       });
 
       target.save();
       source.save();
 
-      console.log(`friendAcceptedEvent-${target.agentName}`);
       //Emit event
       chat.emit(`friendAcceptedEvent-${target.agentName}`, [source.agentName]);
 
@@ -153,9 +147,6 @@ router.post(
 
       //remove the request
       source.requests = source.requests.filter((request) => {
-        console.log(
-          `request.toString(): ${request.toString()} -- stringID: ${stringID}`
-        );
         return request.toString() !== stringID;
       });
 
@@ -181,7 +172,7 @@ router.post(
     const { targetAgentID, message } = req.body;
     try {
       //Emit event
-      console.log(`Message in friend message api: ${message}`);
+
       let sourceAgent = await Agent.findById(req.session.userID).select(
         "-password"
       );

@@ -7,9 +7,6 @@ export const runCodeAction =
     if (module) {
       let res = await runCodeRequest(script, agentID, channelID);
       let output = await res.json();
-      console.log(output);
-      console.log(`runCodeAction/output: ${output.output}`);
-      console.log(`runCodeAction/statusCode: ${output.statusCode}`);
 
       dispatch({
         type: types.NEW_CODE_EDITOR_OUTPUT,

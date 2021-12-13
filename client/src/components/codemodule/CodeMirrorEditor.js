@@ -23,7 +23,6 @@ const CodeEditor = React.forwardRef(
 
     useEffect(() => {
       if (EditorRef) {
-        console.log("Did run");
         dispatch({
           type: types.SET_EDITOR_REF,
           payload: {
@@ -43,12 +42,7 @@ const CodeEditor = React.forwardRef(
           });
           const yText = ydoc.getText("codemirror");
           const awareness = provider.awareness;
-          // signaling: [
-          //   "wss://signaling.yjs.dev",
-          //   'wss://y-webrtc-signaling-eu.herokuapp.com',
-          //   'wss://y-webrtc-signaling-us.herokuapp.com'
-          // ]
-          console.log(`agentID in codemirror: ${agentName}`);
+
           awareness.setLocalStateField("user", {
             name: agentName,
             color: "#000000",

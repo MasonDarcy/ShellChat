@@ -30,7 +30,7 @@ const Channel = React.forwardRef((props, ref) => {
       />
     );
   });
-  console.log(`Channel agent name: ${agentName} `);
+
   return (
     <>
       <div className="pl-5 pt-5">

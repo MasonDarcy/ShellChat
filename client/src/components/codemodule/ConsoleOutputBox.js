@@ -30,20 +30,15 @@ function ConsoleOutputBox({ codeOutput }) {
 
   const initial = (e) => {
     e.preventDefault();
-    //pageHeight - pageY = the new bottom?
+
     let bottom = window.innerHeight - e.pageY;
-    console.log(`window inner height: ${window.innerHeight}`);
-    console.log(`e.pageY: ${e.pageY}`);
-    console.log(`bottom calculation: ${bottom}`);
+
     setInitialPos(bottom);
-    //set the size? hmm lol
-    // setInitialSize(bottom);
+
     handleY.current = e.pageY;
   };
 
   const resize = (e) => {
-    //new bottom?
-    //  resizeBox.current.style.top = `${parseInt(e.pageY)}px`;
     try {
       if (!handleY.current) {
         return;
@@ -58,7 +53,6 @@ function ConsoleOutputBox({ codeOutput }) {
 
   const release = (e) => {
     handleY.current = null;
-    console.log(`Released. handleY.current: ${handleY.current}`);
   };
 
   const dragstart = (e) => {

@@ -11,15 +11,8 @@ const getExistsInRequests = (Agent) => async (req, res, next) => {
     );
 
     if (accepterAgent.requests.includes(targetAgent.id)) {
-      console.log(
-        "getExistsInRequest/targetAgentID does exist in requests of session user"
-      );
       next();
     } else {
-      console.log(
-        "getExistsInRequest/targetAgentID does NOT exist in requests of session user"
-      );
-
       return res
         .status(418)
         .json({ msg: "Target agent doesn't want to be your friend." });

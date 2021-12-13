@@ -59,9 +59,6 @@ router.post("/sendMessage/", auth, (req, res) => {
 router.post("/modules/open/", auth, async (req, res) => {
   try {
     const { moduleName, targetChannelID, sourceAgentID } = req.body;
-    console.log(`chat/modules/open route: moduleName: ${moduleName}`);
-    console.log(`chat/modules/open route: targetChannelID: ${targetChannelID}`);
-    console.log(`chat/modules/open route: sourceAgentID: ${sourceAgentID}`);
 
     //Mutate the module in the database, implicitely it should exist
     const channel = await Channel.findOne({ channelName: targetChannelID });
@@ -104,7 +101,6 @@ router.post("/jdoodle", auth, async (req, res) => {
   try {
     const { script, sourceAgentID, channelID } = req.body;
 
-    console.log(`script: ${script}`);
     const url = "https://api.jdoodle.com/v1/execute/";
 
     const config = {
@@ -122,16 +118,15 @@ router.post("/jdoodle", auth, async (req, res) => {
     };
 
     let val = await fetch(url, config);
-    console.log(`val: ${val}`);
+
     let result = await val.json();
-    console.log(`result: ${result}`);
 
     //We also want to emit this data to all other people in the channel
     chat.emit(`codeEvent-${channelID}`, [sourceAgentID, result]);
 
     return res.status(200).json(result);
   } catch (err) {
-    console.log(`We got an err !`);
+    console.log(`Error in jdoodle route.`);
 
     errorTool.error400(err, res);
   }

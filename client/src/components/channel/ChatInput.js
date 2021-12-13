@@ -90,7 +90,7 @@ const ChatInput = React.forwardRef((props, ref) => {
                   let newArray = history.slice();
                   newArray.unshift(contents);
                   if (history.length == MAX_HISTORY) newArray.pop();
-                  console.log(newArray);
+
                   return [...newArray];
                 });
                 setHistoryIndex(-1);

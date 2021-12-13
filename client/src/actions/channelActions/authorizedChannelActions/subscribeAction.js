@@ -14,8 +14,6 @@ import { getEventTupleArray } from "../../subcriberHelpers/getEventTuples";
 
 export const subscribeAction =
   (channelID, channelPassword) => async (dispatch) => {
-    console.log(`subscribeAction//channelIDarg: ${channelID}`);
-
     let channelSource = setSource(
       `/api/chat`,
       [channelID, store.getState().agentReducer.agentName],

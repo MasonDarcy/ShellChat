@@ -25,7 +25,6 @@ const App = () => {
     }
 
     if (e.key === "x" && demoMode) {
-      console.log("Fired cancel");
       store.dispatch({
         type: "AGENT_CANCELLED_DEMO",
       });
