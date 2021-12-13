@@ -1,7 +1,7 @@
 import { types } from "../actions/types";
 
 const initialState = {
-  agentName: "Guest",
+  agentName: null,
   isLoggedOn: false,
   commandState: true,
   demoMode: false,

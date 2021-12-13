@@ -13,7 +13,7 @@ export const runCodeAction =
 
       dispatch({
         type: types.NEW_CODE_EDITOR_OUTPUT,
-        payload: { data: output },
+        payload: { data: output, time: new Date().toLocaleTimeString() },
       });
     } else {
       dispatch({

@@ -13,8 +13,10 @@ const getSetupSSE =
     /*Maintains connection.---------------------*/
     const pump = () => {
       res.write("\n");
+      console.log("Is heartbeat firing??");
+      //  res.write("data: " + 1 + "\n\n");
     };
-    const hbt = setInterval(pump, 30000);
+    const hbt = setInterval(pump, 3000);
 
     /*Any functions we need to run on launch fire here.*/
     if (onOpenFire) {

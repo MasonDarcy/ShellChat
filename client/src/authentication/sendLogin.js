@@ -11,7 +11,7 @@ const sendLogin = async (agentName, agentPassword) => {
     }),
   };
 
-  let res = fetch("http://localhost:5000/api/agents/login", config);
+  let res = fetch(`/api/agents/login`, config);
 
   return res;
 };

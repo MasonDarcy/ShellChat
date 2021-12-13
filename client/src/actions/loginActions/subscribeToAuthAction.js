@@ -12,9 +12,9 @@ export const subscribeToAuthAction = (agentName) => async (dispatch) => {
   For now, does not recieve any events.
   */
   let authSource = setSource(
-    "http://localhost:5000/api/agents/auth/connect",
+    `/api/agents/auth/connect`,
     [agentName],
-    ReconnectingEventSource
+    EventSource
   );
 
   dispatch({

@@ -110,7 +110,7 @@ div::-webkit-scrollbar-thumb {
 }
 
 .channelColor {
-  color: #a027b6;
+  color: #9ef1f1;
 }
 .option {
   color: #ca42b3;
@@ -139,7 +139,7 @@ div::-webkit-scrollbar-thumb {
 }
 
 .friend {
-  color: rgb(145, 36, 179);
+  color: rgb(190, 143, 204);
   font-family: monospace;
   text-align: left;
 }

@@ -9,7 +9,7 @@ const router = express.Router();
 const SALT_VAL = 10;
 const { chat } = require("./helpers/sse/getEventEmitter");
 const { getSetupSSE } = require("./helpers/sse/getSetupSSE");
-const { setSSEHeaders } = require("./helpers/sse/sse-utility");
+const { setSSEHeaders, setSSEHeaders2 } = require("./helpers/sse/sse-utility");
 const {
   listenerTuples,
   onConnectTuples,
@@ -183,6 +183,17 @@ router.get("/check/login", auth, async (req, res) => {
 // @desc    Keeps track of an agent's presence
 // @access  private
 
-router.get("/auth/connect/:agent_id", auth, setSSEHeaders, setupSSE);
+router.get("/auth/connect/:agent_id", setSSEHeaders2, setupSSE);
 
+function countdown(res, count) {
+  res.write("data: " + count + "\n\n");
+  if (count) setTimeout(() => countdown(res, count - 1), 1000);
+  else res.end();
+}
+
+router.get("/auth/test/sse", setSSEHeaders2, setupSSE);
+
+// function (req, res) {
+//   //countdown(res, 10);
+// }
 module.exports = router;

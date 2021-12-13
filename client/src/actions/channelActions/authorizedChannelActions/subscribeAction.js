@@ -17,7 +17,7 @@ export const subscribeAction =
     console.log(`subscribeAction//channelIDarg: ${channelID}`);
 
     let channelSource = setSource(
-      "http://localhost:5000/api/chat/",
+      `/api/chat`,
       [channelID, store.getState().agentReducer.agentName],
       ReconnectingEventSource
     );

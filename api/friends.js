@@ -10,7 +10,7 @@ const {
   onCloseFire,
 } = require("./helpers/sse/friendSubscriptionData");
 const { getSetupSSE } = require("./helpers/sse/getSetupSSE");
-const { setSSEHeaders } = require("./helpers/sse/sse-utility");
+const { setSSEHeaders, setSSEHeaders2 } = require("./helpers/sse/sse-utility");
 
 /*Warning, the name of Agent is coupled with friendSubscription data.*/
 const Agent = require("../models/Agent");
@@ -51,7 +51,7 @@ const setupSSE = getSetupSSE(
 // @desc    subscribes to friend events, like friends
 //          logging on, direct messages, friend requests, etc
 // @access  private, subscribed on logon
-router.get("/:agent_id", auth, setSSEHeaders, setupSSE);
+router.get("/:agent_id", auth, setSSEHeaders2, setupSSE);
 
 // @route   post api/friends/request/
 // @desc    Trigger a friend request event to be emitted by the server

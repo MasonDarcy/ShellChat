@@ -11,7 +11,6 @@ import "codemirror/theme/dracula.css";
 
 const CodeEditor = React.forwardRef(
   ({ currentChannelID, agentName, keys }, ref) => {
-    //const [EditorRef, setEditorRef] = useState(null);
     const [EditorRef, setEditorRef] = useState(null);
     const [code, setCode] = useState("");
 
@@ -35,14 +34,20 @@ const CodeEditor = React.forwardRef(
         let provider = null;
 
         try {
-          provider = new WebrtcProvider(currentChannelID, ydoc);
+          provider = new WebrtcProvider(currentChannelID, ydoc, {
+            signaling: [
+              "wss://signaling.yjs.dev",
+              "wss://y-webrtc-signaling-eu.herokuapp.com",
+              "wss://y-webrtc-signaling-us.herokuapp.com",
+            ],
+          });
           const yText = ydoc.getText("codemirror");
           const awareness = provider.awareness;
           // signaling: [
           //   "wss://signaling.yjs.dev",
           //   'wss://y-webrtc-signaling-eu.herokuapp.com',
           //   'wss://y-webrtc-signaling-us.herokuapp.com'
-          //
+          // ]
           console.log(`agentID in codemirror: ${agentName}`);
           awareness.setLocalStateField("user", {
             name: agentName,

@@ -18,7 +18,7 @@ const App = () => {
   const cmdToggle = (e) => {
     let demoMode = store.getState().agentReducer.demoMode;
 
-    if (e.ctrlKey && e.key === "ArrowDown" && !demoMode) {
+    if (e.shiftKey && e.key === "ArrowDown" && !demoMode) {
       store.dispatch({
         type: "SWAP_COMMAND_STATE",
       });

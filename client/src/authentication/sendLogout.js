@@ -3,7 +3,7 @@ const sendLogout = async () => {
     method: "DELETE",
     credentials: "include",
   };
-  let res = await fetch("http://localhost:5000/api/agents/logout", config);
+  let res = await fetch(`/api/agents/logout`, config);
 
   return res;
 };

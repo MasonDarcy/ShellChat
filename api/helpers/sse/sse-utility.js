@@ -3,8 +3,17 @@ const setSSEHeaders = (req, res, next) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive: ");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.flushHeaders();
+  next();
+};
+
+const setSSEHeaders2 = (req, res, next) => {
+  console.log("Fired set headers.");
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
   next();
 };
 
@@ -19,5 +28,6 @@ const getSSEListener = (eventName, res) => {
 
 module.exports = sseUtility = {
   setSSEHeaders,
+  setSSEHeaders2,
   getSSEListener,
 };

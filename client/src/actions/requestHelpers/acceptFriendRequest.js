@@ -10,7 +10,7 @@ export const acceptFriendRequest = async (targetAgentID) => {
     }),
   };
 
-  let res = await fetch("http://localhost:5000/api/friends/accept", config);
+  let res = await fetch(`/api/friends/accept`, config);
 
   return res;
 };

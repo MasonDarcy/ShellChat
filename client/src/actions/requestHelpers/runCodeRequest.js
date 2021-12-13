@@ -1,6 +1,6 @@
 export const runCodeRequest = async (script, agentID, channelID) => {
   // const proxy = "https://cors-anywhere.herokuapp.com/";
-  const url = "http://localhost:5000/api/chat/jdoodle";
+  const url = `/api/chat/jdoodle`;
 
   const config = {
     method: "POST",

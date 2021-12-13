@@ -9,7 +9,7 @@ const rejectFriendRequest = async (targetAgentID) => {
       targetAgentID: targetAgentID,
     }),
   };
-  let res = await fetch("http://localhost:5000/api/friends/reject", config);
+  let res = await fetch(`/api/friends/reject`, config);
 
   return res;
 };

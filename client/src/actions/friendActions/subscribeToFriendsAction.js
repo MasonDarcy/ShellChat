@@ -19,7 +19,7 @@ export const subscribeToFriendsAction = (agentName) => async (dispatch) => {
   when the user logs in.*/
 
   let friendSource = setSource(
-    "http://localhost:5000/api/friends",
+    `/api/friends`,
     [agentName],
     ReconnectingEventSource
   );

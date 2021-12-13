@@ -71,7 +71,7 @@ function ConsoleOutputBox({ codeOutput }) {
         className="text-green-600 text-justify font-mono p-1 text-base"
         key={v4()}
       >
-        {`${index} - ${new Date().toLocaleTimeString()}: ${output.data.output}`}
+        {`${index} - ${output.time}: ${output.data.output}`}
       </div>
     );
   });

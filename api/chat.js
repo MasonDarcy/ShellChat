@@ -5,7 +5,7 @@ const EventEmitter = require("events");
 const Channel = require("../models/Channel");
 const { getJoinChannel } = require("./helpers/middleware/getJoinChannel");
 const auth = require("./helpers/middleware/auth");
-const { setSSEHeaders } = require("./helpers/sse/sse-utility");
+const { setSSEHeaders, setSSEHeaders2 } = require("./helpers/sse/sse-utility");
 const { getSetupSSE } = require("./helpers/sse/getSetupSSE");
 const {
   listenerTuples,
@@ -36,7 +36,7 @@ router.get(
   "/:channel_id/:agent_id",
   auth,
   joinChannel,
-  setSSEHeaders,
+  setSSEHeaders2,
   setupSSE
 );
 

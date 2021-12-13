@@ -3,6 +3,7 @@ export const setSource = (url, paramKeys, EventSourceSpecies) => {
   paramKeys.forEach((pk) => {
     path += `/${pk}`;
   });
+
   return new EventSourceSpecies(path, { withCredentials: true });
 };
 

@@ -18,7 +18,7 @@ const loadModuleRequest = async (
       sourceAgentID: sourceAgentID,
     }),
   };
-  let res = await fetch("http://localhost:5000/api/chat/modules/open/", config);
+  let res = await fetch(`/api/chat/modules/open/`, config);
 
   return res;
 };

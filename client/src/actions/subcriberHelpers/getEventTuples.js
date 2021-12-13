@@ -80,7 +80,10 @@ export const getEventTupleArray = (store, actions, keys, types) => {
       if (parsedData[0] !== getState().agentReducer.agentName) {
         dispatch({
           type: types.NEW_CODE_EDITOR_OUTPUT,
-          payload: { data: parsedData[1] },
+          payload: {
+            data: parsedData[1],
+            time: new Date().toLocaleTimeString(),
+          },
         });
 
         dispatch({

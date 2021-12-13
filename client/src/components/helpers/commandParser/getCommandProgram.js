@@ -176,7 +176,17 @@ export const getCommandProgram = (store, actions, keys) => {
         let agentID = getState().agentReducer.agentName;
         let channelID = getState().subscribeToChannelReducer.currentChannelID;
         let isSubscribed = getState().subscribeToChannelReducer.isSubscribed;
-        if (moduleType == "CODE") {
+        //currentModule
+        let currentModule = getState().subscribeToChannelReducer.currentModule;
+
+        if (currentModule) {
+          dispatch(
+            actions.errorMessageAction(
+              "error: code editor already loaded.",
+              keys.ERROR_EVENT_KEY
+            )
+          );
+        } else if (moduleType == "CODE") {
           dispatch(
             actions.loadChannelModuleAction(
               moduleType,
@@ -245,7 +255,17 @@ export const getCommandProgram = (store, actions, keys) => {
       .command("leave")
       .description("Unsubscribes the agent from the current channel.")
       .action(() => {
-        dispatch(actions.unsubscribeAction());
+        let channel = getState().subscribeToChannelReducer.currentChannelID;
+        if (channel) {
+          dispatch(actions.unsubscribeAction());
+        } else {
+          dispatch(
+            actions.errorMessageAction(
+              "error: not currently in a channel.",
+              keys.ERROR_EVENT_KEY
+            )
+          );
+        }
       });
 
     /*Dispatch a friend request to another agent.*/

@@ -10,7 +10,7 @@ export const sendFriendMessage = async (targetAgentID, message) => {
       message: message,
     }),
   };
-  let res = await fetch("http://localhost:5000/api/friends/message", config);
+  let res = await fetch(`/api/friends/message`, config);
 
   return await res;
 };

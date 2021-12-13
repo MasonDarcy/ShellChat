@@ -4,7 +4,7 @@ const checkCredentials = async () => {
     credentials: "include",
   };
 
-  let res = await fetch("http://localhost:5000/api/agents/check/login", config);
+  let res = await fetch(`/api/agents/check/login`, config);
 
   let val = await res.json();
   return val;

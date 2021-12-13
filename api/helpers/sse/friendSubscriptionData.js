@@ -77,77 +77,13 @@ const onConnectTuples = [
 onCloseTuples
 prefix, paramKey, and payload
 */
-const onCloseTuples = [
-  // {
-  //   prefix: "friendStatusEvent",
-  //   paramKey: "agent_id",
-  //   payload: {
-  //     paramKeys: ["agent_id"],
-  //     key: FRIEND_HAS_LOGGED_OFF_EVENT_KEY,
-  //   },
-  // },
-];
+const onCloseTuples = [];
 
 /*Data for functions that fire when the connection opens.*/
-const onOpenFire = [
-  // {
-  //   args: ["Agent", "req", "chat"],
-  //   callback: (Agent, req, chat) => async () => {
-  //     let targetAgent = await Agent.findById(req.session.userID);
-  //     let friends = targetAgent.friends;
-  //     const friendData = await Promise.all(
-  //       friends.map(async (friend) => {
-  //         let currentFriend = await Agent.findById(friend);
-  //         let agentName = currentFriend.agentName;
-  //         let agentStatus = currentFriend.isOnline;
-  //         return {
-  //           agentName: agentName,
-  //           agentStatus: agentStatus,
-  //         };
-  //       })
-  //     );
-  //     friendData.forEach((friend) => {
-  //       if (friend.agentStatus) {
-  //         chat.emit(`friendStatusEvent-${friend.agentName}`, [
-  //           targetAgent.agentName,
-  //           FRIEND_HAS_LOGGED_ON_EVENT_KEY,
-  //         ]);
-  //       }
-  //     });
-  //   },
-  // },
-];
+const onOpenFire = [];
 
 /*Data for functions that fire when the connection closes.*/
-const onCloseFire = [
-  // {
-  //   args: ["Agent", "req", "chat"],
-  //   callback: (Agent, req, chat) => async () => {
-  //     //   console.log(`friendsSubscriptionDataonCloseFire: fired`);
-  //     let targetAgent = await Agent.findById(req.session.userID);
-  //     let friends = targetAgent.friends;
-  //     const friendData = await Promise.all(
-  //       friends.map(async (friend) => {
-  //         let currentFriend = await Agent.findById(friend);
-  //         let agentName = currentFriend.agentName;
-  //         let agentStatus = currentFriend.isOnline;
-  //         return {
-  //           agentName: agentName,
-  //           agentStatus: agentStatus,
-  //         };
-  //       })
-  //     );
-  //     friendData.forEach((friend) => {
-  //       if (friend.agentStatus) {
-  //         chat.emit(`friendStatusEvent-${friend.agentName}`, [
-  //           targetAgent.agentName,
-  //           FRIEND_HAS_LOGGED_OFF_EVENT_KEY,
-  //         ]);
-  //       }
-  //     });
-  //   },
-  // },
-];
+const onCloseFire = [];
 
 module.exports = {
   listenerTuples,

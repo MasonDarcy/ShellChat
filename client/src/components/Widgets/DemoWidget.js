@@ -379,7 +379,7 @@ export default function DemoWidget({ inputElement, store }) {
         }
         /*--------------------------------------*/
         chatDispatch(
-          "Hey. You can switch to chat mode with ctrl + down-arrow-key.",
+          "Hey. You can switch to chat mode with shift + down-arrow-key.",
           DEMO_USER_FRIEND
         );
         inputElement.scroll.current.scrollIntoView();

@@ -74,6 +74,7 @@ const onCloseFire = [
       let previousConnections = targetAgent.authConnections;
       targetAgent.authConnections -= 1;
       targetAgent.save();
+      console.log(`Firing onCloseFire of auth sub data.`);
       console.log(`previousConnections: ${previousConnections}`);
       if (previousConnections == 1) {
         let friends = targetAgent.friends;
