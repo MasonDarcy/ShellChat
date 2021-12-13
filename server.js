@@ -42,12 +42,6 @@ app.listen(PORT, () => {
 
 app.use(express.json());
 
-// app.get("/", (req, res) => {
-//   res.status(200).json({
-//     msg: "Server responded.",
-//   });
-// });
-
 app.use("/api/agents", require("./api/agents"));
 app.use("/api/chat", require("./api/chat"));
 app.use("/api/friends", require("./api/friends"));
