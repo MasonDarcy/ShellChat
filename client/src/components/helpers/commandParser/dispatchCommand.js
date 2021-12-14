@@ -30,7 +30,9 @@ const dispatchCommand = (
       : store.dispatch(
           messageAction(
             agentCommand,
-            store.getState().agentReducer.agentName,
+            store.getState().agentReducer.agentName
+              ? store.getState().agentReducer.agentName
+              : "Guest",
             keys.CHAT_EVENT_KEY,
             cid
           )
