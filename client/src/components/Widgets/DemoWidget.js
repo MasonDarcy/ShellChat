@@ -653,7 +653,8 @@ export default function DemoWidget({ inputElement, store }) {
         let data = { output: "Hello world!" };
         dispatch({
           type: types.NEW_CODE_EDITOR_OUTPUT,
-          payload: { data: data },
+
+          payload: { data: output, time: new Date().toLocaleTimeString() },
         });
         inputElement.scroll.current.scrollIntoView();
         /*--------------------------------------*/
